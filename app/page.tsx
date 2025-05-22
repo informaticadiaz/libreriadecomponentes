@@ -14,8 +14,8 @@ export default function HomePage() {
         <div className="bg-card border rounded-lg p-6 mb-8">
           <h2 className="text-2xl font-semibold mb-4">🏠 Para Sistemas Inmobiliarios</h2>
           <p className="text-muted-foreground mb-4">
-            Una librería completa de componentes construida con Next.js 15, React 18, 
-            Tailwind CSS 3, siguiendo principios de Clean Architecture.
+            Una librería completa de componentes construida con Next.js 15, React 19, 
+            Tailwind CSS 4, siguiendo principios de Clean Architecture.
           </p>
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
