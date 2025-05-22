@@ -55,18 +55,21 @@ npx shadcn@latest add accordion
 
 segui desde aca
 
-## Quinto grupo - Botones y controles:
+## Quinto grupo - Botones y controles
+
 ```bash
 npx shadcn@latest add button
 npx shadcn@latest add toggle
 npx shadcn@latest add toggle-group
 ```
 
-## Sexto grupo - Comando y selección:
+## Sexto grupo - Comando y selección
+
 ```bash
 npx shadcn@latest add command
-npx shadcn@latest add combobox
+npx shadcn@latest add command
 npx shadcn@latest add drawer
+pnpm add lucide-react
 ```
 
 **Nota:** Recuerda que `date-picker` y `data-table` pueden no estar disponibles en todas las versiones. Si alguno falla, simplemente omítelo o usa los componentes base para crear tu propia implementación.
