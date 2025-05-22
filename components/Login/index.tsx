@@ -168,7 +168,7 @@ const LoginPage = () => {
       
       setSuccess(t.loginSuccess);
       // Redirect logic here
-    } catch (err) {
+    } catch {
       setError('Error al iniciar sesión. Verifica tus credenciales.');
     } finally {
       setIsLoading(false);
@@ -191,7 +191,7 @@ const LoginPage = () => {
       
       console.log('Register data:', registerData);
       setSuccess(t.registerSuccess);
-    } catch (err) {
+    } catch {
       setError('Error al registrarse. Inténtalo de nuevo.');
     } finally {
       setIsLoading(false);
@@ -208,7 +208,7 @@ const LoginPage = () => {
       
       console.log('Forgot password:', forgotPasswordData);
       setSuccess(t.resetSuccess);
-    } catch (err) {
+    } catch {
       setError('Error al enviar el enlace. Inténtalo de nuevo.');
     } finally {
       setIsLoading(false);
@@ -393,12 +393,12 @@ const LoginPage = () => {
   );
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center p-4 relative">
+    <div className="min-h-screen flex items-center justify-center p-4 relative">
       <LanguageSelector />
       
       <Card className="w-full max-w-md shadow-xl">
         <CardHeader className="text-center">
-          <CardTitle className="text-2xl font-bold text-gray-900">{t.title}</CardTitle>
+          <CardTitle className="text-2xl font-bold">{t.title}</CardTitle>
           <CardDescription className="text-gray-600">{t.subtitle}</CardDescription>
         </CardHeader>
         

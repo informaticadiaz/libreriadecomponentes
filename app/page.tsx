@@ -1,11 +1,8 @@
-import { ThemeToggle } from "@/components/providers/ThemeToggle"
 
 export default function HomePage() {
   return (
     <main className="container mx-auto px-4 py-8">
-      <div className="flex justify-end mb-4">
-        <ThemeToggle />
-      </div>
+
       <div className="max-w-4xl mx-auto">
         <h1 className="text-4xl font-bold text-center mb-8">
           Sistema de Componentes UI
