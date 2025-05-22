@@ -51,6 +51,7 @@ npx shadcn@latest add tooltip
 npx shadcn@latest add hover-card
 npx shadcn@latest add collapsible
 npx shadcn@latest add accordion
+pnpm dlx shadcn@latest add alert
 ```
 
 segui desde aca
