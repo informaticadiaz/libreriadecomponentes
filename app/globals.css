@@ -37,6 +37,13 @@
   --color-popover: var(--popover);
   --color-card-foreground: var(--card-foreground);
   --color-card: var(--card);
+  /* Nuevos colores para categorías */
+  --color-category-home: var(--category-home);
+  --color-category-home-bg: var(--category-home-bg);
+  --color-category-luxury: var(--category-luxury);
+  --color-category-luxury-bg: var(--category-luxury-bg);
+  --color-category-commercial: var(--category-commercial);
+  --color-category-commercial-bg: var(--category-commercial-bg);
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
@@ -76,6 +83,21 @@
   --sidebar-accent-foreground: oklch(0.205 0 0);
   --sidebar-border: oklch(0.922 0 0);
   --sidebar-ring: oklch(0.708 0 0);
+  --gradient-from: oklch(0.488 0.243 264.376); /* Purple */
+  --gradient-to: oklch(0.627 0.265 303.9); /* Pink */
+  --success: oklch(0.696 0.17 162.48); /* Green */
+  --overlay: oklch(0 0 0 / 20%);
+  --glass: oklch(1 0 0 / 10%);
+  --blur-purple: oklch(0.488 0.243 264.376 / 20%);
+  --blur-blue: oklch(0.6 0.118 184.704 / 20%);
+  
+  /* Colores para categorías - modo claro */
+  --category-home: oklch(0.5 0.15 220); /* Azul suave */
+  --category-home-bg: oklch(0.98 0.02 220); /* Azul muy claro */
+  --category-luxury: oklch(0.45 0.12 45); /* Dorado */
+  --category-luxury-bg: oklch(0.98 0.02 45); /* Dorado muy claro */
+  --category-commercial: oklch(0.55 0.12 160); /* Verde */
+  --category-commercial-bg: oklch(0.98 0.02 160); /* Verde muy claro */
 }
 
 .dark {
@@ -110,6 +132,21 @@
   --sidebar-accent-foreground: oklch(0.985 0 0);
   --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: oklch(0.556 0 0);
+   --gradient-from: oklch(0.488 0.243 264.376);
+  --gradient-to: oklch(0.627 0.265 303.9);
+  --success: oklch(0.696 0.17 162.48);
+  --overlay: oklch(0 0 0 / 40%);
+  --glass: oklch(1 0 0 / 5%);
+  --blur-purple: oklch(0.488 0.243 264.376 / 30%);
+  --blur-blue: oklch(0.6 0.118 184.704 / 20%);
+  
+  /* Colores para categorías - modo oscuro */
+  --category-home: oklch(0.7 0.15 220); /* Azul brillante */
+  --category-home-bg: oklch(0.25 0.05 220 / 30%); /* Azul oscuro translúcido */
+  --category-luxury: oklch(0.75 0.15 45); /* Dorado brillante */
+  --category-luxury-bg: oklch(0.25 0.05 45 / 30%); /* Dorado oscuro translúcido */
+  --category-commercial: oklch(0.7 0.15 160); /* Verde brillante */
+  --category-commercial-bg: oklch(0.25 0.05 160 / 30%); /* Verde oscuro translúcido */
 }
 
 @layer base {
