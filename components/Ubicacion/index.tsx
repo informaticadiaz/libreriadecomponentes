@@ -5,12 +5,16 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Badge } from '@/components/ui/badge';
-import { MapPin, Search, Navigation, ChevronRight } from 'lucide-react';
+import { MapPin, Search, Navigation, ChevronRight, Loader2, AlertCircle } from 'lucide-react';
+import { Alert, AlertDescription } from '@/components/ui/alert';
 
 const LocationSelector = () => {
   const [currentCity, setCurrentCity] = useState('');
   const [desiredCity, setDesiredCity] = useState('');
   const [isFormValid, setIsFormValid] = useState(false);
+  const [isLoadingLocation, setIsLoadingLocation] = useState(false);
+  const [locationError, setLocationError] = useState('');
+  const [detectedLocation, setDetectedLocation] = useState('');
 
   // Validar formulario cuando cambien los inputs
   React.useEffect(() => {
@@ -33,9 +37,94 @@ const LocationSelector = () => {
     }
   };
 
-  const handleLocationSearch = () => {
-    console.log('Buscar por ubicación');
-    // Aquí iría la lógica para búsqueda por ubicación
+  // Función para obtener el nombre de la ciudad desde coordenadas
+  const getCityFromCoordinates = async (latitude: number, longitude: number): Promise<string> => {
+    try {
+      // Usando la API de Nominatim (OpenStreetMap) para geocodificación inversa
+      const response = await fetch(
+        `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}&zoom=10&addressdetails=1`
+      );
+      
+      if (!response.ok) {
+        throw new Error('Error al obtener información de ubicación');
+      }
+
+      const data = await response.json();
+      
+      // Extraer ciudad, estado y país
+      const address = data.address || {};
+      const city = address.city || address.town || address.village || address.municipality || '';
+      const state = address.state || address.province || '';
+      const country = address.country || '';
+      
+      // Construir el nombre completo de la ubicación
+      let fullLocation = '';
+      if (city) fullLocation += city;
+      if (state && city) fullLocation += `, ${state}`;
+      if (country) fullLocation += `, ${country}`;
+      
+      return fullLocation || 'Ubicación no identificada';
+    } catch (error) {
+      console.error('Error en geocodificación:', error);
+      throw new Error('No se pudo determinar la ciudad');
+    }
+  };
+
+  const handleLocationSearch = async () => {
+    // Verificar si el navegador soporta geolocalización
+    if (!navigator.geolocation) {
+      setLocationError('Su navegador no soporta geolocalización');
+      return;
+    }
+
+    setIsLoadingLocation(true);
+    setLocationError('');
+    setDetectedLocation('');
+
+    try {
+      // Solicitar permisos y obtener ubicación
+      const position = await new Promise<GeolocationPosition>((resolve, reject) => {
+        navigator.geolocation.getCurrentPosition(
+          resolve,
+          reject,
+          {
+            enableHighAccuracy: true,
+            timeout: 10000,
+            maximumAge: 300000 // 5 minutos
+          }
+        );
+      });
+
+      const { latitude, longitude } = position.coords;
+      console.log('Coordenadas obtenidas:', { latitude, longitude });
+
+      // Obtener el nombre de la ciudad
+      const cityName = await getCityFromCoordinates(latitude, longitude);
+      
+      setDetectedLocation(cityName);
+      setCurrentCity(cityName);
+      
+      console.log('Ubicación detectada:', cityName);
+      
+    } catch (error: any) {
+      console.error('Error al obtener ubicación:', error);
+      
+      let errorMessage = '';
+      
+      if (error.code === 1) {
+        errorMessage = 'Permisos de ubicación denegados. Por favor, active la ubicación y permita el acceso.';
+      } else if (error.code === 2) {
+        errorMessage = 'No se pudo determinar su ubicación. Verifique su conexión a internet.';
+      } else if (error.code === 3) {
+        errorMessage = 'Tiempo de espera agotado. Intente nuevamente.';
+      } else {
+        errorMessage = error.message || 'Error al obtener la ubicación';
+      }
+      
+      setLocationError(errorMessage);
+    } finally {
+      setIsLoadingLocation(false);
+    }
   };
 
   return (
@@ -54,6 +143,26 @@ const LocationSelector = () => {
           las ciudades de su interés
         </p>
       </div>
+
+      {/* Error Alert */}
+      {locationError && (
+        <Alert variant="destructive">
+          <AlertCircle className="h-4 w-4" />
+          <AlertDescription>
+            {locationError}
+          </AlertDescription>
+        </Alert>
+      )}
+
+      {/* Success Alert */}
+      {detectedLocation && !locationError && (
+        <Alert className="border-green-200 bg-green-50 text-green-800">
+          <MapPin className="h-4 w-4" />
+          <AlertDescription>
+            ✓ Ubicación detectada: {detectedLocation}
+          </AlertDescription>
+        </Alert>
+      )}
 
       {/* Form Card */}
       <Card className="border-border shadow-lg">
@@ -126,10 +235,20 @@ const LocationSelector = () => {
           <Button 
             variant="ghost"
             onClick={handleLocationSearch}
-            className="w-full h-12 text-category-commercial hover:bg-category-commercial-bg hover:text-category-commercial transition-all duration-200"
+            disabled={isLoadingLocation}
+            className="w-full h-12 text-category-commercial hover:bg-category-commercial-bg hover:text-category-commercial transition-all duration-200 disabled:opacity-50"
           >
-            <Navigation className="w-5 h-5 mr-2" />
-            BÚSQUEDA POR UBICACIÓN
+            {isLoadingLocation ? (
+              <>
+                <Loader2 className="w-5 h-5 mr-2 animate-spin" />
+                DETECTANDO UBICACIÓN...
+              </>
+            ) : (
+              <>
+                <Navigation className="w-5 h-5 mr-2" />
+                BÚSQUEDA POR UBICACIÓN
+              </>
+            )}
           </Button>
         </CardContent>
       </Card>
