@@ -20,7 +20,7 @@ export default function Page() {
         <div>
           <h1 className="text-3xl font-bold tracking-tight">Dashboard</h1>
           <p className="text-muted-foreground">
-            Welcome back! Here's what's happening with your projects today.
+            Welcome back! Here whats happening with your projects today.
           </p>
         </div>
         
