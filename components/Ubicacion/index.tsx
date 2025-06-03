@@ -8,6 +8,33 @@ import { Badge } from '@/components/ui/badge';
 import { MapPin, Search, Navigation, ChevronRight, Loader2, AlertCircle } from 'lucide-react';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 
+// Tipos para errores de geolocalización
+interface GeolocationError {
+  code: number;
+  message: string;
+}
+
+// Tipo para errores que pueden tener message
+interface ErrorWithMessage {
+  message: string;
+}
+
+// Función helper para verificar si un error tiene message
+const isErrorWithMessage = (error: unknown): error is ErrorWithMessage => {
+  return (
+    typeof error === 'object' &&
+    error !== null &&
+    'message' in error &&
+    typeof (error as Record<string, unknown>).message === 'string'
+  );
+};
+
+// Función helper para obtener el mensaje de error
+const getErrorMessage = (error: unknown): string => {
+  if (isErrorWithMessage(error)) return error.message;
+  return String(error);
+};
+
 const LocationSelector = () => {
   const [currentCity, setCurrentCity] = useState('');
   const [desiredCity, setDesiredCity] = useState('');
@@ -106,19 +133,26 @@ const LocationSelector = () => {
       
       console.log('Ubicación detectada:', cityName);
       
-    } catch (error: any) {
+    } catch (error: unknown) {
       console.error('Error al obtener ubicación:', error);
       
       let errorMessage = '';
       
-      if (error.code === 1) {
-        errorMessage = 'Permisos de ubicación denegados. Por favor, active la ubicación y permita el acceso.';
-      } else if (error.code === 2) {
-        errorMessage = 'No se pudo determinar su ubicación. Verifique su conexión a internet.';
-      } else if (error.code === 3) {
-        errorMessage = 'Tiempo de espera agotado. Intente nuevamente.';
+      // Verificar si es un error de geolocalización
+      if (typeof error === 'object' && error !== null && 'code' in error) {
+        const geoError = error as GeolocationError;
+        
+        if (geoError.code === 1) {
+          errorMessage = 'Permisos de ubicación denegados. Por favor, active la ubicación y permita el acceso.';
+        } else if (geoError.code === 2) {
+          errorMessage = 'No se pudo determinar su ubicación. Verifique su conexión a internet.';
+        } else if (geoError.code === 3) {
+          errorMessage = 'Tiempo de espera agotado. Intente nuevamente.';
+        } else {
+          errorMessage = geoError.message || 'Error de geolocalización desconocido';
+        }
       } else {
-        errorMessage = error.message || 'Error al obtener la ubicación';
+        errorMessage = getErrorMessage(error) || 'Error al obtener la ubicación';
       }
       
       setLocationError(errorMessage);
