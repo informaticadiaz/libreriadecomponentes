@@ -1,9 +1,7 @@
 "use client"
 import { useState, useMemo } from "react"
 import {
-  ChevronDown,
   Search,
-  Filter,
   Download,
   MoreHorizontal,
   Edit,
@@ -25,7 +23,6 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-  DropdownMenuCheckboxItem,
 } from "@/components/ui/dropdown-menu"
 import { Input } from "@/components/ui/input"
 import {

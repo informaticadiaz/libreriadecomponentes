@@ -4,8 +4,6 @@ import {
   Bell, 
   Search, 
   Settings, 
-  User, 
-  ChevronDown, 
   Moon, 
   Sun, 
   LogOut,
@@ -38,7 +36,7 @@ interface HeaderProps extends React.HTMLAttributes<HTMLElement> {
   }
 }
 
-export function AdvancedHeader({ user, className, ...props }: HeaderProps) {
+export function AdvancedHeader({ user, ...props }: HeaderProps) {
   const [theme, setTheme] = useState<"light" | "dark">("light")
   
   const toggleTheme = () => {
@@ -131,7 +129,7 @@ export function AdvancedHeader({ user, className, ...props }: HeaderProps) {
                   <div className="flex-1 space-y-1">
                     <p className="text-sm font-medium">New project created</p>
                     <p className="text-xs text-muted-foreground">
-                      Marketing team created "Q1 Campaign" project
+                      Marketing team created Q1 Campaign project
                     </p>
                     <p className="text-xs text-muted-foreground">2 min ago</p>
                   </div>
@@ -141,7 +139,7 @@ export function AdvancedHeader({ user, className, ...props }: HeaderProps) {
                   <div className="flex-1 space-y-1">
                     <p className="text-sm font-medium">Task deadline approaching</p>
                     <p className="text-xs text-muted-foreground">
-                      "Design Review" due in 2 hours
+                      Design Review due in 2 hours
                     </p>
                     <p className="text-xs text-muted-foreground">1 hour ago</p>
                   </div>

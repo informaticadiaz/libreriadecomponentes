@@ -3,7 +3,6 @@ import { useState, useRef } from "react"
 import {
   X,
   AlertTriangle,
-  CheckCircle,
   Info,
   Upload,
   Image as ImageIcon,
@@ -14,12 +13,10 @@ import {
   Mail,
   Phone,
   MapPin,
-  Save,
   Trash2,
   Edit3,
   Share,
   Copy,
-  ExternalLink
 } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
@@ -43,16 +40,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
-import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
-import { Textarea } from "@/components/ui/textarea"
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select"
 import { Badge } from "@/components/ui/badge"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Separator } from "@/components/ui/separator"
@@ -326,8 +314,8 @@ interface UserProfileModalProps {
     projects: string[]
     bio?: string
   }
-  onEdit?: (user: any) => void
-  onDelete?: (user: any) => void
+  onEdit?: (user: UserProfileModalProps['user']) => void
+  onDelete?: (user: UserProfileModalProps['user']) => void
 }
 
 export function UserProfileModal({ children, user, onEdit, onDelete }: UserProfileModalProps) {
