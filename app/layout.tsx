@@ -37,7 +37,7 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-        <ServiciosMenu />
+        {/*<ServiciosMenu />*/}
                 <div className="flex justify-end mb-4">
         <ThemeToggle />
       </div>
