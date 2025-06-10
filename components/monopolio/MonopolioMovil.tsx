@@ -1,6 +1,6 @@
 "use client"
 import React, { useState } from 'react';
-import { Search, MapPin, DollarSign, Home, Building, Menu, Heart, RotateCcw, Sparkles } from 'lucide-react';
+import { Search, MapPin, DollarSign, Home, Building, Heart, RotateCcw, Sparkles } from 'lucide-react';
 
 // Interfaz para las props del componente FloatingIcon
 interface FloatingIconProps {
