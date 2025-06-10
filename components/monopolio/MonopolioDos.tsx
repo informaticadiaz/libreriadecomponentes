@@ -1,3 +1,4 @@
+"use client";
 import React, { useState } from 'react';
 import { Search, MapPin, Home, Building, DollarSign } from 'lucide-react';
 
