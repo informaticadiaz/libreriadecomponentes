@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Search, MapPin, Home, Building, DollarSign } from 'lucide-react';
 
 // Definir tipos para las props del componente FloatingIcon
@@ -28,16 +28,22 @@ const MonopolioHomepage: React.FC = () => {
   const [transactionType, setTransactionType] = useState<TransactionType>('comprar');
   const [location, setLocation] = useState<string>('');
   const [price, setPrice] = useState<string>('');
+  
+  // ✅ Estado para los íconos flotantes
+  const [floatingIcons, setFloatingIcons] = useState<FloatingIconData[]>([]);
 
-  // Generate floating icons for background animation
-  const floatingIcons: FloatingIconData[] = Array.from({ length: 20 }, (_, i): FloatingIconData => ({
-    id: i,
-    icon: i % 3 === 0 ? 'home' : i % 3 === 1 ? 'building' : 'EB',
-    top: Math.random() * 100,
-    left: Math.random() * 100,
-    delay: Math.random() * 4,
-    duration: 3 + Math.random() * 2
-  }));
+  // ✅ Generar íconos flotantes solo en el cliente
+  useEffect(() => {
+    const icons: FloatingIconData[] = Array.from({ length: 20 }, (_, i): FloatingIconData => ({
+      id: i,
+      icon: i % 3 === 0 ? 'home' : i % 3 === 1 ? 'building' : 'EB',
+      top: Math.random() * 100,
+      left: Math.random() * 100,
+      delay: Math.random() * 4,
+      duration: 3 + Math.random() * 2
+    }));
+    setFloatingIcons(icons);
+  }, []); // Solo se ejecuta una vez al montar el componente
 
   const FloatingIcon: React.FC<FloatingIconProps> = ({ icon, top, left, delay, duration }) => (
     <div 
