@@ -3,7 +3,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from 'next-themes'
-import { ThemeToggle } from "@/components/providers/ThemeToggle"
+//import { ThemeToggle } from "@/components/providers/ThemeToggle"
 // import ServiciosMenu from "@/components/menu-tres/ResponsiveMenu";
 
 const geistSans = Geist({
@@ -38,9 +38,9 @@ export default function RootLayout({
           disableTransitionOnChange
         >
         {/*<ServiciosMenu />*/}
-                <div className="flex justify-end mb-4">
-        <ThemeToggle />
-      </div>
+           {/*     <div className="flex justify-end mb-4">*/}
+        {/*<ThemeToggle />*/}
+      {/*</div>*/}
           {children}
         </ThemeProvider>
       </body>
