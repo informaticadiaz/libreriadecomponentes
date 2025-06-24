@@ -58,11 +58,11 @@ class GeoRefClient {
       const response = await fetch(
         `https://apis.datos.gob.ar/georef/api/ubicacion?lat=${lat}&lon=${lon}&campos=provincia,departamento,municipio`
       );
-      
+
       if (!response.ok) {
         throw new Error(`Error HTTP: ${response.status}`);
       }
-      
+
       const data: GeoRefUbicacionResponse = await response.json();
       return data.ubicacion;
     } catch (error) {
@@ -76,11 +76,11 @@ class GeoRefClient {
       const response = await fetch(
         `https://apis.datos.gob.ar/georef/api/calles?departamento=${departmentId}&max=50`
       );
-      
+
       if (!response.ok) {
         throw new Error(`Error HTTP: ${response.status}`);
       }
-      
+
       const data: GeoRefCallesResponse = await response.json();
       return data.calles || [];
     } catch (error) {
@@ -120,14 +120,14 @@ const GeoRefLocationFinder: React.FC = () => {
     navigator.geolocation.getCurrentPosition(
       async (position: GeolocationPosition) => {
         const { latitude, longitude, accuracy } = position.coords;
-        
+
         setLocation({ lat: latitude, lon: longitude });
         setAccuracy(accuracy);
-        
+
         try {
           // Georreferenciación reversa con GeoRef
           const geoData = await georefClient.reverseGeocode(latitude, longitude);
-          
+
           // Buscar calles cercanas
           let nearbyStreets: GeoRefCalle[] = [];
           if (geoData.departamento?.id) {
@@ -137,14 +137,14 @@ const GeoRefLocationFinder: React.FC = () => {
               geoData.departamento.id
             );
           }
-          
+
           setLocationData({
             ...geoData,
             nearbyStreets: nearbyStreets.slice(0, 10), // Solo las primeras 10
             coordinates: { lat: latitude, lon: longitude },
             accuracy
           });
-          
+
         } catch (err) {
           const message = err instanceof Error ? err.message : 'Error desconocido';
           setError(message);
@@ -155,7 +155,7 @@ const GeoRefLocationFinder: React.FC = () => {
       (error: GeolocationPositionError) => {
         setLoading(false);
         let errorMessage = 'Error al obtener ubicación';
-        
+
         switch (error.code) {
           case error.PERMISSION_DENIED:
             errorMessage = 'Permiso de ubicación denegado. Habilítalo en tu navegador.';
@@ -169,7 +169,7 @@ const GeoRefLocationFinder: React.FC = () => {
           default:
             errorMessage = `Error de geolocalización: ${error.message}`;
         }
-        
+
         setError(errorMessage);
       },
       options
@@ -339,18 +339,18 @@ const GeoRefLocationFinder: React.FC = () => {
               <h4 className="font-semibold text-gray-800 border-b pb-2">
                 Información Administrativa
               </h4>
-              
+
               <div className="space-y-3">
                 <div className="flex justify-between">
                   <span className="text-gray-600">Provincia:</span>
                   <span className="font-medium">{locationData.provincia?.nombre}</span>
                 </div>
-                
+
                 <div className="flex justify-between">
                   <span className="text-gray-600">Departamento:</span>
                   <span className="font-medium">{locationData.departamento?.nombre}</span>
                 </div>
-                
+
                 {locationData.municipio && (
                   <div className="flex justify-between">
                     <span className="text-gray-600">Municipio:</span>
@@ -365,18 +365,18 @@ const GeoRefLocationFinder: React.FC = () => {
               <h4 className="font-semibold text-gray-800 border-b pb-2">
                 Información Técnica
               </h4>
-              
+
               <div className="space-y-3 text-sm">
                 <div className="flex justify-between">
                   <span className="text-gray-600">Latitud:</span>
                   <span className="font-mono">{locationData.coordinates.lat.toFixed(6)}</span>
                 </div>
-                
+
                 <div className="flex justify-between">
                   <span className="text-gray-600">Longitud:</span>
                   <span className="font-mono">{locationData.coordinates.lon.toFixed(6)}</span>
                 </div>
-                
+
                 <div className="flex justify-between">
                   <span className="text-gray-600">Precisión GPS:</span>
                   <span className="font-medium">{formatAccuracy(locationData.accuracy)}</span>
@@ -396,7 +396,7 @@ const GeoRefLocationFinder: React.FC = () => {
               ({locationData.departamento?.nombre})
             </span>
           </h3>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
             {locationData.nearbyStreets.map((street, index) => (
               <div
@@ -420,7 +420,7 @@ const GeoRefLocationFinder: React.FC = () => {
               </div>
             ))}
           </div>
-          
+
           <div className="mt-4 text-sm text-gray-500 text-center">
             💡 <strong>Tip:</strong> Estas son algunas calles de tu departamento. 
             Para encontrar la calle exacta, puedes usar la función de direcciones de GeoRef.
@@ -434,7 +434,7 @@ const GeoRefLocationFinder: React.FC = () => {
           <h3 className="text-xl font-semibold text-gray-900 mb-4">
             📍 Mapa de Ubicación
           </h3>
-          
+
           <div className="aspect-video bg-gray-100 rounded-lg flex items-center justify-center">
             <iframe
               src={`https://www.openstreetmap.org/export/embed.html?bbox=${location.lon-0.01},${location.lat-0.01},${location.lon+0.01},${location.lat+0.01}&layer=mapnik&marker=${location.lat},${location.lon}`}
@@ -443,7 +443,7 @@ const GeoRefLocationFinder: React.FC = () => {
               title="Mapa de ubicación"
             />
           </div>
-          
+
           <div className="mt-4 flex gap-4 justify-center">
             <a
               href={`https://www.google.com/maps?q=${location.lat},${location.lon}`}
@@ -472,11 +472,11 @@ const GeoRefLocationFinder: React.FC = () => {
             🚀 Cómo usar esta herramienta:
           </h3>
           <ol className="list-decimal list-inside space-y-2 text-gray-700">
-            <li>Haz clic en <strong>"Obtener Mi Ubicación"</strong> para obtener tu posición actual</li>
+            <li>Haz clic en <strong>&quot;Obtener Mi Ubicación&quot;</strong> para obtener tu posición actual</li>
             <li>Permite el acceso a tu ubicación cuando el navegador lo solicite</li>
             <li>La aplicación consultará automáticamente la API GeoRef de Argentina</li>
             <li>Verás tu provincia, departamento, municipio y calles cercanas</li>
-            <li>Usa <strong>"Seguir Ubicación"</strong> para actualizaciones automáticas mientras te mueves</li>
+            <li>Usa <strong>&quot;Seguir Ubicación&quot;</strong> para actualizaciones automáticas mientras te mueves</li>
           </ol>
         </div>
       )}
