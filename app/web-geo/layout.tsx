@@ -6,7 +6,6 @@ export default function DashboardLayout({
 }) {
   return (
     <div className="flex min-h-screen">
-      
       {/* Contenido principal */}
       <div className="flex-1">
         {children}
