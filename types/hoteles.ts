@@ -9,11 +9,11 @@ export interface Hotel {
   beds: number;
   baths: number;
   guests: number;
-  superhost: boolean;
 }
 
 export interface HotelUno extends Hotel {
   image: string;
+  superhost: boolean;
 }
 
 // Hotel Dos
@@ -48,15 +48,36 @@ export interface HotelDos extends Hotel {
   instantBook: boolean;
   discount: number;
   category: CategoryType;
+  superhost: boolean;
 }
 
 export interface HotelTres extends Hotel {
- 
+ subtitle: string;
+ distance: string;
+ image: string;
+ host: string;
+ hostImage: string;
+ checkIn: string;
+ features: string[];
+ available: boolean;
+ newListing: boolean;
 }
 
 export interface HotelCuatro extends Hotel {
-
+  subtitle: string;
+  distance: string;
+  images: string[];
+  originalPrice: number;
+  host: string;
+  hostImage: string;
+  superhost: boolean;
+  amenities: string[];
+  instantBook: boolean;
+  discount: number;
+  category: string;
+  available: boolean;
+  newListing: boolean;
+  checkin: string;
+  features: string[];
 }
-
-
 

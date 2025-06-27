@@ -2,31 +2,9 @@
 import React, { useState } from 'react';
 import { Heart, Star, MapPin, Calendar, Users, Eye, Clock, SlidersHorizontal } from 'lucide-react';
 import Image from 'next/image';
+import { HotelTres } from '@/types/hoteles';
+import { hotelsDataTres } from '@/data/hoteles';
 
-
-
-// Interfaces para tipado
-interface Hotel {
-  id: number;
-  title: string;
-  subtitle: string;
-  location: string;
-  distance: string;
-  image: string;
-  price: number;
-  rating: number;
-  reviews: number;
-  host: string;
-  hostImage: string;
-  type: string;
-  beds: number;
-  baths: number;
-  guests: number;
-  checkin: string;
-  features: string[];
-  available: boolean;
-  newListing: boolean;
-}
 
 interface QuickFilter {
   id: string;
@@ -40,7 +18,7 @@ interface SortOption {
 }
 
 interface HotelCardProps {
-  hotel: Hotel;
+  hotel: HotelTres;
   onToggleFavorite: (hotelId: number) => void;
   isFavorite: boolean;
   isCompact?: boolean;
@@ -55,135 +33,6 @@ interface QuickFiltersProps {
 type ViewMode = 'comfortable' | 'compact';
 type SortBy = 'recommended' | 'price_low' | 'price_high' | 'rating' | 'newest';
 
-// Datos de ejemplo con más variedad
-const hotelsData: Hotel[] = [
-  {
-    id: 1,
-    title: "Estudio moderno en Gràcia",
-    subtitle: "Diseño contemporáneo en barrio bohemio",
-    location: "Barcelona, España",
-    distance: "2.3 km del centro",
-    image: "https://images.unsplash.com/photo-1564013799919-ab600027ffc6?w=600&h=400&fit=crop",
-    price: 89,
-    rating: 4.92,
-    reviews: 184,
-    host: "María",
-    hostImage: "https://images.unsplash.com/photo-1494790108755-2616b612b786?w=50&h=50&fit=crop&crop=face",
-    type: "Estudio completo",
-    beds: 1,
-    baths: 1,
-    guests: 2,
-    checkin: "Flexible",
-    features: ["Vista a la ciudad", "Cocina equipada", "Workspace"],
-    available: true,
-    newListing: true
-  },
-  {
-    id: 2,
-    title: "Apartamento luminoso en Malvarossa",
-    subtitle: "A 50m de la playa, vistas espectaculares",
-    location: "Valencia, España",
-    distance: "5 min andando a la playa",
-    image: "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=600&h=400&fit=crop",
-    price: 134,
-    rating: 4.89,
-    reviews: 92,
-    host: "Carlos",
-    hostImage: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=50&h=50&fit=crop&crop=face",
-    type: "Apartamento",
-    beds: 2,
-    baths: 1,
-    guests: 4,
-    checkin: "A partir de las 15:00",
-    features: ["Vista al mar", "Balcón", "A/C"],
-    available: true,
-    newListing: false
-  },
-  {
-    id: 3,
-    title: "Villa de lujo en Sa Caleta",
-    subtitle: "Arquitectura mediterránea con piscina privada",
-    location: "Ibiza, España",
-    distance: "15 min del aeropuerto",
-    image: "https://images.unsplash.com/photo-1571896349842-33c89424de2d?w=600&h=400&fit=crop",
-    price: 450,
-    rating: 4.96,
-    reviews: 67,
-    host: "Alessandro",
-    hostImage: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=50&h=50&fit=crop&crop=face",
-    type: "Villa completa",
-    beds: 4,
-    baths: 3,
-    guests: 8,
-    checkin: "Check-in autónomo",
-    features: ["Piscina privada", "Jardín", "Parking"],
-    available: false,
-    newListing: false
-  },
-  {
-    id: 4,
-    title: "Loft artístico en Chueca",
-    subtitle: "Espacio creativo en el corazón de Madrid",
-    location: "Madrid, España",
-    distance: "10 min a Gran Vía",
-    image: "https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?w=600&h=400&fit=crop",
-    price: 112,
-    rating: 4.85,
-    reviews: 156,
-    host: "Ana",
-    hostImage: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=50&h=50&fit=crop&crop=face",
-    type: "Loft",
-    beds: 1,
-    baths: 1,
-    guests: 3,
-    checkin: "Flexible",
-    features: ["Techos altos", "Arte local", "Luminoso"],
-    available: true,
-    newListing: false
-  },
-  {
-    id: 5,
-    title: "Casa típica andaluza",
-    subtitle: "Patio tradicional en barrio histórico",
-    location: "Sevilla, España",
-    distance: "8 min a la Catedral",
-    image: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=600&h=400&fit=crop",
-    price: 98,
-    rating: 4.88,
-    reviews: 203,
-    host: "Francisco",
-    hostImage: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=50&h=50&fit=crop&crop=face",
-    type: "Casa completa",
-    beds: 3,
-    baths: 2,
-    guests: 6,
-    checkin: "A partir de las 16:00",
-    features: ["Patio andaluz", "AC", "Céntrico"],
-    available: true,
-    newListing: true
-  },
-  {
-    id: 6,
-    title: "Ático con terraza en Guggenheim",
-    subtitle: "Vistas panorámicas de la ría de Bilbao",
-    location: "Bilbao, España",
-    distance: "2 min al museo",
-    image: "https://images.unsplash.com/photo-1493809842364-78817add7ffb?w=600&h=400&fit=crop",
-    price: 167,
-    rating: 4.94,
-    reviews: 89,
-    host: "Iker",
-    hostImage: "https://images.unsplash.com/photo-1507591064344-4c6ce005b128?w=50&h=50&fit=crop&crop=face",
-    type: "Ático",
-    beds: 2,
-    baths: 2,
-    guests: 4,
-    checkin: "Check-in autónomo",
-    features: ["Terraza", "Vistas", "Moderno"],
-    available: true,
-    newListing: false
-  }
-];
 
 const HotelCard: React.FC<HotelCardProps> = ({ hotel, onToggleFavorite, isFavorite, isCompact = false }) => {
   const [isHovered, setIsHovered] = useState<boolean>(false);
@@ -322,7 +171,7 @@ const HotelCard: React.FC<HotelCardProps> = ({ hotel, onToggleFavorite, isFavori
             </div>
             <div className="flex items-center gap-2 text-sm text-gray-700">
               <Calendar className="w-4 h-4" />
-              <span>{hotel.checkin}</span>
+              <span>{hotel.checkIn}</span>
             </div>
           </div>
         </div>
@@ -439,7 +288,7 @@ const AirbnbHotelsView: React.FC = () => {
     );
   };
 
-  const filteredAndSortedHotels: Hotel[] = hotelsData
+  const filteredAndSortedHotels: HotelTres[] = hotelsDataTres
     .filter((hotel) => {
       if (activeFilters.includes('new') && !hotel.newListing) return false;
       if (activeFilters.includes('available') && !hotel.available) return false;
