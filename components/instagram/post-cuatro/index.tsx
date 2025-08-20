@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { Download, Type, Palette, Monitor, RotateCcw } from 'lucide-react';
 
 // Tipos para las configuraciones
@@ -199,7 +199,7 @@ const InstagramImageCreator: React.FC = () => {
     }
   };
 
-  const drawTextElement = (
+  const drawTextElement = useCallback((
     ctx: CanvasRenderingContext2D, 
     textElement: TextElement, 
     isSelected: boolean = false
@@ -227,7 +227,7 @@ const InstagramImageCreator: React.FC = () => {
     let currentLine = '';
     const maxWidth = config.width * 0.8;
 
-    for (let word of words) {
+    for (const word of words) {
       const testLine = currentLine + (currentLine ? ' ' : '') + word;
       const metrics = ctx.measureText(testLine);
       
@@ -256,7 +256,7 @@ const InstagramImageCreator: React.FC = () => {
     }
 
     lines.forEach((line, index) => {
-      let x = baseX;
+      const x = baseX;
       const textMetrics = ctx.measureText(line);
       const textWidth = textMetrics.width;
       const y = startY + (index * lineHeight);
@@ -370,9 +370,9 @@ const InstagramImageCreator: React.FC = () => {
     ctx.shadowBlur = 0;
     ctx.shadowOffsetX = 0;
     ctx.shadowOffsetY = 0;
-  };
+  }, [config.width, config.height]);
 
-  const drawCanvas = (): void => {
+  const drawCanvas = useCallback((): void => {
     const canvas = canvasRef.current;
     if (!canvas) return;
 
@@ -414,14 +414,14 @@ const InstagramImageCreator: React.FC = () => {
     textElements.forEach((textElement) => {
       drawTextElement(ctx, textElement, textElement.id === selectedTextId);
     });
-  };
+  }, [config, loadedImage, textElements, selectedTextId, drawTextElement]);
 
   useEffect(() => {
     drawCanvas();
-  }, [config, loadedImage, textElements, selectedTextId]);
+  }, [drawCanvas]);
 
   // Drag and drop
-  const getCanvasMousePosition = (e: MouseEvent): MousePosition => {
+  const getCanvasMousePosition = useCallback((e: MouseEvent): MousePosition => {
     const canvas = canvasRef.current;
     if (!canvas) return { x: 0, y: 0 };
 
@@ -433,9 +433,9 @@ const InstagramImageCreator: React.FC = () => {
       x: (e.clientX - rect.left) * scaleX,
       y: (e.clientY - rect.top) * scaleY
     };
-  };
+  }, []);
 
-  const getTextElementAtPosition = (mousePos: MousePosition): TextElement | null => {
+  const getTextElementAtPosition = useCallback((mousePos: MousePosition): TextElement | null => {
     for (let i = textElements.length - 1; i >= 0; i--) {
       const textElement = textElements[i];
       const textX = (config.width * textElement.textPositionX) / 100;
@@ -450,9 +450,9 @@ const InstagramImageCreator: React.FC = () => {
       }
     }
     return null;
-  };
+  }, [textElements, config.width, config.height]);
 
-  const handleMouseDown = (e: MouseEvent): void => {
+  const handleMouseDown = useCallback((e: MouseEvent): void => {
     const mousePos = getCanvasMousePosition(e);
     const textAtPosition = getTextElementAtPosition(mousePos);
     
@@ -475,9 +475,9 @@ const InstagramImageCreator: React.FC = () => {
         canvasRef.current.style.cursor = 'grabbing';
       }
     }
-  };
+  }, [getCanvasMousePosition, getTextElementAtPosition, selectedTextId, config.width, config.height]);
 
-  const handleMouseMove = (e: MouseEvent): void => {
+  const handleMouseMove = useCallback((e: MouseEvent): void => {
     const mousePos = getCanvasMousePosition(e);
     
     if (isDragging && draggedTextId !== null) {
@@ -498,9 +498,9 @@ const InstagramImageCreator: React.FC = () => {
         canvasRef.current.style.cursor = textAtPosition ? 'grab' : 'default';
       }
     }
-  };
+  }, [getCanvasMousePosition, getTextElementAtPosition, isDragging, draggedTextId, dragOffset, config.width, config.height]);
 
-  const handleMouseUp = (): void => {
+  const handleMouseUp = useCallback((): void => {
     if (isDragging) {
       setIsDragging(false);
       setDraggedTextId(null);
@@ -508,7 +508,7 @@ const InstagramImageCreator: React.FC = () => {
         canvasRef.current.style.cursor = 'default';
       }
     }
-  };
+  }, [isDragging]);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -525,7 +525,7 @@ const InstagramImageCreator: React.FC = () => {
       canvas.removeEventListener('mouseup', handleMouseUp);
       canvas.removeEventListener('mouseleave', handleMouseUp);
     };
-  }, [isDragging, dragOffset, textElements, draggedTextId, config.width, config.height]);
+  }, [handleMouseDown, handleMouseMove, handleMouseUp]);
 
   const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>): void => {
     const file = event.target.files?.[0];
@@ -712,7 +712,7 @@ const InstagramImageCreator: React.FC = () => {
                             Texto {index + 1} {textElement.id === selectedTextId && '(seleccionado)'}
                           </div>
                           <div className="text-xs text-gray-500 truncate max-w-48">
-                            "{textElement.text}"
+                            &ldquo;{textElement.text}&rdquo;
                           </div>
                           <div className="text-xs text-gray-400">
                             {textElement.fontFamily} • {textElement.fontSize}px
@@ -1053,7 +1053,7 @@ const InstagramImageCreator: React.FC = () => {
               <ul className="text-sm text-blue-800 space-y-1">
                 <li>• <strong>Múltiples textos:</strong> Agrega y gestiona varios elementos</li>
                 <li>• <strong>Selección:</strong> Haz click en un texto para editarlo</li>
-                <li>• <strong>Drag & Drop:</strong> Arrastra textos en la vista previa</li>
+                <li>• <strong>Drag &amp; Drop:</strong> Arrastra textos en la vista previa</li>
                 <li>• <strong>Indicador:</strong> El texto seleccionado tiene borde azul</li>
                 <li>• Combina diferentes fuentes y efectos</li>
                 <li>• Las imágenes se descargan en alta calidad</li>

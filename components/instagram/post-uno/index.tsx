@@ -1,15 +1,14 @@
 "use client";
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { Download, Type, Palette, Monitor, RotateCcw } from 'lucide-react';
 
-// Tipo para los presets de gradiente
+// Interfaces para tipado
 interface GradientPreset {
   name: string;
   start: string;
   end: string;
 }
 
-// Tipo para los tamaños preestablecidos
 interface PresetSize {
   name: string;
   width: number;
@@ -17,8 +16,12 @@ interface PresetSize {
 }
 
 const InstagramImageCreator = () => {
-  // Tipado correcto del canvas ref
+  // Tipado correcto de los refs
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  
+  // Tipado del estado de imagen
+  const [loadedImage, setLoadedImage] = useState<HTMLImageElement | null>(null);
   
   const [config, setConfig] = useState({
     width: 1080,
@@ -28,11 +31,17 @@ const InstagramImageCreator = () => {
     gradientStart: '#6366f1',
     gradientEnd: '#ec4899',
     gradientDirection: 'diagonal',
+    backgroundImage: null,
+    imageOpacity: 100,
+    imageScale: 100,
+    imagePositionX: 50,
+    imagePositionY: 50,
+    backgroundType: 'color' as 'color' | 'gradient' | 'image',
     text: 'Tu mensaje aquí',
     fontSize: 72,
     fontFamily: 'Arial',
     textColor: '#ffffff',
-    textAlign: 'center',
+    textAlign: 'center' as 'left' | 'center' | 'right',
     textVerticalAlign: 'middle',
     textWeight: 'bold'
   });
@@ -44,7 +53,7 @@ const InstagramImageCreator = () => {
     { name: 'Twitter Post', width: 1200, height: 675 }
   ];
 
-  const fonts = [
+  const fonts: string[] = [
     'Arial',
     'Helvetica',
     'Georgia',
@@ -64,12 +73,12 @@ const InstagramImageCreator = () => {
     { name: 'Blue', start: '#3b82f6', end: '#1e40af' }
   ];
 
-  const drawCanvas = () => {
+  const drawCanvas = useCallback(() => {
     const canvas = canvasRef.current;
-    if (!canvas) return; // Verificación de null
+    if (!canvas) return;
 
     const ctx = canvas.getContext('2d');
-    if (!ctx) return; // Verificación adicional del contexto
+    if (!ctx) return;
 
     canvas.width = config.width;
     canvas.height = config.height;
@@ -78,7 +87,24 @@ const InstagramImageCreator = () => {
     ctx.clearRect(0, 0, config.width, config.height);
 
     // Dibujar fondo
-    if (config.gradientEnabled) {
+    if (config.backgroundType === 'image' && loadedImage) {
+      // Configurar opacidad
+      ctx.globalAlpha = config.imageOpacity / 100;
+      
+      // Calcular dimensiones escaladas
+      const scale = config.imageScale / 100;
+      const imgWidth = loadedImage.width * scale;
+      const imgHeight = loadedImage.height * scale;
+      
+      // Calcular posición basada en porcentajes
+      const x = (config.width * (config.imagePositionX / 100)) - (imgWidth / 2);
+      const y = (config.height * (config.imagePositionY / 100)) - (imgHeight / 2);
+      
+      ctx.drawImage(loadedImage, x, y, imgWidth, imgHeight);
+      
+      // Resetear opacidad para el texto
+      ctx.globalAlpha = 1;
+    } else if (config.backgroundType === 'gradient') {
       const gradient = ctx.createLinearGradient(
         config.gradientDirection === 'horizontal' ? 0 : config.gradientDirection === 'vertical' ? 0 : 0,
         config.gradientDirection === 'horizontal' ? 0 : config.gradientDirection === 'vertical' ? 0 : 0,
@@ -88,10 +114,12 @@ const InstagramImageCreator = () => {
       gradient.addColorStop(0, config.gradientStart);
       gradient.addColorStop(1, config.gradientEnd);
       ctx.fillStyle = gradient;
+      ctx.fillRect(0, 0, config.width, config.height);
     } else {
+      // Color sólido
       ctx.fillStyle = config.backgroundColor;
+      ctx.fillRect(0, 0, config.width, config.height);
     }
-    ctx.fillRect(0, 0, config.width, config.height);
 
     // Configurar texto
     ctx.fillStyle = config.textColor;
@@ -104,13 +132,13 @@ const InstagramImageCreator = () => {
     let currentLine = '';
     const maxWidth = config.width * 0.8; // 80% del ancho para márgenes
 
-    for (let word of words) {
-      const testLine = currentLine + (currentLine ? ' ' : '') + word;
+    for (const currentWord of words) {
+      const testLine = currentLine + (currentLine ? ' ' : '') + currentWord;
       const metrics = ctx.measureText(testLine);
       
       if (metrics.width > maxWidth && currentLine) {
         lines.push(currentLine);
-        currentLine = word;
+        currentLine = currentWord;
       } else {
         currentLine = testLine;
       }
@@ -156,15 +184,43 @@ const InstagramImageCreator = () => {
     ctx.shadowBlur = 0;
     ctx.shadowOffsetX = 0;
     ctx.shadowOffsetY = 0;
-  };
+  }, [config, loadedImage]);
 
   useEffect(() => {
     drawCanvas();
-  }, [config]);
+  }, [drawCanvas]);
+
+  // Tipado correcto del evento
+  const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const result = e.target?.result;
+        if (typeof result === 'string') {
+          const img = new Image();
+          img.onload = () => {
+            setLoadedImage(img);
+            setConfig(prev => ({ ...prev, backgroundType: 'image' }));
+          };
+          img.src = result;
+        }
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const removeImage = () => {
+    setLoadedImage(null);
+    setConfig(prev => ({ ...prev, backgroundType: 'color' }));
+    if (fileInputRef.current) {
+      fileInputRef.current.value = '';
+    }
+  };
 
   const downloadImage = () => {
     const canvas = canvasRef.current;
-    if (!canvas) return; // Verificación de null
+    if (!canvas) return;
 
     const link = document.createElement('a');
     link.download = 'instagram-post.png';
@@ -181,6 +237,12 @@ const InstagramImageCreator = () => {
       gradientStart: '#6366f1',
       gradientEnd: '#ec4899',
       gradientDirection: 'diagonal',
+      backgroundImage: null,
+      imageOpacity: 100,
+      imageScale: 100,
+      imagePositionX: 50,
+      imagePositionY: 50,
+      backgroundType: 'color',
       text: 'Tu mensaje aquí',
       fontSize: 72,
       fontFamily: 'Arial',
@@ -189,15 +251,19 @@ const InstagramImageCreator = () => {
       textVerticalAlign: 'middle',
       textWeight: 'bold'
     });
+    setLoadedImage(null);
+    if (fileInputRef.current) {
+      fileInputRef.current.value = '';
+    }
   };
 
-  // Tipado correcto del parámetro preset
+  // Tipado correcto del parámetro
   const applyGradientPreset = (preset: GradientPreset) => {
     setConfig(prev => ({
       ...prev,
       gradientStart: preset.start,
       gradientEnd: preset.end,
-      gradientEnabled: true
+      backgroundType: 'gradient'
     }));
   };
 
@@ -254,8 +320,8 @@ const InstagramImageCreator = () => {
                   <label className="flex items-center">
                     <input
                       type="radio"
-                      checked={!config.gradientEnabled}
-                      onChange={() => setConfig(prev => ({ ...prev, gradientEnabled: false }))}
+                      checked={config.backgroundType === 'color'}
+                      onChange={() => setConfig(prev => ({ ...prev, backgroundType: 'color' }))}
                       className="mr-2"
                     />
                     Color sólido
@@ -263,15 +329,24 @@ const InstagramImageCreator = () => {
                   <label className="flex items-center">
                     <input
                       type="radio"
-                      checked={config.gradientEnabled}
-                      onChange={() => setConfig(prev => ({ ...prev, gradientEnabled: true }))}
+                      checked={config.backgroundType === 'gradient'}
+                      onChange={() => setConfig(prev => ({ ...prev, backgroundType: 'gradient' }))}
                       className="mr-2"
                     />
                     Gradiente
                   </label>
+                  <label className="flex items-center">
+                    <input
+                      type="radio"
+                      checked={config.backgroundType === 'image'}
+                      onChange={() => setConfig(prev => ({ ...prev, backgroundType: 'image' }))}
+                      className="mr-2"
+                    />
+                    Imagen
+                  </label>
                 </div>
 
-                {!config.gradientEnabled ? (
+                {config.backgroundType === 'color' && (
                   <div className="flex items-center space-x-3">
                     <label className="text-sm font-medium text-gray-700">Color:</label>
                     <input
@@ -281,7 +356,9 @@ const InstagramImageCreator = () => {
                       className="w-12 h-8 rounded border border-gray-300"
                     />
                   </div>
-                ) : (
+                )}
+
+                {config.backgroundType === 'gradient' && (
                   <div className="space-y-4">
                     <div className="grid grid-cols-3 gap-2">
                       {gradientPresets.map((preset) => (
@@ -330,6 +407,92 @@ const InstagramImageCreator = () => {
                         <option value="diagonal">Diagonal</option>
                       </select>
                     </div>
+                  </div>
+                )}
+
+                {config.backgroundType === 'image' && (
+                  <div className="space-y-4">
+                    <div>
+                      <label className="text-sm font-medium text-gray-700 mb-2 block">Subir imagen:</label>
+                      <input
+                        ref={fileInputRef}
+                        type="file"
+                        accept="image/*"
+                        onChange={handleImageUpload}
+                        className="w-full p-2 border border-gray-300 rounded-lg"
+                      />
+                    </div>
+
+                    {loadedImage && (
+                      <div className="space-y-4 p-4 bg-gray-50 rounded-lg">
+                        <div className="flex justify-between items-center">
+                          <span className="text-sm font-medium text-gray-700">Imagen cargada</span>
+                          <button
+                            onClick={removeImage}
+                            className="text-red-600 hover:text-red-800 text-sm"
+                          >
+                            Eliminar
+                          </button>
+                        </div>
+
+                        <div>
+                          <label className="text-sm font-medium text-gray-700 mb-2 block">
+                            Opacidad: {config.imageOpacity}%
+                          </label>
+                          <input
+                            type="range"
+                            min="10"
+                            max="100"
+                            value={config.imageOpacity}
+                            onChange={(e) => setConfig(prev => ({ ...prev, imageOpacity: parseInt(e.target.value) }))}
+                            className="w-full"
+                          />
+                        </div>
+
+                        <div>
+                          <label className="text-sm font-medium text-gray-700 mb-2 block">
+                            Escala: {config.imageScale}%
+                          </label>
+                          <input
+                            type="range"
+                            min="20"
+                            max="200"
+                            value={config.imageScale}
+                            onChange={(e) => setConfig(prev => ({ ...prev, imageScale: parseInt(e.target.value) }))}
+                            className="w-full"
+                          />
+                        </div>
+
+                        <div className="grid grid-cols-2 gap-4">
+                          <div>
+                            <label className="text-sm font-medium text-gray-700 mb-2 block">
+                              Posición X: {config.imagePositionX}%
+                            </label>
+                            <input
+                              type="range"
+                              min="0"
+                              max="100"
+                              value={config.imagePositionX}
+                              onChange={(e) => setConfig(prev => ({ ...prev, imagePositionX: parseInt(e.target.value) }))}
+                              className="w-full"
+                            />
+                          </div>
+                          <div>
+                            <label className="text-sm font-medium text-gray-700 mb-2 block">
+                              Posición Y: {config.imagePositionY}%
+                            </label>
+                            <input
+                              type="range"
+                              min="0"
+                              max="100"
+                              value={config.imagePositionY}
+                              onChange={(e) => setConfig(prev => ({ ...prev, imagePositionY: parseInt(e.target.value) }))}
+                              className="w-full"
+                            />
+                          </div>
+                        </div>
+                      </div>
+                    )}
                   </div>
                 )}
               </div>
@@ -412,7 +575,7 @@ const InstagramImageCreator = () => {
                     <label className="text-sm font-medium text-gray-700 mb-2 block">Alineación horizontal:</label>
                     <select
                       value={config.textAlign}
-                      onChange={(e) => setConfig(prev => ({ ...prev, textAlign: e.target.value }))}
+                      onChange={(e) => setConfig(prev => ({ ...prev, textAlign: e.target.value as 'left' | 'center' | 'right' }))}
                       className="w-full p-2 border border-gray-300 rounded-lg"
                     >
                       <option value="left">Izquierda</option>
@@ -485,6 +648,8 @@ const InstagramImageCreator = () => {
                 <li>• Usa textos cortos para mayor impacto</li>
                 <li>• Asegúrate de que el contraste sea bueno</li>
                 <li>• Prueba diferentes gradientes</li>
+                <li>• Ajusta la opacidad de la imagen para mejor legibilidad</li>
+                <li>• Usa imágenes de alta calidad (JPG, PNG)</li>
                 <li>• Las imágenes se descargan en alta calidad</li>
               </ul>
             </div>
