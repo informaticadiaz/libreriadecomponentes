@@ -185,7 +185,7 @@ const InstagramImageCreator = () => {
     let currentLine = '';
     const maxWidth = config.width * 0.8; // 80% del ancho para márgenes
 
-    for (let word of words) {
+    for (const word of words) {
       const testLine = currentLine + (currentLine ? ' ' : '') + word;
       const metrics = ctx.measureText(testLine);
       
