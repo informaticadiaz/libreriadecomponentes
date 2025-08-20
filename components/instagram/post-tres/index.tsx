@@ -2,12 +2,39 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Download, Type, Palette, Monitor, RotateCcw } from 'lucide-react';
 
+// Interfaces para tipado
+interface GradientPreset {
+  name: string;
+  start: string;
+  end: string;
+}
+
+interface PresetSize {
+  name: string;
+  width: number;
+  height: number;
+}
+
+interface DragOffset {
+  x: number;
+  y: number;
+}
+
+interface MousePosition {
+  x: number;
+  y: number;
+}
+
 const InstagramImageCreator = () => {
-  const canvasRef = useRef(null);
-  const fileInputRef = useRef(null);
-  const [loadedImage, setLoadedImage] = useState(null);
-  const [isDragging, setIsDragging] = useState(false);
-  const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
+  // Tipado correcto de los refs
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  
+  // Tipado del estado de imagen y drag
+  const [loadedImage, setLoadedImage] = useState<HTMLImageElement | null>(null);
+  const [isDragging, setIsDragging] = useState<boolean>(false);
+  const [dragOffset, setDragOffset] = useState<DragOffset>({ x: 0, y: 0 });
+  
   const [config, setConfig] = useState({
     width: 1080,
     height: 1080,
@@ -21,19 +48,19 @@ const InstagramImageCreator = () => {
     imageScale: 100,
     imagePositionX: 50,
     imagePositionY: 50,
-    backgroundType: 'color', // 'color', 'gradient', 'image'
+    backgroundType: 'color' as 'color' | 'gradient' | 'image',
     text: 'Tu mensaje aquí',
     fontSize: 72,
     fontFamily: 'Arial',
     textColor: '#ffffff',
-    textAlign: 'center',
+    textAlign: 'center' as 'left' | 'center' | 'right',
     textVerticalAlign: 'middle',
-    textPositionX: 50, // Posición horizontal en porcentaje (0-100)
-    textPositionY: 50, // Posición vertical en porcentaje (0-100)
+    textPositionX: 50,
+    textPositionY: 50,
     textWeight: 'bold',
-    textStyle: 'normal', // 'normal', 'italic'
-    textDecoration: 'none', // 'none', 'underline'
-    textTransform: 'none', // 'none', 'uppercase', 'lowercase', 'capitalize'
+    textStyle: 'normal' as 'normal' | 'italic',
+    textDecoration: 'none' as 'none' | 'underline',
+    textTransform: 'none' as 'none' | 'uppercase' | 'lowercase' | 'capitalize',
     lineHeight: 1.2,
     letterSpacing: 0,
     textRotation: 0,
@@ -52,14 +79,14 @@ const InstagramImageCreator = () => {
     textBackgroundRadius: 10
   });
 
-  const presetSizes = [
+  const presetSizes: PresetSize[] = [
     { name: 'Instagram Post', width: 1080, height: 1080 },
     { name: 'Instagram Story', width: 1080, height: 1920 },
     { name: 'Facebook Post', width: 1200, height: 630 },
     { name: 'Twitter Post', width: 1200, height: 675 }
   ];
 
-  const fonts = [
+  const fonts: string[] = [
     'Arial',
     'Helvetica',
     'Georgia',
@@ -75,7 +102,7 @@ const InstagramImageCreator = () => {
     'Avant Garde'
   ];
 
-  const gradientPresets = [
+  const gradientPresets: GradientPreset[] = [
     { name: 'Sunset', start: '#ff7e5f', end: '#feb47b' },
     { name: 'Ocean', start: '#667eea', end: '#764ba2' },
     { name: 'Forest', start: '#2c5530', end: '#7bc143' },
@@ -89,6 +116,8 @@ const InstagramImageCreator = () => {
     if (!canvas) return;
 
     const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+
     canvas.width = config.width;
     canvas.height = config.height;
 
@@ -148,11 +177,11 @@ const InstagramImageCreator = () => {
     const fontStyle = config.textStyle === 'italic' ? 'italic ' : '';
     const fontWeight = config.textWeight === 'bold' ? 'bold ' : '';
     ctx.font = `${fontStyle}${fontWeight}${config.fontSize}px ${config.fontFamily}`;
-    ctx.textAlign = config.textAlign;
+    ctx.textAlign = config.textAlign as CanvasTextAlign;
 
     // Dividir texto en líneas
     const words = processedText.split(' ');
-    const lines = [];
+    const lines: string[] = [];
     let currentLine = '';
     const maxWidth = config.width * 0.8; // 80% del ancho para márgenes
 
@@ -196,7 +225,7 @@ const InstagramImageCreator = () => {
     // Dibujar cada línea
     lines.forEach((line, index) => {
       // Calcular X basado en la alineación pero centrado en baseX
-      let x;
+      let x: number;
       const textMetrics = ctx.measureText(line);
       const textWidth = textMetrics.width;
 
@@ -216,7 +245,7 @@ const InstagramImageCreator = () => {
       // Dibujar fondo del texto si está habilitado
       if (config.textBackgroundEnabled) {
         const padding = config.textBackgroundPadding;
-        let bgX, bgWidth;
+        let bgX: number, bgWidth: number;
         
         switch (config.textAlign) {
           case 'left':
@@ -233,9 +262,8 @@ const InstagramImageCreator = () => {
         }
 
         // Mejor cálculo para la posición Y del fondo
-        // y es la baseline del texto, ajustamos basado en el fontSize
-        const textAscent = config.fontSize * 0.8; // Aproximadamente 80% del fontSize es la altura ascendente
-        const textDescent = config.fontSize * 0.2; // Aproximadamente 20% del fontSize es la altura descendente
+        const textAscent = config.fontSize * 0.8;
+        const textDescent = config.fontSize * 0.2;
         const bgY = y - textAscent - padding;
         const bgHeight = textAscent + textDescent + (padding * 2);
 
@@ -294,7 +322,7 @@ const InstagramImageCreator = () => {
           currentX = x - totalWidth;
         }
 
-        chars.forEach((char, charIndex) => {
+        chars.forEach((char) => {
           if (config.textOutlineEnabled) {
             ctx.strokeText(char, currentX, y);
           }
@@ -320,9 +348,11 @@ const InstagramImageCreator = () => {
     drawCanvas();
   }, [config, loadedImage]);
 
-  // Funciones para drag and drop del texto
-  const getCanvasMousePosition = (e) => {
+  // Funciones para drag and drop del texto - tipadas correctamente
+  const getCanvasMousePosition = (e: MouseEvent): MousePosition => {
     const canvas = canvasRef.current;
+    if (!canvas) return { x: 0, y: 0 };
+    
     const rect = canvas.getBoundingClientRect();
     const scaleX = canvas.width / rect.width;
     const scaleY = canvas.height / rect.height;
@@ -333,7 +363,7 @@ const InstagramImageCreator = () => {
     };
   };
 
-  const handleMouseDown = (e) => {
+  const handleMouseDown = (e: MouseEvent) => {
     const mousePos = getCanvasMousePosition(e);
     
     // Convertir posición del texto a coordenadas del canvas
@@ -355,11 +385,13 @@ const InstagramImageCreator = () => {
       });
       
       // Cambiar cursor
-      canvasRef.current.style.cursor = 'grabbing';
+      if (canvasRef.current) {
+        canvasRef.current.style.cursor = 'grabbing';
+      }
     }
   };
 
-  const handleMouseMove = (e) => {
+  const handleMouseMove = (e: MouseEvent) => {
     const mousePos = getCanvasMousePosition(e);
     
     if (isDragging) {
@@ -385,10 +417,12 @@ const InstagramImageCreator = () => {
       const distanceX = Math.abs(mousePos.x - textX);
       const distanceY = Math.abs(mousePos.y - textY);
       
-      if (distanceX <= textAreaSize && distanceY <= textAreaSize) {
-        canvasRef.current.style.cursor = 'grab';
-      } else {
-        canvasRef.current.style.cursor = 'default';
+      if (canvasRef.current) {
+        if (distanceX <= textAreaSize && distanceY <= textAreaSize) {
+          canvasRef.current.style.cursor = 'grab';
+        } else {
+          canvasRef.current.style.cursor = 'default';
+        }
       }
     }
   };
@@ -396,7 +430,9 @@ const InstagramImageCreator = () => {
   const handleMouseUp = () => {
     if (isDragging) {
       setIsDragging(false);
-      canvasRef.current.style.cursor = 'default';
+      if (canvasRef.current) {
+        canvasRef.current.style.cursor = 'default';
+      }
     }
   };
 
@@ -418,17 +454,21 @@ const InstagramImageCreator = () => {
     };
   }, [isDragging, dragOffset, config.textPositionX, config.textPositionY, config.fontSize, config.width, config.height]);
 
-  const handleImageUpload = (event) => {
-    const file = event.target.files[0];
+  // Tipado correcto del evento de carga de imagen
+  const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
     if (file) {
       const reader = new FileReader();
       reader.onload = (e) => {
-        const img = new Image();
-        img.onload = () => {
-          setLoadedImage(img);
-          setConfig(prev => ({ ...prev, backgroundType: 'image' }));
-        };
-        img.src = e.target.result;
+        const result = e.target?.result;
+        if (typeof result === 'string') {
+          const img = new Image();
+          img.onload = () => {
+            setLoadedImage(img);
+            setConfig(prev => ({ ...prev, backgroundType: 'image' }));
+          };
+          img.src = result;
+        }
       };
       reader.readAsDataURL(file);
     }
@@ -444,6 +484,8 @@ const InstagramImageCreator = () => {
 
   const downloadImage = () => {
     const canvas = canvasRef.current;
+    if (!canvas) return;
+
     const link = document.createElement('a');
     link.download = 'instagram-post.png';
     link.href = canvas.toDataURL();
@@ -500,7 +542,8 @@ const InstagramImageCreator = () => {
     }
   };
 
-  const applyGradientPreset = (preset) => {
+  // Tipado correcto del parámetro
+  const applyGradientPreset = (preset: GradientPreset) => {
     setConfig(prev => ({
       ...prev,
       gradientStart: preset.start,
@@ -805,7 +848,7 @@ const InstagramImageCreator = () => {
                     
                     <select
                       value={config.textStyle}
-                      onChange={(e) => setConfig(prev => ({ ...prev, textStyle: e.target.value }))}
+                      onChange={(e) => setConfig(prev => ({ ...prev, textStyle: e.target.value as 'normal' | 'italic' }))}
                       className="p-2 border border-gray-300 rounded-lg text-sm"
                     >
                       <option value="normal">Normal</option>
@@ -814,7 +857,7 @@ const InstagramImageCreator = () => {
 
                     <select
                       value={config.textTransform}
-                      onChange={(e) => setConfig(prev => ({ ...prev, textTransform: e.target.value }))}
+                      onChange={(e) => setConfig(prev => ({ ...prev, textTransform: e.target.value as 'none' | 'uppercase' | 'lowercase' | 'capitalize' }))}
                       className="p-2 border border-gray-300 rounded-lg text-sm"
                     >
                       <option value="none">Original</option>
@@ -877,7 +920,7 @@ const InstagramImageCreator = () => {
                       <label className="text-sm font-medium text-gray-700 mb-2 block">Alineación:</label>
                       <select
                         value={config.textAlign}
-                        onChange={(e) => setConfig(prev => ({ ...prev, textAlign: e.target.value }))}
+                        onChange={(e) => setConfig(prev => ({ ...prev, textAlign: e.target.value as 'left' | 'center' | 'right' }))}
                         className="w-full p-2 border border-gray-300 rounded-lg"
                       >
                         <option value="left">Izquierda</option>

@@ -2,8 +2,24 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Download, Type, Palette, Monitor, RotateCcw } from 'lucide-react';
 
+// Tipo para los presets de gradiente
+interface GradientPreset {
+  name: string;
+  start: string;
+  end: string;
+}
+
+// Tipo para los tamaños preestablecidos
+interface PresetSize {
+  name: string;
+  width: number;
+  height: number;
+}
+
 const InstagramImageCreator = () => {
-  const canvasRef = useRef(null);
+  // Tipado correcto del canvas ref
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+  
   const [config, setConfig] = useState({
     width: 1080,
     height: 1080,
@@ -21,7 +37,7 @@ const InstagramImageCreator = () => {
     textWeight: 'bold'
   });
 
-  const presetSizes = [
+  const presetSizes: PresetSize[] = [
     { name: 'Instagram Post', width: 1080, height: 1080 },
     { name: 'Instagram Story', width: 1080, height: 1920 },
     { name: 'Facebook Post', width: 1200, height: 630 },
@@ -39,7 +55,7 @@ const InstagramImageCreator = () => {
     'Trebuchet MS'
   ];
 
-  const gradientPresets = [
+  const gradientPresets: GradientPreset[] = [
     { name: 'Sunset', start: '#ff7e5f', end: '#feb47b' },
     { name: 'Ocean', start: '#667eea', end: '#764ba2' },
     { name: 'Forest', start: '#2c5530', end: '#7bc143' },
@@ -50,9 +66,11 @@ const InstagramImageCreator = () => {
 
   const drawCanvas = () => {
     const canvas = canvasRef.current;
-    if (!canvas) return;
+    if (!canvas) return; // Verificación de null
 
     const ctx = canvas.getContext('2d');
+    if (!ctx) return; // Verificación adicional del contexto
+
     canvas.width = config.width;
     canvas.height = config.height;
 
@@ -78,11 +96,11 @@ const InstagramImageCreator = () => {
     // Configurar texto
     ctx.fillStyle = config.textColor;
     ctx.font = `${config.textWeight} ${config.fontSize}px ${config.fontFamily}`;
-    ctx.textAlign = config.textAlign;
+    ctx.textAlign = config.textAlign as CanvasTextAlign;
 
     // Dividir texto en líneas
     const words = config.text.split(' ');
-    const lines = [];
+    const lines: string[] = [];
     let currentLine = '';
     const maxWidth = config.width * 0.8; // 80% del ancho para márgenes
 
@@ -104,7 +122,7 @@ const InstagramImageCreator = () => {
     // Calcular posición vertical
     const lineHeight = config.fontSize * 1.2;
     const totalTextHeight = lines.length * lineHeight;
-    let startY;
+    let startY: number;
 
     switch (config.textVerticalAlign) {
       case 'top':
@@ -146,6 +164,8 @@ const InstagramImageCreator = () => {
 
   const downloadImage = () => {
     const canvas = canvasRef.current;
+    if (!canvas) return; // Verificación de null
+
     const link = document.createElement('a');
     link.download = 'instagram-post.png';
     link.href = canvas.toDataURL();
@@ -171,7 +191,8 @@ const InstagramImageCreator = () => {
     });
   };
 
-  const applyGradientPreset = (preset) => {
+  // Tipado correcto del parámetro preset
+  const applyGradientPreset = (preset: GradientPreset) => {
     setConfig(prev => ({
       ...prev,
       gradientStart: preset.start,
