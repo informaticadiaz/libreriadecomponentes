@@ -1,6 +1,6 @@
-import InstagramImageCreator from "@/components/instagram/post-tres/index";
+import InstagramImageCreator from "@/components/instagram/post-cuatro/index";
 
-export default function () {
+export default function Page() {  
   return (
     <InstagramImageCreator />
   )
