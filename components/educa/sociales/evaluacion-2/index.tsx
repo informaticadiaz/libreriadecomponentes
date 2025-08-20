@@ -1,3 +1,4 @@
+"use client";
 import React, { useState } from 'react';
 import { CheckCircle, X, BookOpen, Star, Heart, Smile } from 'lucide-react';
 
