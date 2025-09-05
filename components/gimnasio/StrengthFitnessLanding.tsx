@@ -1,6 +1,6 @@
 "use client"
 import React, { useState, useEffect } from 'react';
-import { ChevronDown, Trophy, Users, Dumbbell, Clock, Star, ArrowRight } from 'lucide-react';
+import { ChevronDown, Dumbbell, ArrowRight } from 'lucide-react';
 
 interface Plan {
   id: string;

@@ -1,6 +1,6 @@
 "use client";
 import React, { useState } from 'react';
-import { Heart, Search, Grid3X3, List, Eye, Filter, ChevronDown, ChevronUp, X, SlidersHorizontal } from 'lucide-react';
+import { Heart, Search, Grid3X3, List, Eye, ChevronDown, ChevronUp, X, SlidersHorizontal } from 'lucide-react';
 // Importa el HotelCard original o crea uno nuevo que acepte SimpleHotel
 // import { HotelCard } from './HotelCard';
 
