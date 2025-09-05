@@ -150,11 +150,11 @@ const StrengthFitnessLanding: React.FC = () => {
         }`}>
           <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold mb-8 leading-tight">
             <span className="bg-gradient-to-r from-white via-pink-200 to-purple-200 bg-clip-text text-transparent animate-pulse">
-              En Tu Barrio
+              Es Tu Pueblo
             </span>
             <br />
             <span className="bg-gradient-to-r from-pink-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">
-              En Tu Fuerza
+              Es Tu Fuerza
             </span>
           </h1>
           
