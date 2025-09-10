@@ -13,7 +13,6 @@ import {
   Calendar,
   Target,
   Weight,
-  Ruler,
   Activity,
   Heart,
   Battery,
@@ -22,7 +21,6 @@ import {
   Plus,
   Download,
   Share,
-  MoreVertical,
   LucideIcon
 } from 'lucide-react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, AreaChart, Area } from 'recharts';
@@ -162,14 +160,14 @@ const ProgressDashboard: React.FC = () => {
             <span className="text-sm font-medium text-muted-foreground">{title}</span>
           </div>
           {change && (
-            <div className={`flex items-center gap-1 text-sm ${changeType === 'positive' ? 'text-green-600' : 'text-red-600'}`}>
+            <div className={`flex items-center gap-1 text-sm ${changeType === 'positive' ? 'text-primary' : 'text-destructive'}`}>
               {changeType === 'positive' ? <TrendingUp className="h-3 w-3" /> : <TrendingDown className="h-3 w-3" />}
               {change}
             </div>
           )}
         </div>
         <div className="mt-2">
-          <p className="text-2xl font-bold">{value}</p>
+          <p className="text-2xl font-bold font-display">{value}</p>
           {subtitle && <p className="text-xs text-muted-foreground mt-1">{subtitle}</p>}
         </div>
       </CardContent>
@@ -185,7 +183,7 @@ const ProgressDashboard: React.FC = () => {
         <CardContent className="p-4">
           <div className="flex justify-between items-start mb-3">
             <h3 className="font-medium">{measurement.name}</h3>
-            <div className={`flex items-center gap-1 text-sm ${isPositive ? 'text-green-600' : 'text-blue-600'}`}>
+            <div className={`flex items-center gap-1 text-sm ${isPositive ? 'text-primary' : 'text-destructive'}`}>
               {isPositive ? <TrendingUp className="h-3 w-3" /> : <TrendingDown className="h-3 w-3" />}
               {Math.abs(measurement.change)}{measurement.unit}
             </div>
@@ -217,7 +215,7 @@ const ProgressDashboard: React.FC = () => {
         
         <div className="grid grid-cols-2 gap-3">
           <div className="flex items-center gap-2">
-            <Battery className="h-4 w-4 text-yellow-500" />
+            <Battery className="h-4 w-4 text-primary" />
             <div>
               <p className="text-xs text-muted-foreground">Energía</p>
               <p className="text-sm font-medium">{checkin.energy}/10</p>
@@ -225,7 +223,7 @@ const ProgressDashboard: React.FC = () => {
           </div>
           
           <div className="flex items-center gap-2">
-            <Heart className="h-4 w-4 text-red-500" />
+            <Heart className="h-4 w-4 text-primary" />
             <div>
               <p className="text-xs text-muted-foreground">Motivación</p>
               <p className="text-sm font-medium">{checkin.motivation}/10</p>
@@ -233,7 +231,7 @@ const ProgressDashboard: React.FC = () => {
           </div>
           
           <div className="flex items-center gap-2">
-            <Moon className="h-4 w-4 text-blue-500" />
+            <Moon className="h-4 w-4 text-primary" />
             <div>
               <p className="text-xs text-muted-foreground">Sueño</p>
               <p className="text-sm font-medium">{checkin.sleep}/10</p>
@@ -241,7 +239,7 @@ const ProgressDashboard: React.FC = () => {
           </div>
           
           <div className="flex items-center gap-2">
-            <Droplets className="h-4 w-4 text-green-500" />
+            <Droplets className="h-4 w-4 text-primary" />
             <div>
               <p className="text-xs text-muted-foreground">Nutrición</p>
               <p className="text-sm font-medium">{checkin.nutrition}/10</p>
@@ -257,11 +255,17 @@ const ProgressDashboard: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50/50 p-6">
+    <div className="min-h-screen bg-background text-foreground p-6">
       <div className="max-w-7xl mx-auto space-y-6">
-        
+
+        <div className="bg-gradient-to-r from-primary to-secondary p-6 rounded-lg">
+          <h1 className="font-display text-2xl text-primary-foreground">
+            Panel de Progreso
+          </h1>
+        </div>
+
         {/* Header */}
-        <div className="bg-white rounded-lg border p-6">
+        <div className="bg-card rounded-lg border p-6">
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-4">
               <Avatar className="h-16 w-16">
@@ -269,13 +273,13 @@ const ProgressDashboard: React.FC = () => {
                 <AvatarFallback>MG</AvatarFallback>
               </Avatar>
               <div>
-                <h1 className="text-2xl font-bold">{clientData.name}</h1>
+                <h1 className="text-2xl font-bold font-display">{clientData.name}</h1>
                 <p className="text-muted-foreground">Objetivo: {clientData.goal}</p>
                 <p className="text-sm text-muted-foreground">Inicio: {clientData.startDate} • {clientData.totalDays} días</p>
               </div>
             </div>
             <div className="flex items-center gap-2">
-              <Badge className="bg-green-100 text-green-800">
+              <Badge className="bg-primary text-primary-foreground">
                 🔥 {clientData.currentStreak} días seguidos
               </Badge>
               <Button variant="outline" size="sm">
@@ -370,17 +374,17 @@ const ProgressDashboard: React.FC = () => {
                     <XAxis dataKey="date" />
                     <YAxis domain={['dataMin - 2', 'dataMax + 1']} />
                     <Tooltip />
-                    <Line 
-                      type="monotone" 
-                      dataKey="weight" 
-                      stroke="#2563eb" 
+                    <Line
+                      type="monotone"
+                      dataKey="weight"
+                      stroke="hsl(var(--primary))"
                       strokeWidth={3}
-                      dot={{ fill: '#2563eb', strokeWidth: 2, r: 4 }}
+                      dot={{ fill: 'hsl(var(--primary))', strokeWidth: 2, r: 4 }}
                     />
-                    <Line 
-                      type="monotone" 
-                      dataKey="target" 
-                      stroke="#dc2626" 
+                    <Line
+                      type="monotone"
+                      dataKey="target"
+                      stroke="hsl(var(--destructive))"
                       strokeDasharray="5 5"
                       strokeWidth={2}
                     />
@@ -404,11 +408,11 @@ const ProgressDashboard: React.FC = () => {
                       <XAxis dataKey="date" />
                       <YAxis domain={['dataMin - 1', 'dataMax + 1']} />
                       <Tooltip />
-                      <Area 
-                        type="monotone" 
-                        dataKey="weight" 
-                        stroke="#2563eb" 
-                        fill="#2563eb20"
+                      <Area
+                        type="monotone"
+                        dataKey="weight"
+                        stroke="hsl(var(--primary))"
+                        fill="hsl(var(--primary) / 0.2)"
                       />
                     </AreaChart>
                   </ResponsiveContainer>
@@ -429,11 +433,11 @@ const ProgressDashboard: React.FC = () => {
                 <CardContent className="space-y-4">
                   <div className="grid grid-cols-2 gap-4 text-center">
                     <div className="p-4 border rounded-lg">
-                      <p className="text-2xl font-bold text-green-600">-3.8 kg</p>
+                      <p className="text-2xl font-bold font-display text-primary">-3.8 kg</p>
                       <p className="text-sm text-muted-foreground">Perdidos</p>
                     </div>
                     <div className="p-4 border rounded-lg">
-                      <p className="text-2xl font-bold text-blue-600">51%</p>
+                      <p className="text-2xl font-bold font-display text-primary">51%</p>
                       <p className="text-sm text-muted-foreground">Progreso</p>
                     </div>
                   </div>
@@ -453,7 +457,7 @@ const ProgressDashboard: React.FC = () => {
                     </div>
                     <div className="flex justify-between">
                       <span className="text-sm">Restante:</span>
-                      <span className="font-medium text-orange-600">3.7 kg</span>
+                      <span className="font-medium text-destructive">3.7 kg</span>
                     </div>
                   </div>
                 </CardContent>
