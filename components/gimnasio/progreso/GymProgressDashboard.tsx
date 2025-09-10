@@ -99,7 +99,7 @@ type TabValue = 'overview' | 'weight' | 'measurements' | 'checkins' | 'photos';
 // Datos hardcodeados para el dashboard
 const clientData: ClientData = {
   name: "María González",
-  avatar: "https://images.unsplash.com/photo-1494790108755-2616b2e57004?w=150&h=150&fit=crop&crop=face",
+  avatar: "https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?w=150&h=150&fit=crop&crop=faces",
   goal: "Pérdida de peso",
   startDate: "15 Sep 2024",
   currentStreak: 12,
@@ -138,9 +138,9 @@ const goals: Goal[] = [
 
 const progressPhotos: ProgressPhoto[] = [
   { date: '15 Sep 2024', type: 'front', url: 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=200&h=300&fit=crop' },
-  { date: '15 Oct 2024', type: 'front', url: 'https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?w=200&h=300&fit=crop' },
-  { date: '15 Sep 2024', type: 'side', url: 'https://images.unsplash.com/photo-1594736797933-d0d3dc5ca0b8?w=200&h=300&fit=crop' },
-  { date: '15 Oct 2024', type: 'side', url: 'https://images.unsplash.com/photo-1594736797531-516da82d6c33?w=200&h=300&fit=crop' },
+  { date: '15 Oct 2024', type: 'front', url: 'https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=200&h=300&fit=crop' },
+  { date: '15 Sep 2024', type: 'side', url: 'https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?w=200&h=300&fit=crop' },
+  { date: '15 Oct 2024', type: 'side', url: 'https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?w=200&h=300&fit=crop' }
 ];
 
 export default function GymProgressDashboard() {
