@@ -6,31 +6,22 @@ import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Progress } from '@/components/ui/progress';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { 
   Plus, 
   Search, 
-  Filter,
   Play,
   Pause,
   RotateCcw,
-  Timer,
-  Target,
   Dumbbell,
   Users,
   Calendar,
   Clock,
-  Zap,
-  TrendingUp,
   Star,
   BookOpen,
   Copy,
   Edit,
-  MoreVertical,
-  Heart,
   Flame,
-  Award,
   CheckCircle,
   LucideIcon
 } from 'lucide-react';

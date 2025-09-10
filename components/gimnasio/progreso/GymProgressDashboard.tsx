@@ -18,15 +18,12 @@ import {
   Flame,
   Activity,
   Heart,
-  Battery,
   Moon,
   Droplets,
   Plus,
   Download,
   Share,
-  MoreVertical,
   Timer,
-  Users,
   Award,
   LucideIcon
 } from 'lucide-react';
