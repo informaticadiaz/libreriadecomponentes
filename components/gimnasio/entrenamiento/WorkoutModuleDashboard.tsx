@@ -25,7 +25,6 @@ import {
   CheckCircle,
   Zap,
   Target,
-  TrendingUp
 } from 'lucide-react';
 
 // Types
