@@ -20,13 +20,10 @@ import {
   Eye,
   MoreVertical,
   Users,
-  Target,
   Gift,
   Crown,
   Star,
-  Zap,
   Trophy,
-  Flame
 } from 'lucide-react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, BarChart, Bar, PieChart as RechartsPieChart, Cell } from 'recharts';
 
