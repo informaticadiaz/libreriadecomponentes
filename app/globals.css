@@ -1,6 +1,17 @@
 /* Importar Tailwind CSS 4 */
 @import "tailwindcss";
 
+@theme {
+  --color-background: 180 20% 98%;
+  --color-foreground: 220 15% 15%;
+  --color-primary: 142 76% 36%;         /* verde motivador */
+  --color-secondary: 15 86% 55%;        /* rojo energía */
+  --color-primary-foreground: 0 0% 100%;
+  --radius: 0.5rem;
+  --font-sans: "Inter", sans-serif;
+  --font-display: "Archivo Black", sans-serif;
+}
+
 /* Reset básico */
 *,
 *::before,
@@ -12,6 +23,8 @@ html {
   scroll-behavior: smooth;
 }
 
-body {
-  @apply font-sans antialiased;
+@layer base {
+  body {
+    @apply bg-[--color-background] text-[--color-foreground] font-[--font-sans];
+  }
 }
