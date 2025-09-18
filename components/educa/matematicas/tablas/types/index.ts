@@ -132,4 +132,4 @@ export interface I18nStrings {
 }
 
 // Definición base para importar
-declare const defaultI18n: I18nStrings;
+export declare const defaultI18n: I18nStrings;

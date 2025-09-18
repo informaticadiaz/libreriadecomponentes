@@ -1,17 +1,17 @@
 // components/learning/MultiplicationTablesTrainer.tsx
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Button } from '@/components/ui/button';
 import { Progress } from '@/components/ui/progress';
 import { Badge } from '@/components/ui/badge';
-import { ArrowLeft, Play, Pause, RotateCcw } from 'lucide-react';
+import { ArrowLeft, Play, Pause } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 // Types and utilities
 import type { TablesTrainerProps, Mode } from './types';
-import { defaultI18n, createI18n } from './i18n';
+import { createI18n } from './i18n';
 import { useTrainerState } from './hooks/useTrainerState';
 
 // UI Components
@@ -26,7 +26,6 @@ export const MultiplicationTablesTrainer = (props: TablesTrainerProps) => {
   const {
     minTable = 1,
     maxTable = 12,
-    defaultMode = 'explore',
     enableTimer = true,
     i18n: i18nOverride,
     className

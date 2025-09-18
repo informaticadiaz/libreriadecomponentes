@@ -14,7 +14,6 @@ import {
   loadProgress, 
   loadSettings, 
   saveSettings, 
-  updateTableProgress,
   updateMultipleTablesProgress,
   createEmptyProgress 
 } from '../storage';
@@ -57,7 +56,6 @@ interface UseTrainerStateReturn {
 export const useTrainerState = (props: TablesTrainerProps): UseTrainerStateReturn => {
   const {
     minTable = 1,
-    maxTable = 12,
     defaultMode = 'explore',
     defaultSelectedTables = [2, 3, 4],
     defaultQuestionCount = 10,

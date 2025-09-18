@@ -6,7 +6,7 @@ import { StatCard } from './StatCard';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
-import { Trophy, Target, Clock, Zap, RotateCcw, ArrowRight } from 'lucide-react';
+import { Target, Clock, Zap, RotateCcw, ArrowRight } from 'lucide-react';
 import type { QuizResult } from '../types';
 
 interface QuizResultsProps {
@@ -158,7 +158,7 @@ export const QuizResults = ({
           <div className="space-y-2">
             {result.questions
               .filter(q => !q.isCorrect)
-              .map((question, index) => (
+              .map((question) => (
                 <div key={question.id} className="flex items-center justify-between p-2 bg-red-50 border border-red-200 rounded">
                   <span className="text-sm">
                     {question.factor1} × {question.factor2} = {question.answer}

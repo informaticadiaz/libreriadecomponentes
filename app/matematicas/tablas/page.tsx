@@ -4,7 +4,6 @@
 import { useState } from 'react';
 import { MultiplicationTablesTrainer } from '@/components/educa/matematicas/tablas/MultiplicationTablesTrainer';
 import type { ProgressSnapshot } from '@/components/educa/matematicas/tablas/types';
-import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { BookOpen, Target, Trophy, Zap } from 'lucide-react';
