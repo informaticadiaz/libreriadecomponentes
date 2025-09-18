@@ -26,7 +26,7 @@ class ExerciseDBService {
   }
 
   // Agregar URLs de imagen a ejercicios
-  private addImageUrls(exercises: any[]): Exercise[] {
+  private addImageUrls(exercises: Exercise[]): Exercise[] {
     return exercises.map(exercise => ({
       ...exercise,
       imageUrl: this.getExerciseImageUrl(exercise.id, 720)
@@ -39,7 +39,7 @@ class ExerciseDBService {
         headers: this.headers
       });
       if (!response.ok) throw new Error('Failed to fetch exercises');
-      const data = await response.json();
+      const data = await response.json() as Exercise[];
       return this.addImageUrls(data);
     } catch (error) {
       console.error('Error fetching exercises:', error);
@@ -53,7 +53,7 @@ class ExerciseDBService {
         headers: this.headers
       });
       if (!response.ok) throw new Error('Failed to fetch exercises by body part');
-      const data = await response.json();
+      const data = await response.json() as Exercise[];
       return this.addImageUrls(data);
     } catch (error) {
       console.error('Error fetching exercises by body part:', error);
@@ -67,7 +67,7 @@ class ExerciseDBService {
         headers: this.headers
       });
       if (!response.ok) throw new Error('Failed to fetch exercises by equipment');
-      const data = await response.json();
+      const data = await response.json() as Exercise[];
       return this.addImageUrls(data);
     } catch (error) {
       console.error('Error fetching exercises by equipment:', error);
@@ -81,7 +81,7 @@ class ExerciseDBService {
         headers: this.headers
       });
       if (!response.ok) throw new Error('Failed to fetch exercises by target');
-      const data = await response.json();
+      const data = await response.json() as Exercise[];
       return this.addImageUrls(data);
     } catch (error) {
       console.error('Error fetching exercises by target:', error);

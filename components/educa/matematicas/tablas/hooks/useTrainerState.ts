@@ -15,7 +15,8 @@ import {
   loadSettings, 
   saveSettings, 
   updateMultipleTablesProgress,
-  createEmptyProgress 
+  createEmptyProgress,
+  resetProgress as resetStoredProgress
 } from '../storage';
 
 interface UseTrainerStateReturn {
@@ -340,7 +341,6 @@ export const useTrainerState = (props: TablesTrainerProps): UseTrainerStateRetur
 
   const resetProgressData = useCallback(() => {
     try {
-      const { resetProgress: resetStoredProgress } = require('../storage');
       resetStoredProgress();
       setProgress(createEmptyProgress());
       onProgressChange?.(createEmptyProgress());
