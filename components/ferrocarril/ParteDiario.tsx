@@ -118,10 +118,10 @@ const ComponenteParteDiario: React.FC<ParteDiarioProps> = ({
 
   const eliminarParte = (parteId: number): void => {
     if (confirm('¿Está seguro de eliminar este parte diario? Se restaurará el stock de los materiales.')) {
-      onEliminarParte && onEliminarParte(parteId);
+      onEliminarParte?.(parteId);
     }
   };
-
+  
   const handleInputChange = (field: keyof Omit<NuevoParteDiario, 'materiales'>) => 
     (e: FormChangeEvent): void => {
       const newValue = e.target.value;
