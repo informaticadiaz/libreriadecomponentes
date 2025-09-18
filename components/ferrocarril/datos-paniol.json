@@ -1,0 +1,1145 @@
+{
+    "materiales": [
+      {
+        "id": "Automaticos_3000012663",
+        "codigo": "3000012663",
+        "descripcion": "LLAVE TERMICA 1108 CC20 CPL 395797",
+        "categoria": "Automaticos",
+        "stock": 0
+      },
+      {
+        "id": "Automaticos_3000012547",
+        "codigo": "3000012547",
+        "descripcion": "INTERRUPTOR TERMOMAGNETICO BIPOLAR 10 A",
+        "categoria": "Automaticos",
+        "stock": 21
+      },
+      {
+        "id": "Automaticos_3000012552",
+        "codigo": "3000012552",
+        "descripcion": "INTERRUPTOR TERMOMAGNETICO BIPOLAR 15 A",
+        "categoria": "Automaticos",
+        "stock": 8
+      },
+      {
+        "id": "Automaticos_3000012550",
+        "codigo": "3000012550",
+        "descripcion": "INT TERM 2P 16A",
+        "categoria": "Automaticos",
+        "stock": 30
+      },
+      {
+        "id": "Automaticos_3000012556",
+        "codigo": "3000012556",
+        "descripcion": "INT TERM 2P 20A 230/400V C",
+        "categoria": "Automaticos",
+        "stock": 30
+      },
+      {
+        "id": "Automaticos_3000012558",
+        "codigo": "3000012558",
+        "descripcion": "INT TERM 2P 25A",
+        "categoria": "Automaticos",
+        "stock": 15
+      },
+      {
+        "id": "Automaticos_3000012560",
+        "codigo": "3000012560",
+        "descripcion": "INT TERM 2P 32A",
+        "categoria": "Automaticos",
+        "stock": 12
+      },
+      {
+        "id": "Automaticos_3000012565",
+        "codigo": "3000012565",
+        "descripcion": "INT TERM 2P 40A",
+        "categoria": "Automaticos",
+        "stock": 8
+      },
+      {
+        "id": "Automaticos_3000012570",
+        "codigo": "3000012570",
+        "descripcion": "INT TERM 2P 50A",
+        "categoria": "Automaticos",
+        "stock": 6
+      },
+      {
+        "id": "Automaticos_3000012575",
+        "codigo": "3000012575",
+        "descripcion": "INT TERM 2P 63A",
+        "categoria": "Automaticos",
+        "stock": 4
+      },
+      {
+        "id": "Automaticos_3000012580",
+        "codigo": "3000012580",
+        "descripcion": "INT TERM 3P 16A",
+        "categoria": "Automaticos",
+        "stock": 25
+      },
+      {
+        "id": "Automaticos_3000012585",
+        "codigo": "3000012585",
+        "descripcion": "INT TERM 3P 20A",
+        "categoria": "Automaticos",
+        "stock": 18
+      },
+      {
+        "id": "Automaticos_3000012590",
+        "codigo": "3000012590",
+        "descripcion": "INT TERM 3P 25A",
+        "categoria": "Automaticos",
+        "stock": 15
+      },
+      {
+        "id": "Automaticos_3000012595",
+        "codigo": "3000012595",
+        "descripcion": "INT TERM 3P 32A",
+        "categoria": "Automaticos",
+        "stock": 10
+      },
+      {
+        "id": "Automaticos_3000012600",
+        "codigo": "3000012600",
+        "descripcion": "INT TERM 3P 40A",
+        "categoria": "Automaticos",
+        "stock": 8
+      },
+      {
+        "id": "Automaticos_3000012605",
+        "codigo": "3000012605",
+        "descripcion": "INT TERM 3P 50A",
+        "categoria": "Automaticos",
+        "stock": 6
+      },
+      {
+        "id": "Automaticos_3000012610",
+        "codigo": "3000012610",
+        "descripcion": "INT TERM 3P 63A",
+        "categoria": "Automaticos",
+        "stock": 4
+      },
+      {
+        "id": "Automaticos_3000012615",
+        "codigo": "3000012615",
+        "descripcion": "CONTACTOR 3P 16A 220V",
+        "categoria": "Automaticos",
+        "stock": 12
+      },
+      {
+        "id": "Automaticos_3000012620",
+        "codigo": "3000012620",
+        "descripcion": "CONTACTOR 3P 25A 220V",
+        "categoria": "Automaticos",
+        "stock": 8
+      },
+      {
+        "id": "Automaticos_3000012625",
+        "codigo": "3000012625",
+        "descripcion": "CONTACTOR 3P 32A 220V",
+        "categoria": "Automaticos",
+        "stock": 6
+      },
+      {
+        "id": "Automaticos_3000012630",
+        "codigo": "3000012630",
+        "descripcion": "RELE TERMICO 7-10A",
+        "categoria": "Automaticos",
+        "stock": 10
+      },
+      {
+        "id": "Automaticos_3000012635",
+        "codigo": "3000012635",
+        "descripcion": "RELE TERMICO 10-16A",
+        "categoria": "Automaticos",
+        "stock": 8
+      },
+      {
+        "id": "Automaticos_3000012640",
+        "codigo": "3000012640",
+        "descripcion": "RELE TERMICO 16-25A",
+        "categoria": "Automaticos",
+        "stock": 6
+      },
+      {
+        "id": "Automaticos_3000012645",
+        "codigo": "3000012645",
+        "descripcion": "FUSIBLE NH 25A",
+        "categoria": "Automaticos",
+        "stock": 20
+      },
+      {
+        "id": "Automaticos_3000012650",
+        "codigo": "3000012650",
+        "descripcion": "FUSIBLE NH 35A",
+        "categoria": "Automaticos",
+        "stock": 15
+      },
+      {
+        "id": "Artefacto.ilum_3000015100",
+        "codigo": "3000015100",
+        "descripcion": "LUMINARIA HERMETIC 2X36W C/TUBO",
+        "categoria": "Artefacto.ilum",
+        "stock": 8
+      },
+      {
+        "id": "Artefacto.ilum_3000015105",
+        "codigo": "3000015105",
+        "descripcion": "LUMINARIA ESTANCA 2X18W LED",
+        "categoria": "Artefacto.ilum",
+        "stock": 12
+      },
+      {
+        "id": "Artefacto.ilum_3000015110",
+        "codigo": "3000015110",
+        "descripcion": "REFLECTOR LED 50W IP65",
+        "categoria": "Artefacto.ilum",
+        "stock": 15
+      },
+      {
+        "id": "Artefacto.ilum_3000015115",
+        "codigo": "3000015115",
+        "descripcion": "REFLECTOR LED 100W IP65",
+        "categoria": "Artefacto.ilum",
+        "stock": 10
+      },
+      {
+        "id": "Artefacto.ilum_3000015120",
+        "codigo": "3000015120",
+        "descripcion": "REFLECTOR LED 150W IP65",
+        "categoria": "Artefacto.ilum",
+        "stock": 6
+      },
+      {
+        "id": "Artefacto.ilum_3000015125",
+        "codigo": "3000015125",
+        "descripcion": "LAMPARA EMERGENCIA LED 30W",
+        "categoria": "Artefacto.ilum",
+        "stock": 8
+      },
+      {
+        "id": "Artefacto.ilum_3000015130",
+        "codigo": "3000015130",
+        "descripcion": "LUMINARIA DECORATIVA P/ANDEN",
+        "categoria": "Artefacto.ilum",
+        "stock": 4
+      },
+      {
+        "id": "Tomas_3000018450",
+        "codigo": "3000018450",
+        "descripcion": "TOMA CORRIENTE 2P+T 10A 250V",
+        "categoria": "Tomas",
+        "stock": 25
+      },
+      {
+        "id": "Tomas_3000018455",
+        "codigo": "3000018455",
+        "descripcion": "TOMA CORRIENTE 2P+T 20A 250V",
+        "categoria": "Tomas",
+        "stock": 18
+      },
+      {
+        "id": "Tomas_3000018460",
+        "codigo": "3000018460",
+        "descripcion": "TOMA INDUSTRIAL 3P+T 16A 380V",
+        "categoria": "Tomas",
+        "stock": 12
+      },
+      {
+        "id": "Tomas_3000018465",
+        "codigo": "3000018465",
+        "descripcion": "TOMA INDUSTRIAL 3P+T 32A 380V",
+        "categoria": "Tomas",
+        "stock": 8
+      },
+      {
+        "id": "Tomas_3000018470",
+        "codigo": "3000018470",
+        "descripcion": "FICHA 2P+T 10A 250V",
+        "categoria": "Tomas",
+        "stock": 30
+      },
+      {
+        "id": "Tomas_3000018475",
+        "codigo": "3000018475",
+        "descripcion": "FICHA 2P+T 20A 250V",
+        "categoria": "Tomas",
+        "stock": 20
+      },
+      {
+        "id": "Tomas_3000018480",
+        "codigo": "3000018480",
+        "descripcion": "FICHA INDUSTRIAL 3P+T 16A",
+        "categoria": "Tomas",
+        "stock": 15
+      },
+      {
+        "id": "Tomas_3000018485",
+        "codigo": "3000018485",
+        "descripcion": "FICHA INDUSTRIAL 3P+T 32A",
+        "categoria": "Tomas",
+        "stock": 10
+      },
+      {
+        "id": "Cables_3000013200",
+        "codigo": "3000013200",
+        "descripcion": "CABLE UNIPOLAR 1,5MM2 VERDE-AMARILLO",
+        "categoria": "Cables",
+        "stock": 100
+      },
+      {
+        "id": "Cables_3000013205",
+        "codigo": "3000013205",
+        "descripcion": "CABLE UNIPOLAR 1,5MM2 AZUL",
+        "categoria": "Cables",
+        "stock": 80
+      },
+      {
+        "id": "Cables_3000013210",
+        "codigo": "3000013210",
+        "descripcion": "CABLE UNIPOLAR 1,5MM2 MARRON",
+        "categoria": "Cables",
+        "stock": 75
+      },
+      {
+        "id": "Cables_3000013215",
+        "codigo": "3000013215",
+        "descripcion": "CABLE UNIPOLAR 1,5MM2 NEGRO",
+        "categoria": "Cables",
+        "stock": 90
+      },
+      {
+        "id": "Cables_3000013220",
+        "codigo": "3000013220",
+        "descripcion": "CABLE UNIPOLAR 1,5MM2 ROJO",
+        "categoria": "Cables",
+        "stock": 85
+      },
+      {
+        "id": "Cables_3000013225",
+        "codigo": "3000013225",
+        "descripcion": "CABLE UNIPOLAR 2,5MM2 VERDE-AMARILLO",
+        "categoria": "Cables",
+        "stock": 60
+      },
+      {
+        "id": "Cables_3000013230",
+        "codigo": "3000013230",
+        "descripcion": "CABLE UNIPOLAR 2,5MM2 AZUL",
+        "categoria": "Cables",
+        "stock": 55
+      },
+      {
+        "id": "Cables_3000013235",
+        "codigo": "3000013235",
+        "descripcion": "CABLE UNIPOLAR 2,5MM2 MARRON",
+        "categoria": "Cables",
+        "stock": 50
+      },
+      {
+        "id": "Cables_3000013240",
+        "codigo": "3000013240",
+        "descripcion": "CABLE UNIPOLAR 2,5MM2 NEGRO",
+        "categoria": "Cables",
+        "stock": 65
+      },
+      {
+        "id": "Cables_3000013245",
+        "codigo": "3000013245",
+        "descripcion": "CABLE UNIPOLAR 2,5MM2 ROJO",
+        "categoria": "Cables",
+        "stock": 60
+      },
+      {
+        "id": "Cables_3000013250",
+        "codigo": "3000013250",
+        "descripcion": "CABLE UNIPOLAR 4MM2 VERDE-AMARILLO",
+        "categoria": "Cables",
+        "stock": 40
+      },
+      {
+        "id": "Cables_3000013255",
+        "codigo": "3000013255",
+        "descripcion": "CABLE UNIPOLAR 4MM2 AZUL",
+        "categoria": "Cables",
+        "stock": 35
+      },
+      {
+        "id": "Cables_3000013260",
+        "codigo": "3000013260",
+        "descripcion": "CABLE UNIPOLAR 4MM2 MARRON",
+        "categoria": "Cables",
+        "stock": 30
+      },
+      {
+        "id": "Cables_3000013265",
+        "codigo": "3000013265",
+        "descripcion": "CABLE UNIPOLAR 4MM2 NEGRO",
+        "categoria": "Cables",
+        "stock": 45
+      },
+      {
+        "id": "Cables_3000013270",
+        "codigo": "3000013270",
+        "descripcion": "CABLE UNIPOLAR 6MM2 VERDE-AMARILLO",
+        "categoria": "Cables",
+        "stock": 25
+      },
+      {
+        "id": "Cables_3000013275",
+        "codigo": "3000013275",
+        "descripcion": "CABLE UNIPOLAR 6MM2 NEGRO",
+        "categoria": "Cables",
+        "stock": 30
+      },
+      {
+        "id": "Cables_3000013280",
+        "codigo": "3000013280",
+        "descripcion": "CABLE TALLER 3X2,5MM2",
+        "categoria": "Cables",
+        "stock": 20
+      },
+      {
+        "id": "Cables_3000013285",
+        "codigo": "3000013285",
+        "descripcion": "CABLE TALLER 3X4MM2",
+        "categoria": "Cables",
+        "stock": 15
+      },
+      {
+        "id": "Cables_3000013290",
+        "codigo": "3000013290",
+        "descripcion": "CABLE SUBTERRANEO 3X6MM2",
+        "categoria": "Cables",
+        "stock": 12
+      },
+      {
+        "id": "Cables_3000013295",
+        "codigo": "3000013295",
+        "descripcion": "CABLE SUBTERRANEO 3X10MM2",
+        "categoria": "Cables",
+        "stock": 8
+      },
+      {
+        "id": "Ilum_3000016100",
+        "codigo": "3000016100",
+        "descripcion": "TUBO LED T8 18W 120CM LUZ FRIA",
+        "categoria": "Ilum.",
+        "stock": 50
+      },
+      {
+        "id": "Ilum_3000016105",
+        "codigo": "3000016105",
+        "descripcion": "TUBO LED T8 18W 120CM LUZ CALIDA",
+        "categoria": "Ilum.",
+        "stock": 30
+      },
+      {
+        "id": "Ilum_3000016110",
+        "codigo": "3000016110",
+        "descripcion": "TUBO LED T8 36W 120CM LUZ FRIA",
+        "categoria": "Ilum.",
+        "stock": 40
+      },
+      {
+        "id": "Ilum_3000016115",
+        "codigo": "3000016115",
+        "descripcion": "LAMPARA LED BULBO 9W E27",
+        "categoria": "Ilum.",
+        "stock": 25
+      },
+      {
+        "id": "Ilum_3000016120",
+        "codigo": "3000016120",
+        "descripcion": "LAMPARA LED BULBO 12W E27",
+        "categoria": "Ilum.",
+        "stock": 20
+      },
+      {
+        "id": "Ilum_3000016125",
+        "codigo": "3000016125",
+        "descripcion": "LAMPARA LED BULBO 15W E27",
+        "categoria": "Ilum.",
+        "stock": 18
+      },
+      {
+        "id": "Tornillos_3000023200",
+        "codigo": "3000023200",
+        "descripcion": "TORNILLO HEXAGONAL M6X20 ZINCADO",
+        "categoria": "Tornillos",
+        "stock": 100
+      },
+      {
+        "id": "Tornillos_3000023205",
+        "codigo": "3000023205",
+        "descripcion": "TORNILLO HEXAGONAL M8X25 ZINCADO",
+        "categoria": "Tornillos",
+        "stock": 80
+      },
+      {
+        "id": "Tornillos_3000023210",
+        "codigo": "3000023210",
+        "descripcion": "TORNILLO HEXAGONAL M10X30 ZINCADO",
+        "categoria": "Tornillos",
+        "stock": 60
+      },
+      {
+        "id": "Tornillos_3000023215",
+        "codigo": "3000023215",
+        "descripcion": "TORNILLO HEXAGONAL M12X40 ZINCADO",
+        "categoria": "Tornillos",
+        "stock": 50
+      },
+      {
+        "id": "Tornillos_3000023220",
+        "codigo": "3000023220",
+        "descripcion": "TUERCA HEXAGONAL M6 ZINCADA",
+        "categoria": "Tornillos",
+        "stock": 150
+      },
+      {
+        "id": "Tornillos_3000023225",
+        "codigo": "3000023225",
+        "descripcion": "TUERCA HEXAGONAL M8 ZINCADA",
+        "categoria": "Tornillos",
+        "stock": 120
+      },
+      {
+        "id": "Tornillos_3000023230",
+        "codigo": "3000023230",
+        "descripcion": "TUERCA HEXAGONAL M10 ZINCADA",
+        "categoria": "Tornillos",
+        "stock": 100
+      },
+      {
+        "id": "Tornillos_3000023235",
+        "codigo": "3000023235",
+        "descripcion": "ARANDELA PLANA M6 ZINCADA",
+        "categoria": "Tornillos",
+        "stock": 200
+      },
+      {
+        "id": "Tornillos_3000023240",
+        "codigo": "3000023240",
+        "descripcion": "ARANDELA PLANA M8 ZINCADA",
+        "categoria": "Tornillos",
+        "stock": 150
+      },
+      {
+        "id": "Tornillos_3000023245",
+        "codigo": "3000023245",
+        "descripcion": "ARANDELA GROWER M6",
+        "categoria": "Tornillos",
+        "stock": 180
+      },
+      {
+        "id": "Galvanizados_3000025100",
+        "codigo": "3000025100",
+        "descripcion": "CAÑO GALVANIZADO 1/2 PULG X 3MTS",
+        "categoria": "Galvanizados",
+        "stock": 25
+      },
+      {
+        "id": "Galvanizados_3000025105",
+        "codigo": "3000025105",
+        "descripcion": "CAÑO GALVANIZADO 3/4 PULG X 3MTS",
+        "categoria": "Galvanizados",
+        "stock": 20
+      },
+      {
+        "id": "Galvanizados_3000025110",
+        "codigo": "3000025110",
+        "descripcion": "CAÑO GALVANIZADO 1 PULG X 3MTS",
+        "categoria": "Galvanizados",
+        "stock": 15
+      },
+      {
+        "id": "Galvanizados_3000025115",
+        "codigo": "3000025115",
+        "descripcion": "CODO GALVANIZADO 1/2 PULG 90°",
+        "categoria": "Galvanizados",
+        "stock": 40
+      },
+      {
+        "id": "Galvanizados_3000025120",
+        "codigo": "3000025120",
+        "descripcion": "CODO GALVANIZADO 3/4 PULG 90°",
+        "categoria": "Galvanizados",
+        "stock": 35
+      },
+      {
+        "id": "Galvanizados_3000025125",
+        "codigo": "3000025125",
+        "descripcion": "CODO GALVANIZADO 1 PULG 90°",
+        "categoria": "Galvanizados",
+        "stock": 25
+      },
+      {
+        "id": "Galvanizados_3000025130",
+        "codigo": "3000025130",
+        "descripcion": "TE GALVANIZADO 1/2 PULG",
+        "categoria": "Galvanizados",
+        "stock": 30
+      },
+      {
+        "id": "Galvanizados_3000025135",
+        "codigo": "3000025135",
+        "descripcion": "TE GALVANIZADO 3/4 PULG",
+        "categoria": "Galvanizados",
+        "stock": 25
+      },
+      {
+        "id": "Galvanizados_3000025140",
+        "codigo": "3000025140",
+        "descripcion": "CUPLA GALVANIZADA 1/2 PULG",
+        "categoria": "Galvanizados",
+        "stock": 50
+      },
+      {
+        "id": "Hierro_3000024100",
+        "codigo": "3000024100",
+        "descripcion": "HIERRO ANGULAR 25X25X3MM X 6MTS",
+        "categoria": "Hierro",
+        "stock": 12
+      },
+      {
+        "id": "Hierro_3000024105",
+        "codigo": "3000024105",
+        "descripcion": "HIERRO ANGULAR 30X30X3MM X 6MTS",
+        "categoria": "Hierro",
+        "stock": 10
+      },
+      {
+        "id": "Hierro_3000024110",
+        "codigo": "3000024110",
+        "descripcion": "HIERRO ANGULAR 40X40X4MM X 6MTS",
+        "categoria": "Hierro",
+        "stock": 8
+      },
+      {
+        "id": "Hierro_3000024115",
+        "codigo": "3000024115",
+        "descripcion": "CHAPA LISA 1,6MM",
+        "categoria": "Hierro",
+        "stock": 6
+      },
+      {
+        "id": "Hierro_3000024120",
+        "codigo": "3000024120",
+        "descripcion": "CHAPA LISA 2MM",
+        "categoria": "Hierro",
+        "stock": 4
+      },
+      {
+        "id": "Complem_3000027100",
+        "codigo": "3000027100",
+        "descripcion": "BORNERA 2,5MM2 PARA RIEL DIN",
+        "categoria": "Complem.",
+        "stock": 50
+      },
+      {
+        "id": "Complem_3000027105",
+        "codigo": "3000027105",
+        "descripcion": "BORNERA 4MM2 PARA RIEL DIN",
+        "categoria": "Complem.",
+        "stock": 40
+      },
+      {
+        "id": "Complem_3000027110",
+        "codigo": "3000027110",
+        "descripcion": "BORNERA 6MM2 PARA RIEL DIN",
+        "categoria": "Complem.",
+        "stock": 30
+      },
+      {
+        "id": "Complem_3000027115",
+        "codigo": "3000027115",
+        "descripcion": "RIEL DIN 35MM X 2MTS",
+        "categoria": "Complem.",
+        "stock": 25
+      },
+      {
+        "id": "Complem_3000027120",
+        "codigo": "3000027120",
+        "descripcion": "PRENSA CABLE PG11",
+        "categoria": "Complem.",
+        "stock": 35
+      },
+      {
+        "id": "Complem_3000027125",
+        "codigo": "3000027125",
+        "descripcion": "PRENSA CABLE PG13.5",
+        "categoria": "Complem.",
+        "stock": 30
+      },
+      {
+        "id": "Complem_3000027130",
+        "codigo": "3000027130",
+        "descripcion": "CINTA AISLANTE PVC 19MM NEGRA",
+        "categoria": "Complem.",
+        "stock": 60
+      },
+      {
+        "id": "Complem_3000027135",
+        "codigo": "3000027135",
+        "descripcion": "TERMINAL AISLADO 2,5MM2",
+        "categoria": "Complem.",
+        "stock": 100
+      },
+      {
+        "id": "Tableros_3000020100",
+        "codigo": "3000020100",
+        "descripcion": "TABLERO METALICO 300X400X200 IP65",
+        "categoria": "Tableros",
+        "stock": 8
+      },
+      {
+        "id": "Tableros_3000020105",
+        "codigo": "3000020105",
+        "descripcion": "TABLERO METALICO 400X600X200 IP65",
+        "categoria": "Tableros",
+        "stock": 6
+      },
+      {
+        "id": "Tableros_3000020110",
+        "codigo": "3000020110",
+        "descripcion": "TABLERO METALICO 600X800X300 IP65",
+        "categoria": "Tableros",
+        "stock": 4
+      },
+      {
+        "id": "Tableros_3000020115",
+        "codigo": "3000020115",
+        "descripcion": "CAJA DERIVACION ESTANCA 100X100",
+        "categoria": "Tableros",
+        "stock": 15
+      },
+      {
+        "id": "Tableros_3000020120",
+        "codigo": "3000020120",
+        "descripcion": "CAJA DERIVACION ESTANCA 150X150",
+        "categoria": "Tableros",
+        "stock": 12
+      },
+      {
+        "id": "Corrug.PVC_3000026100",
+        "codigo": "3000026100",
+        "descripcion": "CAÑO CORRUGADO 16MM NEGRO X 25MTS",
+        "categoria": "Corrug.PVC",
+        "stock": 20
+      },
+      {
+        "id": "Corrug.PVC_3000026105",
+        "codigo": "3000026105",
+        "descripcion": "CAÑO CORRUGADO 20MM NEGRO X 25MTS",
+        "categoria": "Corrug.PVC",
+        "stock": 18
+      },
+      {
+        "id": "Corrug.PVC_3000026110",
+        "codigo": "3000026110",
+        "descripcion": "CAÑO CORRUGADO 25MM NEGRO X 25MTS",
+        "categoria": "Corrug.PVC",
+        "stock": 15
+      },
+      {
+        "id": "Corrug.PVC_3000026115",
+        "codigo": "3000026115",
+        "descripcion": "CAÑO CORRUGADO 32MM NEGRO X 25MTS",
+        "categoria": "Corrug.PVC",
+        "stock": 12
+      },
+      {
+        "id": "Bandejas_3000028100",
+        "codigo": "3000028100",
+        "descripcion": "BANDEJA PORTACABLES 100MM GALVANIZADA",
+        "categoria": "Bandejas",
+        "stock": 10
+      },
+      {
+        "id": "Bandejas_3000028105",
+        "codigo": "3000028105",
+        "descripcion": "BANDEJA PORTACABLES 200MM GALVANIZADA",
+        "categoria": "Bandejas",
+        "stock": 8
+      },
+      {
+        "id": "Bandejas_3000028110",
+        "codigo": "3000028110",
+        "descripcion": "BANDEJA PORTACABLES 300MM GALVANIZADA",
+        "categoria": "Bandejas",
+        "stock": 6
+      },
+      {
+        "id": "Bandejas_3000028115",
+        "codigo": "3000028115",
+        "descripcion": "SOPORTE BANDEJA UNIVERSAL",
+        "categoria": "Bandejas",
+        "stock": 25
+      },
+      {
+        "id": "Bandejas_3000028120",
+        "codigo": "3000028120",
+        "descripcion": "CURVA BANDEJA 90° 100MM",
+        "categoria": "Bandejas",
+        "stock": 12
+      },
+      {
+        "id": "Ilum.2_3000017100",
+        "codigo": "3000017100",
+        "descripcion": "BALASTO ELECTRONICO 2X18W",
+        "categoria": "Ilum.2",
+        "stock": 15
+      },
+      {
+        "id": "Ilum.2_3000017105",
+        "codigo": "3000017105",
+        "descripcion": "BALASTO ELECTRONICO 2X36W",
+        "categoria": "Ilum.2",
+        "stock": 12
+      },
+      {
+        "id": "Ilum.2_3000017110",
+        "codigo": "3000017110",
+        "descripcion": "CAPACITOR 5UF 440V",
+        "categoria": "Ilum.2",
+        "stock": 20
+      },
+      {
+        "id": "Ilum.2_3000017115",
+        "codigo": "3000017115",
+        "descripcion": "CAPACITOR 8UF 440V",
+        "categoria": "Ilum.2",
+        "stock": 18
+      },
+      {
+        "id": "Ilum.2_3000017120",
+        "codigo": "3000017120",
+        "descripcion": "REACTOR 18W",
+        "categoria": "Ilum.2",
+        "stock": 25
+      },
+      {
+        "id": "Ilum.2_3000017125",
+        "codigo": "3000017125",
+        "descripcion": "REACTOR 36W",
+        "categoria": "Ilum.2",
+        "stock": 20
+      },
+      {
+        "id": "Ilum.2_3000017130",
+        "codigo": "3000017130",
+        "descripcion": "CEBADOR 4-65W",
+        "categoria": "Ilum.2",
+        "stock": 40
+      },
+      {
+        "id": "Ilum.2_3000017135",
+        "codigo": "3000017135",
+        "descripcion": "PORTALAMPARA E27 PLASTICO",
+        "categoria": "Ilum.2",
+        "stock": 30
+      }
+    ],
+    "configuracion": {
+      "bases": [
+        {
+          "id": 1,
+          "nombre": "T.M. Berazategui",
+          "codigo": "TMB",
+          "descripcion": "Taller Móvil Berazategui"
+        },
+        {
+          "id": 2,
+          "nombre": "T.M. Varela",
+          "codigo": "TMV",
+          "descripcion": "Taller Móvil Varela"
+        },
+        {
+          "id": 3,
+          "nombre": "T.M. Tolosa",
+          "codigo": "TMT",
+          "descripcion": "Taller Móvil Tolosa"
+        },
+        {
+          "id": 4,
+          "nombre": "T.T. Berazategui",
+          "codigo": "TTB",
+          "descripcion": "Taller Terminal Berazategui"
+        }
+      ],
+      "estaciones": [
+        {
+          "id": 1,
+          "nombre": "Berazategui",
+          "linea": "Roca",
+          "km": 23.8
+        },
+        {
+          "id": 2,
+          "nombre": "Ezpeleta",
+          "linea": "Roca",
+          "km": 19.4
+        },
+        {
+          "id": 3,
+          "nombre": "Bosques",
+          "linea": "Roca",
+          "km": 30.2
+        },
+        {
+          "id": 4,
+          "nombre": "Tolosa",
+          "linea": "Roca",
+          "km": 56.7
+        },
+        {
+          "id": 5,
+          "nombre": "Villa Elisa",
+          "linea": "Roca",
+          "km": 59.1
+        },
+        {
+          "id": 6,
+          "nombre": "City Bell",
+          "linea": "Roca",
+          "km": 52.3
+        },
+        {
+          "id": 7,
+          "nombre": "Gonnet",
+          "linea": "Roca",
+          "km": 49.8
+        },
+        {
+          "id": 8,
+          "nombre": "Ringuelet",
+          "linea": "Roca",
+          "km": 47.2
+        },
+        {
+          "id": 9,
+          "nombre": "La Plata",
+          "linea": "Roca",
+          "km": 59.8
+        },
+        {
+          "id": 10,
+          "nombre": "Varela",
+          "linea": "Roca",
+          "km": 27.5
+        },
+        {
+          "id": 11,
+          "nombre": "Claypole",
+          "linea": "Roca",
+          "km": 32.1
+        },
+        {
+          "id": 12,
+          "nombre": "Burzaco",
+          "linea": "Roca",
+          "km": 28.9
+        },
+        {
+          "id": 13,
+          "nombre": "Temperley",
+          "linea": "Roca",
+          "km": 17.8
+        },
+        {
+          "id": 14,
+          "nombre": "Lomas de Zamora",
+          "linea": "Roca",
+          "km": 15.2
+        },
+        {
+          "id": 15,
+          "nombre": "Banfield",
+          "linea": "Roca",
+          "km": 21.3
+        },
+        {
+          "id": 16,
+          "nombre": "Remedios de Escalada",
+          "linea": "Roca",
+          "km": 12.8
+        },
+        {
+          "id": 17,
+          "nombre": "Lanús",
+          "linea": "Roca",
+          "km": 10.2
+        },
+        {
+          "id": 18,
+          "nombre": "Gerli",
+          "linea": "Roca",
+          "km": 8.9
+        }
+      ],
+      "encargados": [
+        {
+          "id": 1,
+          "apellido": "Molina",
+          "nombre": "Juan Carlos",
+          "legajo": "12345"
+        },
+        {
+          "id": 2,
+          "apellido": "Sanchez",
+          "nombre": "Carlos Alberto",
+          "legajo": "12346"
+        },
+        {
+          "id": 3,
+          "apellido": "Esquivel",
+          "nombre": "Roberto Daniel",
+          "legajo": "12347"
+        },
+        {
+          "id": 4,
+          "apellido": "Rodriguez",
+          "nombre": "Miguel Angel",
+          "legajo": "12348"
+        },
+        {
+          "id": 5,
+          "apellido": "Garcia",
+          "nombre": "Fernando Luis",
+          "legajo": "12349"
+        },
+        {
+          "id": 6,
+          "apellido": "Lopez",
+          "nombre": "Diego Armando",
+          "legajo": "12350"
+        },
+        {
+          "id": 7,
+          "apellido": "Martinez",
+          "nombre": "Pablo Cesar",
+          "legajo": "12351"
+        },
+        {
+          "id": 8,
+          "apellido": "Perez",
+          "nombre": "Gustavo Adrian",
+          "legajo": "12352"
+        },
+        {
+          "id": 9,
+          "apellido": "Gonzalez",
+          "nombre": "Sergio Daniel",
+          "legajo": "12353"
+        },
+        {
+          "id": 10,
+          "apellido": "Fernandez",
+          "nombre": "Ricardo Oscar",
+          "legajo": "12354"
+        },
+        {
+          "id": 11,
+          "apellido": "Gutierrez",
+          "nombre": "Mario Enrique",
+          "legajo": "12355"
+        },
+        {
+          "id": 12,
+          "apellido": "Romero",
+          "nombre": "Oscar Daniel",
+          "legajo": "12356"
+        }
+      ],
+      "categorias": [
+        {
+          "id": 1,
+          "nombre": "Automaticos",
+          "descripcion": "Interruptores termomagnéticos, llaves térmicas, contactores"
+        },
+        {
+          "id": 2,
+          "nombre": "Artefacto.ilum",
+          "descripcion": "Artefactos de iluminación, reflectores, lámparas"
+        },
+        {
+          "id": 3,
+          "nombre": "Tomas",
+          "descripcion": "Tomacorrientes, fichas, enchufes"
+        },
+        {
+          "id": 4,
+          "nombre": "Cables",
+          "descripcion": "Cables eléctricos, conductores, multiconductores"
+        },
+        {
+          "id": 5,
+          "nombre": "Ilum.",
+          "descripcion": "Tubos fluorescentes, LED, balastos"
+        },
+        {
+          "id": 6,
+          "nombre": "Ilum.2",
+          "descripcion": "Complementos de iluminación, reactores, capacitores"
+        },
+        {
+          "id": 7,
+          "nombre": "Tornillos",
+          "descripcion": "Tornillería, bulones, arandelas, tuercas"
+        },
+        {
+          "id": 8,
+          "nombre": "Hierro",
+          "descripcion": "Hierros angulares, chapas, perfiles"
+        },
+        {
+          "id": 9,
+          "nombre": "Galvanizados",
+          "descripcion": "Caños galvanizados, codos, tes, cuplas"
+        },
+        {
+          "id": 10,
+          "nombre": "Complem.",
+          "descripcion": "Complementos eléctricos varios"
+        },
+        {
+          "id": 11,
+          "nombre": "Tableros",
+          "descripcion": "Tableros eléctricos, gabinetes, cajas"
+        },
+        {
+          "id": 12,
+          "nombre": "Corrug.PVC",
+          "descripcion": "Caños corrugados, flexibles PVC"
+        },
+        {
+          "id": 13,
+          "nombre": "Bandejas",
+          "descripcion": "Bandejas portacables, soportes, accesorios"
+        }
+      ]
+    },
+    "configuracion_sistema": {
+      "nombre_sistema": "Sistema Pañol Eléctrico Ferroviario",
+      "version": "1.0.0",
+      "ubicacion": "Berazategui, Buenos Aires",
+      "empresa": "Trenes Argentinos",
+      "fecha_implementacion": "2025-09-18",
+      "alertas": {
+        "stock_minimo": 5,
+        "stock_critico": 0,
+        "dias_parte_diario": 30
+      },
+      "reportes": {
+        "formatos_exportacion": ["PDF", "Excel", "CSV"],
+        "tipos_reporte": [
+          "Parte Diario",
+          "Consumo Mensual", 
+          "Stock Crítico",
+          "Movimientos por Encargado",
+          "Materiales por Estación"
+        ]
+      }
+    }
+  }
