@@ -847,135 +847,205 @@
           "id": 1,
           "nombre": "T.M. Berazategui",
           "codigo": "TMB",
-          "descripcion": "Taller Móvil Berazategui"
+          "descripcion": "Taller Móvil Berazategui",
+          "estaciones_dependientes": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19]
         },
         {
           "id": 2,
           "nombre": "T.M. Varela",
           "codigo": "TMV",
-          "descripcion": "Taller Móvil Varela"
+          "descripcion": "Taller Móvil Varela",
+          "estaciones_dependientes": [20, 21, 22, 23, 24, 25, 26]
         },
         {
           "id": 3,
           "nombre": "T.M. Tolosa",
           "codigo": "TMT",
-          "descripcion": "Taller Móvil Tolosa"
+          "descripcion": "Taller Móvil Tolosa",
+          "estaciones_dependientes": [27, 28, 29]
         },
         {
           "id": 4,
           "nombre": "T.T. Berazategui",
           "codigo": "TTB",
-          "descripcion": "Taller Terminal Berazategui"
+          "descripcion": "Taller Terminal Berazategui",
+          "estaciones_dependientes": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29]
         }
       ],
       "estaciones": [
         {
           "id": 1,
-          "nombre": "Berazategui",
+          "nombre": "Sarandi",
           "linea": "Roca",
-          "km": 23.8
+          "km": 8.5
         },
         {
           "id": 2,
+          "nombre": "Villa Dominico",
+          "linea": "Roca",
+          "km": 10.2
+        },
+        {
+          "id": 3,
+          "nombre": "Wilde",
+          "linea": "Roca",
+          "km": 12.1
+        },
+        {
+          "id": 4,
+          "nombre": "Don Bosco",
+          "linea": "Roca",
+          "km": 13.8
+        },
+        {
+          "id": 5,
+          "nombre": "Bernal",
+          "linea": "Roca",
+          "km": 15.6
+        },
+        {
+          "id": 6,
+          "nombre": "Quilmes",
+          "linea": "Roca",
+          "km": 17.9
+        },
+        {
+          "id": 7,
           "nombre": "Ezpeleta",
           "linea": "Roca",
           "km": 19.4
         },
         {
-          "id": 3,
-          "nombre": "Bosques",
+          "id": 8,
+          "nombre": "Berazategui",
           "linea": "Roca",
-          "km": 30.2
+          "km": 23.8
         },
         {
-          "id": 4,
-          "nombre": "Tolosa",
+          "id": 9,
+          "nombre": "Platanos",
           "linea": "Roca",
-          "km": 56.7
+          "km": 26.2
         },
         {
-          "id": 5,
+          "id": 10,
+          "nombre": "Hudson",
+          "linea": "Roca",
+          "km": 28.9
+        },
+        {
+          "id": 11,
+          "nombre": "Pereyra",
+          "linea": "Roca",
+          "km": 31.5
+        },
+        {
+          "id": 12,
           "nombre": "Villa Elisa",
           "linea": "Roca",
           "km": 59.1
         },
         {
-          "id": 6,
+          "id": 13,
           "nombre": "City Bell",
           "linea": "Roca",
           "km": 52.3
         },
         {
-          "id": 7,
+          "id": 14,
           "nombre": "Gonnet",
           "linea": "Roca",
           "km": 49.8
         },
         {
-          "id": 8,
-          "nombre": "Ringuelet",
+          "id": 15,
+          "nombre": "Villa España",
           "linea": "Roca",
-          "km": 47.2
+          "km": 42.1
         },
         {
-          "id": 9,
-          "nombre": "La Plata",
+          "id": 16,
+          "nombre": "Ranelagh",
           "linea": "Roca",
-          "km": 59.8
+          "km": 35.7
         },
         {
-          "id": 10,
+          "id": 17,
+          "nombre": "Sourigues",
+          "linea": "Roca",
+          "km": 38.2
+        },
+        {
+          "id": 18,
+          "nombre": "Santa Sofia",
+          "linea": "Roca",
+          "km": 40.8
+        },
+        {
+          "id": 19,
+          "nombre": "Gutierrez",
+          "linea": "Roca",
+          "km": 44.5
+        },
+        {
+          "id": 20,
+          "nombre": "Bosques",
+          "linea": "Roca",
+          "km": 30.2
+        },
+        {
+          "id": 21,
+          "nombre": "Zeballos",
+          "linea": "Roca",
+          "km": 25.8
+        },
+        {
+          "id": 22,
           "nombre": "Varela",
           "linea": "Roca",
           "km": 27.5
         },
         {
-          "id": 11,
+          "id": 23,
+          "nombre": "Ardigó",
+          "linea": "Roca",
+          "km": 29.1
+        },
+        {
+          "id": 24,
           "nombre": "Claypole",
           "linea": "Roca",
           "km": 32.1
         },
         {
-          "id": 12,
-          "nombre": "Burzaco",
+          "id": 25,
+          "nombre": "Calzada",
           "linea": "Roca",
-          "km": 28.9
+          "km": 34.6
         },
         {
-          "id": 13,
-          "nombre": "Temperley",
+          "id": 26,
+          "nombre": "Mármol",
           "linea": "Roca",
-          "km": 17.8
+          "km": 36.8
         },
         {
-          "id": 14,
-          "nombre": "Lomas de Zamora",
+          "id": 27,
+          "nombre": "Ringuelet",
           "linea": "Roca",
-          "km": 15.2
+          "km": 47.2
         },
         {
-          "id": 15,
-          "nombre": "Banfield",
+          "id": 28,
+          "nombre": "Tolosa",
           "linea": "Roca",
-          "km": 21.3
+          "km": 56.7
         },
         {
-          "id": 16,
-          "nombre": "Remedios de Escalada",
+          "id": 29,
+          "nombre": "La Plata",
           "linea": "Roca",
-          "km": 12.8
-        },
-        {
-          "id": 17,
-          "nombre": "Lanús",
-          "linea": "Roca",
-          "km": 10.2
-        },
-        {
-          "id": 18,
-          "nombre": "Gerli",
-          "linea": "Roca",
-          "km": 8.9
+          "km": 59.8
         }
       ],
       "encargados": [

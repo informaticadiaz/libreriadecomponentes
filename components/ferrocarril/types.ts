@@ -12,6 +12,7 @@ export interface Material {
     nombre: string;
     codigo: string;
     descripcion?: string;
+    estaciones_dependientes: number[]; // IDs de las estaciones dependientes
   }
   
   export interface Estacion {
@@ -64,7 +65,7 @@ export interface Material {
     bases: Base[];
     estaciones: Estacion[];
     encargados: Encargado[];
-    categorias: Categoria[]; // Cambiado de string[] a Categoria[]
+    categorias: Categoria[];
   }
   
   export interface ConfiguracionSistema {
@@ -108,6 +109,7 @@ export interface Material {
     configuracion: Configuracion;
     partesDiarios: ParteDiario[];
     onAgregarParte: (parte: NuevoParteDiario) => void;
+    onEliminarParte?: (parteId: number) => void;
   }
   
   export interface StockProps {
@@ -129,32 +131,44 @@ export interface Material {
     estilo: string;
   }
   
-  // Tipos para hooks personalizados
+  // Helper function para obtener estaciones dependientes de una base
+  export const getEstacionesPorBase = (
+    baseId: number | string, 
+    bases: Base[], 
+    estaciones: Estacion[]
+  ): Estacion[] => {
+    const base = bases.find(b => b.id.toString() === baseId.toString() || b.nombre === baseId);
+    if (!base) return [];
+    
+    return estaciones.filter(estacion => 
+      base.estaciones_dependientes.includes(estacion.id)
+    );
+  };
+  
+  // Resto de tipos existentes...
   export interface UsePaniolReturn {
     materiales: Material[];
     partesDiarios: ParteDiario[];
     configuracion: Configuracion;
     estadisticas: Estadisticas;
     agregarParteDiario: (parte: NuevoParteDiario) => void;
-    actualizarStock: (materialesUsados: MaterialUtilizado[]) => void;
+    actualizarStock: (materialesUsados: Array<{id: string; cantidad: number}>) => void;
+    restaurarStock?: (materialesUsados: Array<{id: string; cantidad: number}>) => void;
+    eliminarParteDiario?: (parteId: number) => void;
   }
   
-  // Tipos para formularios
   export type CampoParteDiario = keyof Omit<NuevoParteDiario, 'materiales'>;
   
-  // Tipos de eventos comunes
   export type InputChangeEvent = React.ChangeEvent<HTMLInputElement>;
   export type SelectChangeEvent = React.ChangeEvent<HTMLSelectElement>;
   export type TextAreaChangeEvent = React.ChangeEvent<HTMLTextAreaElement>;
   export type FormChangeEvent = InputChangeEvent | SelectChangeEvent | TextAreaChangeEvent;
   
-  // Tipos para validaciones
   export interface ValidacionParte {
     esValido: boolean;
     errores: string[];
   }
   
-  // Tipos para reportes (futuro)
   export interface ReporteConfig {
     tipo: 'diario' | 'semanal' | 'mensual';
     fechaInicio: string;
@@ -169,11 +183,9 @@ export interface Material {
     estacionConMasTrabajos: string;
   }
   
-  // Constantes tipadas
   export const STOCK_MINIMO = 5 as const;
   export const STOCK_CRITICO = 0 as const;
   
-  // Enums para estados
   export enum EstadoMaterial {
     SIN_STOCK = 'SIN_STOCK',
     STOCK_BAJO = 'STOCK_BAJO',
@@ -186,7 +198,7 @@ export interface Material {
     AJUSTE = 'AJUSTE'
   }
   
-  // Utilidad para type guards con tipos seguros
+  // Type guards actualizados
   export const esMaterial = (obj: unknown): obj is Material => {
     return (
       typeof obj === 'object' &&
@@ -204,58 +216,6 @@ export interface Material {
     );
   };
   
-  export const esParteDiarioValido = (obj: unknown): obj is NuevoParteDiario => {
-    if (typeof obj !== 'object' || obj === null) {
-      return false;
-    }
-    
-    const objRecord = obj as Record<string, unknown>;
-    
-    return (
-      'fecha' in objRecord &&
-      'base' in objRecord &&
-      'estacion' in objRecord &&
-      'encargado' in objRecord &&
-      'materiales' in objRecord &&
-      'observaciones' in objRecord &&
-      typeof objRecord.fecha === 'string' &&
-      typeof objRecord.base === 'string' &&
-      typeof objRecord.estacion === 'string' &&
-      typeof objRecord.encargado === 'string' &&
-      Array.isArray(objRecord.materiales) &&
-      typeof objRecord.observaciones === 'string' &&
-      objRecord.materiales.every((material: unknown) => esMaterialUtilizado(material))
-    );
-  };
-  
-  export const esCategoria = (obj: unknown): obj is Categoria => {
-    return (
-      typeof obj === 'object' &&
-      obj !== null &&
-      'id' in obj &&
-      'nombre' in obj &&
-      'descripcion' in obj &&
-      typeof (obj as Record<string, unknown>).id === 'number' &&
-      typeof (obj as Record<string, unknown>).nombre === 'string' &&
-      typeof (obj as Record<string, unknown>).descripcion === 'string'
-    );
-  };
-  
-  export const esMaterialUtilizado = (obj: unknown): obj is MaterialUtilizado => {
-    return (
-      typeof obj === 'object' &&
-      obj !== null &&
-      'id' in obj &&
-      'codigo' in obj &&
-      'descripcion' in obj &&
-      'cantidad' in obj &&
-      typeof (obj as Record<string, unknown>).id === 'string' &&
-      typeof (obj as Record<string, unknown>).codigo === 'string' &&
-      typeof (obj as Record<string, unknown>).descripcion === 'string' &&
-      typeof (obj as Record<string, unknown>).cantidad === 'number'
-    );
-  };
-  
   export const esBase = (obj: unknown): obj is Base => {
     return (
       typeof obj === 'object' &&
@@ -263,9 +223,11 @@ export interface Material {
       'id' in obj &&
       'nombre' in obj &&
       'codigo' in obj &&
+      'estaciones_dependientes' in obj &&
       typeof (obj as Record<string, unknown>).id === 'number' &&
       typeof (obj as Record<string, unknown>).nombre === 'string' &&
       typeof (obj as Record<string, unknown>).codigo === 'string' &&
+      Array.isArray((obj as Record<string, unknown>).estaciones_dependientes) &&
       (
         !('descripcion' in obj) ||
         typeof (obj as Record<string, unknown>).descripcion === 'string'
@@ -273,6 +235,7 @@ export interface Material {
     );
   };
   
+  // Resto de type guards existentes...
   export const esEstacion = (obj: unknown): obj is Estacion => {
     return (
       typeof obj === 'object' &&
@@ -289,48 +252,5 @@ export interface Material {
         !('km' in obj) ||
         typeof (obj as Record<string, unknown>).km === 'number'
       )
-    );
-  };
-  
-  export const esEncargado = (obj: unknown): obj is Encargado => {
-    return (
-      typeof obj === 'object' &&
-      obj !== null &&
-      'id' in obj &&
-      'apellido' in obj &&
-      'nombre' in obj &&
-      typeof (obj as Record<string, unknown>).id === 'number' &&
-      typeof (obj as Record<string, unknown>).apellido === 'string' &&
-      typeof (obj as Record<string, unknown>).nombre === 'string' &&
-      (
-        !('legajo' in obj) ||
-        typeof (obj as Record<string, unknown>).legajo === 'string'
-      )
-    );
-  };
-  
-  export const esParteDiario = (obj: unknown): obj is ParteDiario => {
-    if (typeof obj !== 'object' || obj === null) {
-      return false;
-    }
-    
-    const objRecord = obj as Record<string, unknown>;
-    
-    return (
-      'id' in objRecord &&
-      'fecha' in objRecord &&
-      'base' in objRecord &&
-      'estacion' in objRecord &&
-      'encargado' in objRecord &&
-      'materiales' in objRecord &&
-      'observaciones' in objRecord &&
-      typeof objRecord.id === 'number' &&
-      typeof objRecord.fecha === 'string' &&
-      typeof objRecord.base === 'string' &&
-      typeof objRecord.estacion === 'string' &&
-      typeof objRecord.encargado === 'string' &&
-      Array.isArray(objRecord.materiales) &&
-      typeof objRecord.observaciones === 'string' &&
-      objRecord.materiales.every((material: unknown) => esMaterialUtilizado(material))
     );
   };
