@@ -186,29 +186,151 @@ export interface Material {
     AJUSTE = 'AJUSTE'
   }
   
-  // Utilidad para type guards
-  export const esMaterial = (obj: any): obj is Material => {
-    return obj && 
-           typeof obj.id === 'string' &&
-           typeof obj.codigo === 'string' &&
-           typeof obj.descripcion === 'string' &&
-           typeof obj.categoria === 'string' &&
-           typeof obj.stock === 'number';
+  // Utilidad para type guards con tipos seguros
+  export const esMaterial = (obj: unknown): obj is Material => {
+    return (
+      typeof obj === 'object' &&
+      obj !== null &&
+      'id' in obj &&
+      'codigo' in obj &&
+      'descripcion' in obj &&
+      'categoria' in obj &&
+      'stock' in obj &&
+      typeof (obj as Record<string, unknown>).id === 'string' &&
+      typeof (obj as Record<string, unknown>).codigo === 'string' &&
+      typeof (obj as Record<string, unknown>).descripcion === 'string' &&
+      typeof (obj as Record<string, unknown>).categoria === 'string' &&
+      typeof (obj as Record<string, unknown>).stock === 'number'
+    );
   };
   
-  export const esParteDiarioValido = (obj: any): obj is NuevoParteDiario => {
-    return obj &&
-           typeof obj.fecha === 'string' &&
-           typeof obj.base === 'string' &&
-           typeof obj.estacion === 'string' &&
-           typeof obj.encargado === 'string' &&
-           Array.isArray(obj.materiales) &&
-           typeof obj.observaciones === 'string';
+  export const esParteDiarioValido = (obj: unknown): obj is NuevoParteDiario => {
+    if (typeof obj !== 'object' || obj === null) {
+      return false;
+    }
+    
+    const objRecord = obj as Record<string, unknown>;
+    
+    return (
+      'fecha' in objRecord &&
+      'base' in objRecord &&
+      'estacion' in objRecord &&
+      'encargado' in objRecord &&
+      'materiales' in objRecord &&
+      'observaciones' in objRecord &&
+      typeof objRecord.fecha === 'string' &&
+      typeof objRecord.base === 'string' &&
+      typeof objRecord.estacion === 'string' &&
+      typeof objRecord.encargado === 'string' &&
+      Array.isArray(objRecord.materiales) &&
+      typeof objRecord.observaciones === 'string' &&
+      objRecord.materiales.every((material: unknown) => esMaterialUtilizado(material))
+    );
   };
   
-  export const esCategoria = (obj: any): obj is Categoria => {
-    return obj &&
-           typeof obj.id === 'number' &&
-           typeof obj.nombre === 'string' &&
-           typeof obj.descripcion === 'string';
+  export const esCategoria = (obj: unknown): obj is Categoria => {
+    return (
+      typeof obj === 'object' &&
+      obj !== null &&
+      'id' in obj &&
+      'nombre' in obj &&
+      'descripcion' in obj &&
+      typeof (obj as Record<string, unknown>).id === 'number' &&
+      typeof (obj as Record<string, unknown>).nombre === 'string' &&
+      typeof (obj as Record<string, unknown>).descripcion === 'string'
+    );
+  };
+  
+  export const esMaterialUtilizado = (obj: unknown): obj is MaterialUtilizado => {
+    return (
+      typeof obj === 'object' &&
+      obj !== null &&
+      'id' in obj &&
+      'codigo' in obj &&
+      'descripcion' in obj &&
+      'cantidad' in obj &&
+      typeof (obj as Record<string, unknown>).id === 'string' &&
+      typeof (obj as Record<string, unknown>).codigo === 'string' &&
+      typeof (obj as Record<string, unknown>).descripcion === 'string' &&
+      typeof (obj as Record<string, unknown>).cantidad === 'number'
+    );
+  };
+  
+  export const esBase = (obj: unknown): obj is Base => {
+    return (
+      typeof obj === 'object' &&
+      obj !== null &&
+      'id' in obj &&
+      'nombre' in obj &&
+      'codigo' in obj &&
+      typeof (obj as Record<string, unknown>).id === 'number' &&
+      typeof (obj as Record<string, unknown>).nombre === 'string' &&
+      typeof (obj as Record<string, unknown>).codigo === 'string' &&
+      (
+        !('descripcion' in obj) ||
+        typeof (obj as Record<string, unknown>).descripcion === 'string'
+      )
+    );
+  };
+  
+  export const esEstacion = (obj: unknown): obj is Estacion => {
+    return (
+      typeof obj === 'object' &&
+      obj !== null &&
+      'id' in obj &&
+      'nombre' in obj &&
+      typeof (obj as Record<string, unknown>).id === 'number' &&
+      typeof (obj as Record<string, unknown>).nombre === 'string' &&
+      (
+        !('linea' in obj) ||
+        typeof (obj as Record<string, unknown>).linea === 'string'
+      ) &&
+      (
+        !('km' in obj) ||
+        typeof (obj as Record<string, unknown>).km === 'number'
+      )
+    );
+  };
+  
+  export const esEncargado = (obj: unknown): obj is Encargado => {
+    return (
+      typeof obj === 'object' &&
+      obj !== null &&
+      'id' in obj &&
+      'apellido' in obj &&
+      'nombre' in obj &&
+      typeof (obj as Record<string, unknown>).id === 'number' &&
+      typeof (obj as Record<string, unknown>).apellido === 'string' &&
+      typeof (obj as Record<string, unknown>).nombre === 'string' &&
+      (
+        !('legajo' in obj) ||
+        typeof (obj as Record<string, unknown>).legajo === 'string'
+      )
+    );
+  };
+  
+  export const esParteDiario = (obj: unknown): obj is ParteDiario => {
+    if (typeof obj !== 'object' || obj === null) {
+      return false;
+    }
+    
+    const objRecord = obj as Record<string, unknown>;
+    
+    return (
+      'id' in objRecord &&
+      'fecha' in objRecord &&
+      'base' in objRecord &&
+      'estacion' in objRecord &&
+      'encargado' in objRecord &&
+      'materiales' in objRecord &&
+      'observaciones' in objRecord &&
+      typeof objRecord.id === 'number' &&
+      typeof objRecord.fecha === 'string' &&
+      typeof objRecord.base === 'string' &&
+      typeof objRecord.estacion === 'string' &&
+      typeof objRecord.encargado === 'string' &&
+      Array.isArray(objRecord.materiales) &&
+      typeof objRecord.observaciones === 'string' &&
+      objRecord.materiales.every((material: unknown) => esMaterialUtilizado(material))
+    );
   };
