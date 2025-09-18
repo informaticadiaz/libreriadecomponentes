@@ -80,16 +80,21 @@ export const MultiplicationTablesTrainer = (props: TablesTrainerProps) => {
 
   // Manejar siguiente pregunta
   const handleNextQuestion = () => {
-    if (isLastQuestion) {
-      if (state.mode === 'quiz') {
-        setCurrentView('results');
-        stopTimer();
-      } else {
-        setCurrentView('menu');
-      }
-    } else {
-      nextQuestion();
+    const wasLastQuestion = isLastQuestion;
+
+    nextQuestion();
+
+    if (!wasLastQuestion) {
+      return;
     }
+
+    if (state.mode === 'quiz') {
+      setCurrentView('results');
+      stopTimer();
+      return;
+    }
+
+    setCurrentView('menu');
   };
 
   // Volver al menú
