@@ -1,7 +1,7 @@
 // components/Stock.tsx
 import React, { useState, useMemo } from 'react';
 import { Search, Package, Filter, Download, BarChart3, TrendingDown, TrendingUp, AlertTriangle } from 'lucide-react';
-import type { Material, StockProps, EstadoStock } from './types';
+import type { StockProps, EstadoStock } from './types';
 
 const Stock: React.FC<StockProps> = ({ materiales, configuracion }) => {
   const [busqueda, setBusqueda] = useState<string>('');
@@ -18,7 +18,7 @@ const Stock: React.FC<StockProps> = ({ materiales, configuracion }) => {
 
   // Filtrar y ordenar materiales
   const materialesFiltrados = useMemo(() => {
-    let filtered = materiales.filter(material => {
+    const filtered = materiales.filter(material => {
       const coincideBusqueda = material.descripcion.toLowerCase().includes(busqueda.toLowerCase()) ||
                               material.codigo.toLowerCase().includes(busqueda.toLowerCase());
       const coincideCategoria = !categoriaFiltro || material.categoria === categoriaFiltro;

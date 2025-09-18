@@ -1,6 +1,6 @@
 // components/Dashboard.tsx
 import React from 'react';
-import { Package, Calendar, Wrench, FileText, TrendingUp, AlertTriangle } from 'lucide-react';
+import { Package, Calendar, Wrench, TrendingUp, AlertTriangle } from 'lucide-react';
 import type { DashboardProps } from './types';
 
 const Dashboard: React.FC<DashboardProps> = ({ estadisticas, materiales }) => {

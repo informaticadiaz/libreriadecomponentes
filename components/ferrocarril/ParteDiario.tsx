@@ -2,8 +2,6 @@
 import React, { useState, useMemo } from 'react';
 import { Plus, MapPin, User, Calendar, Building, Trash2, Package, Clock } from 'lucide-react';
 import type {
-  Material,
-  ParteDiario,
   NuevoParteDiario,
   ParteDiarioProps,
   FormChangeEvent
