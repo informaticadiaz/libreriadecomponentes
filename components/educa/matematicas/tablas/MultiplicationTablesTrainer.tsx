@@ -134,7 +134,7 @@ export const MultiplicationTablesTrainer = (props: TablesTrainerProps) => {
   return (
     <div
       className={cn(
-        'relative mx-auto max-w-5xl overflow-hidden rounded-[40px] bg-gradient-to-br from-sky-100 via-purple-100 to-pink-100 p-6 sm:p-10',
+        'relative mx-auto max-w-5xl overflow-hidden rounded-[40px] bg-gradient-to-br from-sky-100 via-purple-100 to-pink-100 p-6',
         className
       )}
     >
@@ -152,7 +152,7 @@ export const MultiplicationTablesTrainer = (props: TablesTrainerProps) => {
       >
         ✶
       </div>
-      <div className="relative z-10 mx-auto max-w-4xl rounded-[32px] border-4 border-white/60 bg-white/70 p-8 shadow-xl backdrop-blur">
+      <div className="relative z-10 mx-auto max-w-4xl rounded-[32px] border-4 border-white/60 bg-white/70 md:p-8 shadow-xl backdrop-blur">
         {/* Header con navegación */}
         <div className="mb-10">
           <div className="flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">

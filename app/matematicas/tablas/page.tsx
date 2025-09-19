@@ -20,7 +20,7 @@ export default function LearnPage() {
     <div className="min-h-screen bg-gray-50">
       {/* Header */}
       <header className="bg-white border-b border-gray-200">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto">
           <div className="flex justify-between items-center py-6">
             <div>
               <h1 className="text-3xl font-bold text-gray-900">
@@ -36,11 +36,9 @@ export default function LearnPage() {
           </div>
         </div>
       </header>
-
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
-          {/* Sidebar con información */}
-          <div className="lg:col-span-1 space-y-6">
+      <main className="max-w-7xl mx-auto">
+        {/* Sidebar con información */}
+        <div className="lg:col-span-1 space-y-6">
             {/* Información general */}
             <Card>
               <CardHeader>
@@ -109,9 +107,9 @@ export default function LearnPage() {
               </CardContent>
             </Card>
           </div>
-
+        <div className="mt-8">
           {/* Componente principal */}
-          <div className="lg:col-span-3">
+          <div className="">
             <MultiplicationTablesTrainer
               minTable={1}
               maxTable={12}
@@ -131,7 +129,7 @@ export default function LearnPage() {
             Configuraciones de demostración
           </h2>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 gap-6">
             {/* Configuración básica */}
             <Card>
               <CardHeader>
