@@ -7,6 +7,7 @@ import { cn } from '@/lib/utils';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog';
+import { Sparkles, BarChart3, Crown, Target } from 'lucide-react';
 import type { ProgressSnapshot } from '../types';
 
 interface ProgressOverviewProps {
@@ -54,28 +55,16 @@ export const ProgressOverview = ({
 
   const hasAnyProgress = progress.totalAttempts > 0;
 
-  // Debug logging
-  console.log('ProgressOverview - Progreso recibido:', progress);
-  console.log('ProgressOverview - ¿Hay progreso?:', hasAnyProgress);
-  console.log('ProgressOverview - Tablas disponibles:', Object.keys(progress.tables || {}));
-
   if (!hasAnyProgress) {
     return (
-      <Panel variant="playful" title="Tu progreso">
-        <div className="text-center py-8 text-sky-700">
-          <div className="text-4xl mb-3">📊</div>
-          <p className="font-semibold">Aún no hay datos de progreso.</p>
-          <p className="text-sm mt-1 opacity-80">¡Empezá a practicar para ver tus estadísticas!</p>
-          
-          {/* Debug info en modo desarrollo */}
-          {process.env.NODE_ENV === 'development' && (
-            <details className="mt-4 text-left">
-              <summary className="cursor-pointer">Debug: Datos de progreso</summary>
-              <pre className="text-xs bg-gray-100 p-2 rounded mt-2 overflow-auto">
-                {JSON.stringify(progress, null, 2)}
-              </pre>
-            </details>
-          )}
+
+      <Panel className="rounded-3xl border-0 bg-gradient-to-br from-sky-100 via-white to-emerald-100 p-10 text-center shadow-xl dark:from-slate-900 dark:via-slate-950 dark:to-emerald-950">
+        <div className="flex flex-col items-center gap-4 text-slate-700 dark:text-slate-200">
+          <Sparkles className="h-12 w-12 text-emerald-500" />
+          <p className="text-xl font-semibold">Aún no hay datos de progreso.</p>
+          <p className="max-w-md text-sm text-slate-600 dark:text-slate-300">
+            Comenzá una práctica para desbloquear estadísticas y medallas.
+          </p>
         </div>
       </Panel>
     );
@@ -84,34 +73,52 @@ export const ProgressOverview = ({
   return (
     <div className="space-y-6">
       {/* Resumen general */}
-      <Panel variant="playful" title="Resumen general">
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+
+      <Panel
+        title="Resumen general"
+        className="rounded-3xl border-0 bg-gradient-to-br from-sky-100 via-white to-emerald-100 shadow-xl dark:from-slate-900 dark:via-slate-950 dark:to-emerald-950"
+      >
+        <div className="grid gap-4 md:grid-cols-4">
           <StatCard
             label="Precisión total"
             value={`${progress.overallAccuracy.toFixed(1)}%`}
             color={progress.overallAccuracy >= 80 ? 'green' : progress.overallAccuracy >= 60 ? 'blue' : 'yellow'}
+            icon={<Target className="h-6 w-6" />}
+            className="rounded-3xl border-0 bg-white/80 p-6 text-slate-800 shadow-lg backdrop-blur dark:bg-slate-900/70 dark:text-slate-100"
           />
           <StatCard
             label="Total correctas"
             value={progress.totalCorrect}
-            color="teal"
+
+            color="green"
+            icon={<Sparkles className="h-6 w-6" />}
+            className="rounded-3xl border-0 bg-white/80 p-6 text-slate-800 shadow-lg backdrop-blur dark:bg-slate-900/70 dark:text-slate-100"
           />
           <StatCard
             label="Total intentos"
             value={progress.totalAttempts}
-            color="amber"
+
+            color="blue"
+            icon={<BarChart3 className="h-6 w-6" />}
+            className="rounded-3xl border-0 bg-white/80 p-6 text-slate-800 shadow-lg backdrop-blur dark:bg-slate-900/70 dark:text-slate-100"
           />
           <StatCard
             label="Última actualización"
             value={format(progress.lastUpdated, 'dd/MM', { locale: es })}
-            color="pink"
+
+            color="purple"
+            icon={<Crown className="h-6 w-6" />}
+            className="rounded-3xl border-0 bg-white/80 p-6 text-slate-800 shadow-lg backdrop-blur dark:bg-slate-900/70 dark:text-slate-100"
           />
         </div>
       </Panel>
 
       {/* Progreso por tabla */}
-      <Panel variant="playful" title="Progreso por tabla">
-        <div className="space-y-3">
+      <Panel
+        title="Progreso por tabla"
+        className="rounded-3xl border-0 bg-white/90 shadow-xl backdrop-blur dark:bg-slate-950/60"
+      >
+        <div className="grid gap-4 md:grid-cols-2">
           {tableNumbers.map(table => {
             const tableProgress = getTableProgress(table);
             const hasData = tableProgress.totalAttempts > 0;
@@ -120,58 +127,73 @@ export const ProgressOverview = ({
               <div
                 key={table}
                 className={cn(
-                  'p-4 border rounded-2xl shadow-sm transition-transform duration-200 hover:-translate-y-0.5',
-                  hasData ? 'bg-white/80 border-sky-100' : 'bg-sky-50/80 border-sky-100'
+
+                  'relative overflow-hidden rounded-3xl p-5 text-slate-800 shadow-lg transition hover:-translate-y-1 hover:shadow-xl dark:text-slate-100',
+                  hasData
+                    ? 'bg-gradient-to-r from-sky-200/80 via-emerald-200/70 to-emerald-100/70 dark:from-sky-900/40 dark:via-emerald-900/40 dark:to-emerald-900/30'
+                    : 'bg-gradient-to-r from-slate-100/80 to-slate-200/70 dark:from-slate-900/50 dark:to-slate-800/60'
                 )}
               >
-                <div className="flex items-center justify-between mb-2">
-                  <h4 className="font-semibold text-sky-900">
-                    Tabla del {table}
-                  </h4>
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-3">
+                    <span className="flex h-10 w-10 items-center justify-center rounded-full bg-white/80 text-sky-500 shadow-inner dark:bg-slate-900/60 dark:text-sky-300">
+                      <Sparkles className="h-5 w-5" aria-hidden="true" />
+                    </span>
+                    <div>
+                      <h4 className="text-lg font-semibold">Tabla del {table}</h4>
+                      <p className="text-xs text-slate-600 dark:text-slate-300">
+                        {hasData ? `${tableProgress.correctAnswers} aciertos de ${tableProgress.totalAttempts} intentos` : 'Sin datos aún'}
+                      </p>
+                    </div>
+                  </div>
                   {hasData && (
-                    <Badge
-                      variant={tableProgress.accuracy >= 80 ? 'default' : 'secondary'}
-                      className="ml-2 bg-white/80 text-sky-800 border border-sky-200"
-                    >
+                    <Badge className="rounded-full border-0 bg-emerald-500/90 px-3 py-1 text-sm font-semibold text-white shadow-sm">
                       {tableProgress.accuracy.toFixed(0)}%
                     </Badge>
                   )}
                 </div>
 
-                {hasData ? (
-                  <div className="grid grid-cols-2 md:grid-cols-4 gap-3 text-sm">
-                    <div>
-                      <span className="text-sky-700">{i18n.progress.correct}: </span>
-                      <span className="font-medium">{tableProgress.correctAnswers}</span>
-                    </div>
-                    <div>
-                      <span className="text-sky-700">{i18n.progress.attempts}: </span>
-                      <span className="font-medium">{tableProgress.totalAttempts}</span>
-                    </div>
-                    <div>
-                      <span className="text-sky-700">{i18n.progress.bestStreak}: </span>
-                      <span className="font-medium">{tableProgress.bestStreak}</span>
-                    </div>
-                    <div>
-                      <span className="text-sky-700">{i18n.progress.lastPlayed}: </span>
-                      <span className="font-medium text-sky-900">
-                        {format(tableProgress.lastPlayedAt, 'dd/MM', { locale: es })}
+                <div className="mt-4 space-y-4">
+                  <div className="h-3 w-full overflow-hidden rounded-full bg-white/60 dark:bg-slate-900/60">
+                    <div
+                      className="h-full rounded-full bg-gradient-to-r from-sky-500 via-teal-400 to-emerald-500 transition-all"
+                      style={{ width: `${hasData ? tableProgress.accuracy : 5}%` }}
+                      aria-hidden="true"
+                    />
+                  </div>
+
+                  {hasData ? (
+                    <div className="flex flex-wrap gap-2 text-xs font-semibold text-slate-700 dark:text-slate-200">
+                      <span className="inline-flex items-center gap-1 rounded-full bg-white/70 px-3 py-1 shadow-sm dark:bg-slate-900/60">
+                        <Sparkles className="h-3.5 w-3.5" /> {i18n.progress.correct}: {tableProgress.correctAnswers}
+                      </span>
+                      <span className="inline-flex items-center gap-1 rounded-full bg-white/70 px-3 py-1 shadow-sm dark:bg-slate-900/60">
+                        <BarChart3 className="h-3.5 w-3.5" /> {i18n.progress.attempts}: {tableProgress.totalAttempts}
+                      </span>
+                      <span className="inline-flex items-center gap-1 rounded-full bg-white/70 px-3 py-1 shadow-sm dark:bg-slate-900/60">
+                        <Crown className="h-3.5 w-3.5" /> {i18n.progress.bestStreak}: {tableProgress.bestStreak}
+                      </span>
+                      <span className="inline-flex items-center gap-1 rounded-full bg-white/70 px-3 py-1 shadow-sm dark:bg-slate-900/60">
+                        <Target className="h-3.5 w-3.5" /> {i18n.progress.lastPlayed}: {format(tableProgress.lastPlayedAt, 'dd/MM', { locale: es })}
                       </span>
                     </div>
-                  </div>
-                ) : (
-                  <p className="text-sm text-sky-600">Sin datos aún</p>
-                )}
+                  ) : (
+                    <p className="text-sm text-slate-600 dark:text-slate-300">Sin datos aún</p>
+                  )}
 
-                {hasData && tableProgress.badges.length > 0 && (
-                  <div className="mt-2 flex flex-wrap gap-1">
-                    {tableProgress.badges.map(badge => (
-                      <Badge key={badge} variant="outline" className="text-xs bg-white/80 border-sky-200 text-sky-800">
-                        {badge}
-                      </Badge>
-                    ))}
-                  </div>
-                )}
+                  {hasData && tableProgress.badges.length > 0 && (
+                    <div className="flex flex-wrap gap-2">
+                      {tableProgress.badges.map(badge => (
+                        <Badge
+                          key={badge}
+                          className="rounded-full border-0 bg-white/80 px-3 py-1 text-xs font-semibold text-slate-700 shadow-sm dark:bg-slate-900/60 dark:text-slate-100"
+                        >
+                          {badge}
+                        </Badge>
+                      ))}
+                    </div>
+                  )}
+                </div>
               </div>
             );
           })}
@@ -182,7 +204,11 @@ export const ProgressOverview = ({
       <div className="flex justify-end">
         <AlertDialog>
           <AlertDialogTrigger asChild>
-            <Button variant="outline" size="sm" className="text-red-600 hover:text-red-700">
+            <Button
+              variant="outline"
+              size="sm"
+              className="rounded-full border-2 border-rose-200 bg-white/80 text-rose-600 shadow-sm transition hover:-translate-y-0.5 hover:bg-rose-50 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-rose-300 dark:border-rose-500/40 dark:bg-slate-900/70 dark:text-rose-200"
+            >
               {i18n.resetProgress}
             </Button>
           </AlertDialogTrigger>
