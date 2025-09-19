@@ -3,6 +3,7 @@ import { format } from 'date-fns';
 import { es } from 'date-fns/locale';
 import { Panel } from './Panel';
 import { StatCard } from './StatCard';
+import { cn } from '@/lib/utils';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog';
@@ -60,11 +61,11 @@ export const ProgressOverview = ({
 
   if (!hasAnyProgress) {
     return (
-      <Panel title="Tu progreso">
-        <div className="text-center py-8 text-gray-500">
+      <Panel variant="playful" title="Tu progreso">
+        <div className="text-center py-8 text-sky-700">
           <div className="text-4xl mb-3">📊</div>
-          <p>Aún no hay datos de progreso.</p>
-          <p className="text-sm mt-1">¡Empezá a practicar para ver tus estadísticas!</p>
+          <p className="font-semibold">Aún no hay datos de progreso.</p>
+          <p className="text-sm mt-1 opacity-80">¡Empezá a practicar para ver tus estadísticas!</p>
           
           {/* Debug info en modo desarrollo */}
           {process.env.NODE_ENV === 'development' && (
@@ -83,7 +84,7 @@ export const ProgressOverview = ({
   return (
     <div className="space-y-6">
       {/* Resumen general */}
-      <Panel title="Resumen general">
+      <Panel variant="playful" title="Resumen general">
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           <StatCard
             label="Precisión total"
@@ -93,76 +94,79 @@ export const ProgressOverview = ({
           <StatCard
             label="Total correctas"
             value={progress.totalCorrect}
-            color="green"
+            color="teal"
           />
           <StatCard
             label="Total intentos"
             value={progress.totalAttempts}
-            color="blue"
+            color="amber"
           />
           <StatCard
             label="Última actualización"
             value={format(progress.lastUpdated, 'dd/MM', { locale: es })}
-            color="purple"
+            color="pink"
           />
         </div>
       </Panel>
 
       {/* Progreso por tabla */}
-      <Panel title="Progreso por tabla">
+      <Panel variant="playful" title="Progreso por tabla">
         <div className="space-y-3">
           {tableNumbers.map(table => {
             const tableProgress = getTableProgress(table);
             const hasData = tableProgress.totalAttempts > 0;
-            
+
             return (
-              <div 
-                key={table} 
-                className={`p-4 border rounded-lg ${hasData ? 'bg-white' : 'bg-gray-50'}`}
+              <div
+                key={table}
+                className={cn(
+                  'p-4 border rounded-2xl shadow-sm transition-transform duration-200 hover:-translate-y-0.5',
+                  hasData ? 'bg-white/80 border-sky-100' : 'bg-sky-50/80 border-sky-100'
+                )}
               >
                 <div className="flex items-center justify-between mb-2">
-                  <h4 className="font-semibold text-gray-900">
+                  <h4 className="font-semibold text-sky-900">
                     Tabla del {table}
                   </h4>
                   {hasData && (
-                    <Badge 
+                    <Badge
                       variant={tableProgress.accuracy >= 80 ? 'default' : 'secondary'}
-                      className="ml-2"
+                      className="ml-2 bg-white/80 text-sky-800 border border-sky-200"
                     >
                       {tableProgress.accuracy.toFixed(0)}%
                     </Badge>
                   )}
                 </div>
-                
+
                 {hasData ? (
                   <div className="grid grid-cols-2 md:grid-cols-4 gap-3 text-sm">
                     <div>
-                      <span className="text-gray-500">{i18n.progress.correct}: </span>
+                      <span className="text-sky-700">{i18n.progress.correct}: </span>
                       <span className="font-medium">{tableProgress.correctAnswers}</span>
                     </div>
                     <div>
-                      <span className="text-gray-500">{i18n.progress.attempts}: </span>
+                      <span className="text-sky-700">{i18n.progress.attempts}: </span>
                       <span className="font-medium">{tableProgress.totalAttempts}</span>
                     </div>
                     <div>
-                      <span className="text-gray-500">{i18n.progress.bestStreak}: </span>
+                      <span className="text-sky-700">{i18n.progress.bestStreak}: </span>
                       <span className="font-medium">{tableProgress.bestStreak}</span>
                     </div>
                     <div>
-                      <span className="text-gray-500">{i18n.progress.lastPlayed}: </span>
-                      <span className="font-medium">
+                      <span className="text-sky-700">{i18n.progress.lastPlayed}: </span>
+                      <span className="font-medium text-sky-900">
                         {format(tableProgress.lastPlayedAt, 'dd/MM', { locale: es })}
                       </span>
                     </div>
                   </div>
                 ) : (
-                  <p className="text-sm text-gray-500">Sin datos aún</p>
+                  <p className="text-sm text-sky-600">Sin datos aún</p>
                 )}
-                
+
                 {hasData && tableProgress.badges.length > 0 && (
                   <div className="mt-2 flex flex-wrap gap-1">
                     {tableProgress.badges.map(badge => (
-                      <Badge key={badge} variant="outline" className="text-xs">
+                      <Badge key={badge} variant="outline" className="text-xs bg-white/80 border-sky-200 text-sky-800">
                         {badge}
                       </Badge>
                     ))}
