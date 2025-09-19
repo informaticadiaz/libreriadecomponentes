@@ -1,7 +1,7 @@
 // components/learning/ui/QuizResults.tsx
 'use client';
 
-import { Panel} from './Panel';
+import { Panel } from './Panel';
 import { StatCard } from './StatCard';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -63,15 +63,15 @@ export const QuizResults = ({
   return (
     <div className="max-w-2xl mx-auto space-y-6">
       {/* Mensaje motivacional */}
-      <Panel className="text-center">
+      <Panel variant="playful" className="text-center">
         <div className="space-y-3">
           <div className="text-4xl">
             {accuracy === 100 ? '🏆' : accuracy >= 80 ? '🎉' : accuracy >= 60 ? '👏' : '💪'}
           </div>
-          <h2 className="text-2xl font-bold text-gray-900">
+          <h2 className="text-2xl font-bold text-sky-900">
             {getMotivationalMessage()}
           </h2>
-          <p className="text-gray-600">
+          <p className="text-sky-700">
             Respondiste {correctCount} de {totalCount} preguntas correctamente
           </p>
         </div>
@@ -89,38 +89,38 @@ export const QuizResults = ({
           label="Mejor racha"
           value={bestStreak}
           icon={<Zap className="h-6 w-6" />}
-          color="purple"
+          color="pink"
         />
         <StatCard
           label="Tiempo total"
           value={formatTime(totalTime)}
           icon={<Clock className="h-6 w-6" />}
-          color="blue"
+          color="amber"
         />
         <StatCard
           label="Promedio por pregunta"
           value={formatTime(totalTime / totalCount)}
           icon={<Clock className="h-6 w-6" />}
-          color="blue"
+          color="teal"
         />
       </div>
 
       {/* Progreso visual */}
-      <Panel title="Tu progreso">
+      <Panel variant="playful" title="Tu progreso">
         <div className="space-y-4">
-          <div className="flex justify-between text-sm text-gray-600">
+          <div className="flex justify-between text-sm text-sky-700">
             <span>Respuestas correctas</span>
             <span>{correctCount}/{totalCount}</span>
           </div>
-          <Progress value={(correctCount / totalCount) * 100} className="h-3" />
+          <Progress value={(correctCount / totalCount) * 100} className="h-3 bg-sky-100" />
         </div>
       </Panel>
 
       {/* Desglose por tabla */}
-      <Panel title="Desglose por tabla">
+      <Panel variant="playful" title="Desglose por tabla">
         <div className="space-y-3">
           {result.tablesUsed.map(table => {
-            const tableQuestions = result.questions.filter(q => 
+            const tableQuestions = result.questions.filter(q =>
               q.factor1 === table || q.factor2 === table
             );
             const tableCorrect = tableQuestions.filter(q => q.isCorrect).length;
@@ -128,19 +128,22 @@ export const QuizResults = ({
             const tableAccuracy = tableTotal > 0 ? (tableCorrect / tableTotal) * 100 : 0;
 
             return (
-              <div key={table} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+              <div
+                key={table}
+                className="flex items-center justify-between p-3 rounded-2xl bg-sky-50/80 border border-sky-100"
+              >
                 <div className="flex items-center space-x-3">
-                  <Badge variant="outline" className="font-semibold">
+                  <Badge variant="outline" className="font-semibold bg-white/80 border-sky-200 text-sky-800">
                     Tabla del {table}
                   </Badge>
-                  <span className="text-sm text-gray-600">
+                  <span className="text-sm text-sky-700">
                     {tableCorrect}/{tableTotal}
                   </span>
                 </div>
                 <div className="flex items-center space-x-2">
                   <span className={`text-sm font-medium ${
-                    tableAccuracy >= 80 ? 'text-green-600' : 
-                    tableAccuracy >= 60 ? 'text-blue-600' : 
+                    tableAccuracy >= 80 ? 'text-green-600' :
+                    tableAccuracy >= 60 ? 'text-blue-600' :
                     'text-yellow-600'
                   }`}>
                     {tableAccuracy.toFixed(0)}%
@@ -154,12 +157,15 @@ export const QuizResults = ({
 
       {/* Revisión de respuestas incorrectas */}
       {result.questions.some(q => !q.isCorrect) && (
-        <Panel title="Respuestas para revisar">
+        <Panel variant="playful" title="Respuestas para revisar">
           <div className="space-y-2">
             {result.questions
               .filter(q => !q.isCorrect)
               .map((question) => (
-                <div key={question.id} className="flex items-center justify-between p-2 bg-red-50 border border-red-200 rounded">
+                <div
+                  key={question.id}
+                  className="flex items-center justify-between p-2 bg-rose-50/80 border border-rose-200 rounded-2xl"
+                >
                   <span className="text-sm">
                     {question.factor1} × {question.factor2} = {question.answer}
                   </span>
