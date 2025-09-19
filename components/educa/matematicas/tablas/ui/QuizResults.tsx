@@ -1,7 +1,7 @@
 // components/learning/ui/QuizResults.tsx
 'use client';
 
-import { Panel} from './Panel';
+import { Panel } from './Panel';
 import { StatCard } from './StatCard';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -233,4 +233,3 @@ export const QuizResults = ({
     </div>
   );
 };
-

@@ -3,11 +3,11 @@ import { format } from 'date-fns';
 import { es } from 'date-fns/locale';
 import { Panel } from './Panel';
 import { StatCard } from './StatCard';
+import { cn } from '@/lib/utils';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/components/ui/alert-dialog';
 import { Sparkles, BarChart3, Crown, Target } from 'lucide-react';
-import { cn } from '@/lib/utils';
 import type { ProgressSnapshot } from '../types';
 
 interface ProgressOverviewProps {
@@ -57,6 +57,7 @@ export const ProgressOverview = ({
 
   if (!hasAnyProgress) {
     return (
+
       <Panel className="rounded-3xl border-0 bg-gradient-to-br from-sky-100 via-white to-emerald-100 p-10 text-center shadow-xl dark:from-slate-900 dark:via-slate-950 dark:to-emerald-950">
         <div className="flex flex-col items-center gap-4 text-slate-700 dark:text-slate-200">
           <Sparkles className="h-12 w-12 text-emerald-500" />
@@ -72,6 +73,7 @@ export const ProgressOverview = ({
   return (
     <div className="space-y-6">
       {/* Resumen general */}
+
       <Panel
         title="Resumen general"
         className="rounded-3xl border-0 bg-gradient-to-br from-sky-100 via-white to-emerald-100 shadow-xl dark:from-slate-900 dark:via-slate-950 dark:to-emerald-950"
@@ -87,6 +89,7 @@ export const ProgressOverview = ({
           <StatCard
             label="Total correctas"
             value={progress.totalCorrect}
+
             color="green"
             icon={<Sparkles className="h-6 w-6" />}
             className="rounded-3xl border-0 bg-white/80 p-6 text-slate-800 shadow-lg backdrop-blur dark:bg-slate-900/70 dark:text-slate-100"
@@ -94,6 +97,7 @@ export const ProgressOverview = ({
           <StatCard
             label="Total intentos"
             value={progress.totalAttempts}
+
             color="blue"
             icon={<BarChart3 className="h-6 w-6" />}
             className="rounded-3xl border-0 bg-white/80 p-6 text-slate-800 shadow-lg backdrop-blur dark:bg-slate-900/70 dark:text-slate-100"
@@ -101,6 +105,7 @@ export const ProgressOverview = ({
           <StatCard
             label="Última actualización"
             value={format(progress.lastUpdated, 'dd/MM', { locale: es })}
+
             color="purple"
             icon={<Crown className="h-6 w-6" />}
             className="rounded-3xl border-0 bg-white/80 p-6 text-slate-800 shadow-lg backdrop-blur dark:bg-slate-900/70 dark:text-slate-100"
@@ -122,6 +127,7 @@ export const ProgressOverview = ({
               <div
                 key={table}
                 className={cn(
+
                   'relative overflow-hidden rounded-3xl p-5 text-slate-800 shadow-lg transition hover:-translate-y-1 hover:shadow-xl dark:text-slate-100',
                   hasData
                     ? 'bg-gradient-to-r from-sky-200/80 via-emerald-200/70 to-emerald-100/70 dark:from-sky-900/40 dark:via-emerald-900/40 dark:to-emerald-900/30'
