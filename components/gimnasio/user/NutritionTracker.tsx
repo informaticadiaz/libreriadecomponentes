@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState } from 'react';
 import { Plus, Camera, Search, Droplets, ChevronRight, X } from 'lucide-react';
 
 interface FoodItem {
