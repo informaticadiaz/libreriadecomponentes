@@ -1,3 +1,4 @@
+"use client";
 import React, { useState } from 'react';
 import { Home, TrendingUp, MessageCircle, User, Dumbbell, Calendar, Bell } from 'lucide-react';
 

@@ -1,3 +1,4 @@
+"use client";
 import React, { useState } from 'react';
 import { Bell, Check, X, Dumbbell, MessageCircle, Trophy, Flame, Clock, ChevronRight, MoreHorizontal } from 'lucide-react';
 

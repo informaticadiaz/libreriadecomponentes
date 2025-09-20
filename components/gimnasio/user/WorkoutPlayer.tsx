@@ -1,3 +1,4 @@
+"use client";
 import React, { useState, useEffect, useRef } from 'react';
 import { RotateCcw, Plus, Minus, Check, X, Timer, Volume2, VolumeX } from 'lucide-react';
 

@@ -1,3 +1,4 @@
+"use client";
 import React, { useState, useRef, useEffect } from 'react';
 import { Send, Camera, Mic, Plus, X, Check, CheckCheck, Clock, Image, Smile } from 'lucide-react';
 

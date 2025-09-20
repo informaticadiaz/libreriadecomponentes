@@ -1,3 +1,4 @@
+"use client";
 import React, { useState } from 'react';
 import { XAxis, YAxis, ResponsiveContainer, Tooltip, Area, AreaChart } from 'recharts';
 import { TrendingDown, TrendingUp, Target, Award, ChevronLeft, ChevronRight } from 'lucide-react';

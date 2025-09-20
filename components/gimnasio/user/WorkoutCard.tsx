@@ -1,3 +1,4 @@
+"use client";
 import React from 'react';
 import { Play, Clock, Dumbbell, Target, ChevronRight } from 'lucide-react';
 
