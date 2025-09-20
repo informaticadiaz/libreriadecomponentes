@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react';
-import { Plus, Camera, Search, Clock, Target, Flame, Zap, Droplets, ChevronRight, X, Check } from 'lucide-react';
+import { Plus, Camera, Search, Droplets, ChevronRight, X } from 'lucide-react';
 
 interface FoodItem {
   id: string;
@@ -99,11 +99,11 @@ const NutritionTracker: React.FC<NutritionTrackerProps> = ({
   ];
 
   const meals = [
-    { id: 'breakfast', label: 'Desayuno', icon: '🌅', time: '07:00' },
-    { id: 'lunch', label: 'Almuerzo', icon: '☀️', time: '13:00' },
-    { id: 'dinner', label: 'Cena', icon: '🌙', time: '20:00' },
-    { id: 'snack', label: 'Snack', icon: '🍎', time: 'Variable' }
-  ];
+    { id: 'breakfast' as const, label: 'Desayuno', icon: '🌅', time: '07:00' },
+    { id: 'lunch' as const, label: 'Almuerzo', icon: '☀️', time: '13:00' },
+    { id: 'dinner' as const, label: 'Cena', icon: '🌙', time: '20:00' },
+    { id: 'snack' as const, label: 'Snack', icon: '🍎', time: 'Variable' }
+  ] as const;
 
   // Calculate current totals
   const currentTotals = loggedFoods.reduce(
@@ -479,7 +479,7 @@ const NutritionTracker: React.FC<NutritionTrackerProps> = ({
                   </div>
                   <button
                     onClick={() => {
-                      setSelectedMeal(meal.id as any);
+                      setSelectedMeal(meal.id);
                       setShowAddFood(true);
                     }}
                     className="w-8 h-8 bg-fuchsia-600 hover:bg-fuchsia-700 rounded-full flex items-center justify-center transition-colors"

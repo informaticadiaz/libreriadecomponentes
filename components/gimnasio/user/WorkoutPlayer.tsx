@@ -19,10 +19,17 @@ interface Set {
   rpe?: number; // Rate of Perceived Exertion (1-10)
 }
 
+interface WorkoutResults {
+  workoutName: string;
+  duration: number; // seconds
+  exercises: Record<string, Set[]>;
+  completedAt: string; // ISO string
+}
+
 interface WorkoutPlayerProps {
   workoutName: string;
   exercises: Exercise[];
-  onCompleteWorkout: (results: any) => void;
+  onCompleteWorkout: (results: WorkoutResults) => void;
   onExitWorkout: () => void;
 }
 
@@ -36,7 +43,7 @@ const WorkoutPlayer: React.FC<WorkoutPlayerProps> = ({
   const [currentSet, setCurrentSet] = useState(1);
   const [restTimer, setRestTimer] = useState(0);
   const [isResting, setIsResting] = useState(false);
-  const [isPlaying, setIsPlaying] = useState(false);
+  // const [isPlaying, setIsPlaying] = useState(false);
   const [isMuted, setIsMuted] = useState(false);
   const [workoutStartTime] = useState(Date.now());
   const [exerciseResults, setExerciseResults] = useState<Record<string, Set[]>>({});
@@ -222,7 +229,12 @@ useEffect(() => {
         <div className="text-center">
           <h2 className="text-2xl font-bold text-white mb-4">Entrenamiento Completado 🎉</h2>
           <button
-            onClick={() => onCompleteWorkout({})}
+            onClick={() => onCompleteWorkout({
+              workoutName: 'Workout Completado',
+              duration: 0,
+              exercises: {},
+              completedAt: new Date().toISOString()
+            })}
             className="bg-gradient-to-r from-fuchsia-600 to-violet-600 text-white px-8 py-3 rounded-full font-semibold"
           >
             Ver Resumen
@@ -471,7 +483,7 @@ const WorkoutPlayerDemo = () => {
     }
   ];
 
-  const handleCompleteWorkout = (results: any) => {
+  const handleCompleteWorkout = (results: WorkoutResults) => {
     console.log('Workout completed:', results);
     setIsWorkoutActive(false);
   };
@@ -492,7 +504,7 @@ const WorkoutPlayerDemo = () => {
               <h3 className="font-semibold text-white mb-2">Push Day Intenso</h3>
               <p className="text-sm text-gray-400">3 ejercicios • 45 min estimados</p>
               <div className="mt-3 space-y-1">
-                {demoExercises.map((exercise, index) => (
+                {demoExercises.map((exercise) => (
                   <div key={exercise.id} className="flex justify-between text-xs">
                     <span className="text-gray-300">{exercise.name}</span>
                     <span className="text-gray-500">{exercise.sets} × {exercise.reps}</span>

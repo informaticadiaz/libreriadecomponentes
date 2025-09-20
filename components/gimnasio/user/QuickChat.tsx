@@ -20,8 +20,6 @@ interface QuickChatProps {
 }
 
 const QuickChat: React.FC<QuickChatProps> = ({
-  trainerName,
-  trainerAvatar,
   isTrainerOnline,
   onSendMessage,
   onClose

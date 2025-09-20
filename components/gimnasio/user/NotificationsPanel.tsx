@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Bell, Check, X, Dumbbell, MessageCircle, Trophy, Calendar, Flame, Heart, Clock, ChevronRight, MoreHorizontal } from 'lucide-react';
+import { Bell, Check, X, Dumbbell, MessageCircle, Trophy, Flame, Clock, ChevronRight, MoreHorizontal } from 'lucide-react';
 
 interface Notification {
   id: string;

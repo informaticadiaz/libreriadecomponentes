@@ -4,7 +4,7 @@ import { Home, TrendingUp, MessageCircle, User, Dumbbell, Calendar, Bell } from 
 interface NavigationItem {
   id: string;
   label: string;
-  icon: React.ComponentType<any>;
+  icon: React.FC<React.SVGProps<SVGSVGElement>>;
   badge?: number;
   isActive?: boolean;
 }
@@ -20,7 +20,6 @@ const BottomNavigation: React.FC<BottomNavigationProps> = ({
   activeTab,
   onTabChange,
   unreadMessages = 0,
-  hasNotifications = false
 }) => {
   const navigationItems: NavigationItem[] = [
     {

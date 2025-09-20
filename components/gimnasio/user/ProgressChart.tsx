@@ -25,7 +25,7 @@ const ProgressChart: React.FC<ProgressChartProps> = ({
   timeframe = '3M'
 }) => {
   const [activeTab, setActiveTab] = useState<'weight' | 'bodyFat' | 'muscle'>('weight');
-  const [selectedTimeframe, setSelectedTimeframe] = useState(timeframe);
+  const [selectedTimeframe, setSelectedTimeframe] = useState<'1M' | '3M' | '6M' | '1Y'>(timeframe);
 
   // Calculate progress metrics
   const weightLoss = startWeight - currentWeight;
@@ -40,20 +40,30 @@ const ProgressChart: React.FC<ProgressChartProps> = ({
     : 0;
 
   const timeframes = [
-    { label: '1M', value: '1M' },
-    { label: '3M', value: '3M' },
-    { label: '6M', value: '6M' },
-    { label: '1Y', value: '1Y' }
-  ];
+    { label: '1M', value: '1M' as const },
+    { label: '3M', value: '3M' as const },
+    { label: '6M', value: '6M' as const },
+    { label: '1Y', value: '1Y' as const }
+  ] as const;
 
   const tabs = [
-    { key: 'weight', label: 'Peso', icon: TrendingDown },
-    { key: 'bodyFat', label: 'Grasa', icon: Target },
-    { key: 'muscle', label: 'Músculo', icon: TrendingUp }
-  ];
+    { key: 'weight' as const, label: 'Peso', icon: TrendingDown },
+    { key: 'bodyFat' as const, label: 'Grasa', icon: Target },
+    { key: 'muscle' as const, label: 'Músculo', icon: TrendingUp }
+  ] as const;
 
   // Custom tooltip for chart
-  const CustomTooltip = ({ active, payload, label }: any) => {
+  interface TooltipProps {
+    active?: boolean;
+    payload?: Array<{
+      value: number;
+      name: string;
+      color: string;
+    }>;
+    label?: string;
+  }
+
+  const CustomTooltip: React.FC<TooltipProps> = ({ active, payload, label }) => {
     if (active && payload && payload.length) {
       return (
         <div className="rounded-lg bg-gray-900 border border-gray-700 p-3 shadow-lg">
@@ -150,7 +160,7 @@ const ProgressChart: React.FC<ProgressChartProps> = ({
               {timeframes.map((tf) => (
                 <button
                   key={tf.value}
-                  onClick={() => setSelectedTimeframe(tf.value as any)}
+                  onClick={() => setSelectedTimeframe(tf.value)}
                   className={`px-3 py-1 text-xs font-medium rounded-md transition-all ${
                     selectedTimeframe === tf.value
                       ? 'bg-fuchsia-600 text-white'
@@ -170,7 +180,7 @@ const ProgressChart: React.FC<ProgressChartProps> = ({
               return (
                 <button
                   key={tab.key}
-                  onClick={() => setActiveTab(tab.key as any)}
+                  onClick={() => setActiveTab(tab.key)}
                   className={`flex-1 flex items-center justify-center space-x-2 py-3 px-4 rounded-md transition-all ${
                     activeTab === tab.key
                       ? 'bg-gradient-to-r from-fuchsia-600 to-violet-600 text-white'
