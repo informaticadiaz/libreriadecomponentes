@@ -1,4 +1,3 @@
-"use client"
 import React, { useState, useRef, useEffect } from 'react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Button } from '@/components/ui/button';
@@ -9,7 +8,9 @@ import { Checkbox } from '@/components/ui/checkbox';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { 
-  ArrowLeft,
+  ArrowLeft, 
+  Play, 
+  Pause, 
   Lightbulb, 
   CheckCircle, 
   XCircle, 
@@ -20,10 +21,12 @@ import {
   Trophy,
   Heart,
   Zap,
+  Target,
   Gift,
   Rainbow,
   Smile,
   PartyPopper,
+  Gamepad2
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
@@ -70,6 +73,20 @@ const KidFriendlyMultiplicationTrainer = () => {
   const [stars, setStars] = useState(0);
   const inputRef = useRef<HTMLInputElement>(null);
 
+  // Función para generar nueva pregunta
+  const generateNewQuestion = () => {
+    const tables = practiceSettings.selectedTables;
+    const randomTable = tables[Math.floor(Math.random() * tables.length)];
+    const randomMultiplier = Math.floor(Math.random() * 12) + 1;
+    
+    setCurrentQuestion({
+      factor1: randomTable,
+      factor2: randomMultiplier,
+      answer: randomTable * randomMultiplier,
+      id: Math.random()
+    });
+  };
+
   // Efectos de sonido visuales
   const [celebration, setCelebration] = useState(false);
   const [shake, setShake] = useState(false);
@@ -110,7 +127,10 @@ const KidFriendlyMultiplicationTrainer = () => {
     setInputValue('');
     setShowHint(false);
     setQuestionIndex(questionIndex + 1);
-    // Aquí generarías una nueva pregunta
+    
+    // Generar nueva pregunta
+    generateNewQuestion();
+    
     if (inputRef.current) {
       inputRef.current.focus();
     }
