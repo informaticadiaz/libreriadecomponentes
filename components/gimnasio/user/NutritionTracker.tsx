@@ -47,7 +47,7 @@ const NutritionTracker: React.FC<NutritionTrackerProps> = ({
   const [selectedFood, setSelectedFood] = useState<FoodItem | null>(null);
   const [quantity, setQuantity] = useState(1);
   const [waterIntake, setWaterIntake] = useState(1200); // ml
-  const fileInputRef = useRef<HTMLInputElement>(null);
+  // const fileInputRef = useRef<HTMLInputElement>(null);
 
   // Sample food database
   const foodDatabase: FoodItem[] = [

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { LineChart, Line, XAxis, YAxis, ResponsiveContainer, Tooltip, Area, AreaChart } from 'recharts';
-import { TrendingDown, TrendingUp, Target, Calendar, Award, ChevronLeft, ChevronRight } from 'lucide-react';
+import { XAxis, YAxis, ResponsiveContainer, Tooltip, Area, AreaChart } from 'recharts';
+import { TrendingDown, TrendingUp, Target, Award, ChevronLeft, ChevronRight } from 'lucide-react';
 
 interface ProgressData {
   date: string;
@@ -31,7 +31,7 @@ const ProgressChart: React.FC<ProgressChartProps> = ({
   const weightLoss = startWeight - currentWeight;
   const progressToGoal = startWeight - targetWeight;
   const progressPercentage = Math.min((weightLoss / progressToGoal) * 100, 100);
-  const isGaining = targetWeight > startWeight;
+  // const isGaining = targetWeight > startWeight;
   
   // Trend calculation
   const recentData = data.slice(-7); // Last 7 entries
