@@ -390,7 +390,7 @@ export const MultiplicationTablesTrainer = (props: TablesTrainerProps) => {
             <p>Navega con Tab • Envía con Enter • Guarda progreso automáticamente</p>
           </div>
 
-          {/* Debug info - remover en producción */}
+          {/* Debug info - remover en producción 
           {process.env.NODE_ENV === 'development' && (
             <div className="mt-4 rounded-lg bg-gray-100 p-4 text-xs">
               <details>
@@ -416,6 +416,7 @@ export const MultiplicationTablesTrainer = (props: TablesTrainerProps) => {
               </details>
             </div>
           )}
+          */}
         </div>
       </div>
     </div>

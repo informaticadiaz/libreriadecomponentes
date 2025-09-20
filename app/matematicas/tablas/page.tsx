@@ -37,76 +37,7 @@ export default function LearnPage() {
         </div>
       </header>
       <main className="max-w-7xl mx-auto">
-        {/* Sidebar con información */}
-        <div className="lg:col-span-1 space-y-6">
-            {/* Información general */}
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center space-x-2">
-                  <BookOpen className="h-5 w-5" />
-                  <span>Cómo usar</span>
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-3 text-sm">
-                <div className="flex items-start space-x-2">
-                  <Target className="h-4 w-4 mt-0.5 text-blue-500 flex-shrink-0" />
-                  <p><strong>Explorar:</strong> Revisa las tablas para familiarizarte</p>
-                </div>
-                <div className="flex items-start space-x-2">
-                  <Zap className="h-4 w-4 mt-0.5 text-green-500 flex-shrink-0" />
-                  <p><strong>Practicar:</strong> Entrena sin presión de tiempo</p>
-                </div>
-                <div className="flex items-start space-x-2">
-                  <Trophy className="h-4 w-4 mt-0.5 text-yellow-500 flex-shrink-0" />
-                  <p><strong>Quiz:</strong> Desafiate con tiempo y puntuación</p>
-                </div>
-              </CardContent>
-            </Card>
 
-            {/* Progreso actual */}
-            {progressData && progressData.totalAttempts > 0 && (
-              <Card>
-                <CardHeader>
-                  <CardTitle>Tu progreso actual</CardTitle>
-                  <CardDescription>
-                    Última actualización: {progressData.lastUpdated.toLocaleDateString()}
-                  </CardDescription>
-                </CardHeader>
-                <CardContent className="space-y-3">
-                  <div className="flex justify-between items-center">
-                    <span className="text-sm text-gray-600">Precisión general</span>
-                    <Badge 
-                      variant={progressData.overallAccuracy >= 80 ? "default" : "secondary"}
-                      className="font-semibold"
-                    >
-                      {progressData.overallAccuracy.toFixed(1)}%
-                    </Badge>
-                  </div>
-                  <div className="flex justify-between items-center">
-                    <span className="text-sm text-gray-600">Respuestas correctas</span>
-                    <span className="font-semibold">{progressData.totalCorrect}</span>
-                  </div>
-                  <div className="flex justify-between items-center">
-                    <span className="text-sm text-gray-600">Total de intentos</span>
-                    <span className="font-semibold">{progressData.totalAttempts}</span>
-                  </div>
-                </CardContent>
-              </Card>
-            )}
-
-            {/* Tips y consejos */}
-            <Card>
-              <CardHeader>
-                <CardTitle>💡 Tips</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-2 text-sm">
-                <p>• Usa las pistas si necesitas ayuda</p>
-                <p>• Practica las tablas más difíciles más seguido</p>
-                <p>• Trata de encontrar patrones en los números</p>
-                <p>• No te preocupes por el tiempo al principio</p>
-              </CardContent>
-            </Card>
-          </div>
         <div className="mt-8">
           {/* Componente principal */}
           <div className="">
@@ -123,14 +54,86 @@ export default function LearnPage() {
           </div>
         </div>
 
-        {/* Sección de configuraciones adicionales (demo) */}
+        {/* Sidebar con información */}
+        <div className="lg:col-span-1 space-y-6">
+          {/* Información general */}
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center space-x-2">
+                <BookOpen className="h-5 w-5" />
+                <span>Cómo usar</span>
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-3 text-sm">
+              <div className="flex items-start space-x-2">
+                <Target className="h-4 w-4 mt-0.5 text-blue-500 flex-shrink-0" />
+                <p><strong>Explorar:</strong> Revisa las tablas para familiarizarte</p>
+              </div>
+              <div className="flex items-start space-x-2">
+                <Zap className="h-4 w-4 mt-0.5 text-green-500 flex-shrink-0" />
+                <p><strong>Practicar:</strong> Entrena sin presión de tiempo</p>
+              </div>
+              <div className="flex items-start space-x-2">
+                <Trophy className="h-4 w-4 mt-0.5 text-yellow-500 flex-shrink-0" />
+                <p><strong>Quiz:</strong> Desafiate con tiempo y puntuación</p>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Progreso actual */}
+          {progressData && progressData.totalAttempts > 0 && (
+            <Card>
+              <CardHeader>
+                <CardTitle>Tu progreso actual</CardTitle>
+                <CardDescription>
+                  Última actualización: {progressData.lastUpdated.toLocaleDateString()}
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-3">
+                <div className="flex justify-between items-center">
+                  <span className="text-sm text-gray-600">Precisión general</span>
+                  <Badge
+                    variant={progressData.overallAccuracy >= 80 ? "default" : "secondary"}
+                    className="font-semibold"
+                  >
+                    {progressData.overallAccuracy.toFixed(1)}%
+                  </Badge>
+                </div>
+                <div className="flex justify-between items-center">
+                  <span className="text-sm text-gray-600">Respuestas correctas</span>
+                  <span className="font-semibold">{progressData.totalCorrect}</span>
+                </div>
+                <div className="flex justify-between items-center">
+                  <span className="text-sm text-gray-600">Total de intentos</span>
+                  <span className="font-semibold">{progressData.totalAttempts}</span>
+                </div>
+              </CardContent>
+            </Card>
+          )}
+
+          {/* Tips y consejos */}
+          <Card>
+            <CardHeader>
+              <CardTitle>💡 Tips</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-2 text-sm">
+              <p>• Usa las pistas si necesitas ayuda</p>
+              <p>• Practica las tablas más difíciles más seguido</p>
+              <p>• Trata de encontrar patrones en los números</p>
+              <p>• No te preocupes por el tiempo al principio</p>
+            </CardContent>
+          </Card>
+        </div>
+
+        {/* Sección de configuraciones adicionales (demo)
         <div className="mt-12 pt-8 border-t border-gray-200">
           <h2 className="text-xl font-semibold text-gray-900 mb-6">
             Configuraciones de demostración
           </h2>
-          
+           */}
+        {/*
           <div className="grid grid-cols-1 gap-6">
-            {/* Configuración básica */}
+             Configuración básica 
             <Card>
               <CardHeader>
                 <CardTitle className="text-lg">Modo Básico</CardTitle>
@@ -148,8 +151,8 @@ export default function LearnPage() {
                 />
               </CardContent>
             </Card>
-
-            {/* Configuración avanzada */}
+*/}
+        {/* Configuración avanzada 
             <Card>
               <CardHeader>
                 <CardTitle className="text-lg">Modo Avanzado</CardTitle>
@@ -167,8 +170,8 @@ export default function LearnPage() {
                 />
               </CardContent>
             </Card>
-
-            {/* Configuración personalizada */}
+*/}
+        {/* Configuración personalizada 
             <Card>
               <CardHeader>
                 <CardTitle className="text-lg">Personalizado</CardTitle>
@@ -201,7 +204,9 @@ export default function LearnPage() {
               </CardContent>
             </Card>
           </div>
+          
         </div>
+        */}
       </main>
 
       {/* Footer */}
@@ -209,8 +214,8 @@ export default function LearnPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <div className="text-center text-gray-600">
             <p className="text-sm">
-              Componente de entrenamiento de matemáticas • 
-              Accesible • Compatible con Next.js • 
+              Componente de entrenamiento de matemáticas •
+              Accesible • Compatible con Next.js •
               Guarda progreso localmente
             </p>
             <p className="text-xs mt-2">
