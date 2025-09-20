@@ -6,21 +6,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import type { PracticeSettings as PracticeSettingsType } from '../types';
 import { Panel } from './Panel';
 import { Button } from '@/components/ui/button';
-import {
-  Smile,
-  Sparkles,
-  Star,
-  Sun,
-  Rainbow,
-  Heart,
-  Flower2,
-  PartyPopper,
-  MoonStar,
-  WandSparkles,
-  Shuffle,
-  Lightbulb,
-  Check
-} from 'lucide-react';
+import { Shuffle, Lightbulb, Check } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 interface PracticeSettingsProps {
@@ -52,19 +38,6 @@ export const PracticeSettingsComponent = ({
     (_, i) => minTable + i
   );
 
-  const tableIcons = [
-    Smile,
-    Sparkles,
-    Star,
-    Sun,
-    Rainbow,
-    Heart,
-    Flower2,
-    PartyPopper,
-    MoonStar,
-    WandSparkles
-  ];
-
   const handleTableToggle = (table: number, checked: boolean) => {
     if (checked) {
       onSettingsChange({
@@ -88,8 +61,7 @@ export const PracticeSettingsComponent = ({
             {i18n.selectTables}
           </Label>
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
-            {tableNumbers.map((table, index) => {
-              const Icon = tableIcons[index % tableIcons.length];
+            {tableNumbers.map(table => {
               const isSelected = settings.selectedTables.includes(table);
 
               return (
@@ -97,10 +69,10 @@ export const PracticeSettingsComponent = ({
                   key={table}
                   htmlFor={`table-${table}`}
                   className={cn(
-                    'group relative flex items-center justify-between gap-3 rounded-full border border-transparent bg-white/80 px-4 py-3 text-sm font-semibold text-slate-700 shadow-sm transition-all hover:-translate-y-0.5 hover:shadow-md focus-within:outline focus-within:outline-2 focus-within:outline-offset-2 focus-within:outline-pink-300 dark:bg-slate-900/60 dark:text-slate-100',
+                    'group relative flex cursor-pointer items-center gap-3 rounded-lg border px-4 py-3 text-sm shadow-sm transition-colors focus-within:outline focus-within:outline-2 focus-within:outline-offset-2 focus-within:outline-pink-300',
                     isSelected
-                      ? 'ring-2 ring-offset-2 ring-pink-300 dark:ring-pink-400 dark:ring-offset-slate-950'
-                      : 'ring-1 ring-white/60 dark:ring-white/10'
+                      ? 'border-pink-400 bg-pink-50 text-pink-700 dark:border-pink-500 dark:bg-pink-500/10 dark:text-pink-100'
+                      : 'border-slate-200 bg-white text-slate-700 hover:border-pink-200 hover:bg-pink-50/40 dark:border-slate-700 dark:bg-slate-900/60 dark:text-slate-100 dark:hover:border-pink-400/60 dark:hover:bg-pink-500/5'
                   )}
                 >
                   <Checkbox
@@ -111,20 +83,15 @@ export const PracticeSettingsComponent = ({
                     }
                     className="sr-only"
                   />
-                  <span className="flex items-center gap-3">
-                    <span className="flex h-10 w-10 items-center justify-center rounded-full bg-gradient-to-br from-pink-200 via-white to-sky-200 text-pink-600 shadow-inner dark:from-pink-500/60 dark:via-slate-900 dark:to-sky-500/60">
-                      <Icon className="h-5 w-5" aria-hidden="true" />
-                    </span>
-                    <span>Tabla del {table}</span>
-                  </span>
                   <span
                     className={cn(
-                      'flex h-6 w-6 items-center justify-center rounded-full bg-pink-200/80 text-pink-600 transition-opacity dark:bg-pink-500/40 dark:text-pink-100',
-                      isSelected ? 'opacity-100' : 'opacity-0'
+                      'text-base',
+                      isSelected
+                        ? 'font-semibold text-pink-700 dark:text-pink-200'
+                        : 'font-medium text-slate-700 dark:text-slate-100'
                     )}
-                    aria-hidden="true"
                   >
-                    <Check className="h-4 w-4" />
+                    Tabla {table}
                   </span>
                 </label>
               );
