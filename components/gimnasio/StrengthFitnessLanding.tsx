@@ -196,10 +196,10 @@ const StrengthFitnessLanding: React.FC = () => {
       {/* About Section */}
       <section id="about" className="py-20 bg-black relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-r from-purple-900/20 to-pink-900/20"></div>
-
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
-            <div className="space-y-8">
+            {/* Section 1 */}
+            <div className="space-y-8 my-24">
               <div className="space-y-4">
                 <h2 className="text-4xl md:text-5xl font-bold">
                   <span className="text-white">STRENGTH FITNESS</span>
@@ -228,6 +228,7 @@ const StrengthFitnessLanding: React.FC = () => {
               </div>
             </div>
 
+            {/* Section 2 */}
             <div className="relative">
               <button
                 onClick={() => scrollToSection('plans')}
@@ -261,6 +262,7 @@ const StrengthFitnessLanding: React.FC = () => {
                 </div>
               </div>
             </div>
+
           </div>
         </div>
       </section>
