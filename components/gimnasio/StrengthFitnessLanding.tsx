@@ -157,7 +157,7 @@ const StrengthFitnessLanding: React.FC = () => {
           <div className="absolute bottom-32 left-40 w-16 h-16 border border-purple-400 rounded-full animate-ping delay-500"></div>
         </div>
 
-        <div className={`pb-44 relative z-20 text-center max-w-4xl mx-auto px-4 transform transition-all duration-1000 ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'
+        <div className={`pb-22 md:pb-44 relative z-20 text-center max-w-4xl mx-auto px-4 transform transition-all duration-1000 ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'
           }`}>
           <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold mb-8 leading-tight">
             <span className="bg-gradient-to-r from-white via-pink-200 to-purple-200 bg-clip-text text-transparent animate-pulse">
