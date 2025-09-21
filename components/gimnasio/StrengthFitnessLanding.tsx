@@ -198,7 +198,7 @@ const StrengthFitnessLanding: React.FC = () => {
         <div className="absolute inset-0 bg-gradient-to-r from-purple-900/20 to-pink-900/20"></div>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
-            {/* Section 1 */}
+            {/* about Section 1 */}
             <div className="space-y-8 my-24">
               <div className="space-y-4">
                 <h2 className="text-4xl md:text-5xl font-bold">
@@ -228,15 +228,8 @@ const StrengthFitnessLanding: React.FC = () => {
               </div>
             </div>
 
-            {/* Section 2 */}
+            {/* about Section 2 */}
             <div className="relative">
-              <button
-                onClick={() => scrollToSection('plans')}
-                className="mb-8 mt-16 group bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700 px-8 py-4 rounded-full font-semibold text-lg transition-all duration-300 transform hover:scale-105 flex items-center space-x-2"
-              >
-                <span>¡Entrena Con Nosotros!</span>
-                <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" />
-              </button>
               <div className="relative aspect-square bg-gradient-to-br from-pink-500 to-purple-600 rounded-2xl border border-white/10 backdrop-blur-sm flex items-end justify-center overflow-hidden">
                 <img
                   src="/about.webp"
@@ -261,6 +254,13 @@ const StrengthFitnessLanding: React.FC = () => {
                   </div>
                 </div>
               </div>
+              <button
+                onClick={() => scrollToSection('plans')}
+                className="mb-8 mt-16 group bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700 px-8 py-4 rounded-full font-semibold text-lg transition-all duration-300 transform hover:scale-105 flex items-center space-x-2"
+              >
+                <span>¡Entrena Con Nosotros!</span>
+                <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" />
+              </button>
             </div>
 
           </div>
