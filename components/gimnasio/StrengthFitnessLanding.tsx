@@ -182,7 +182,9 @@ const StrengthFitnessLanding: React.FC = () => {
               <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" />
             </button>
 
-            <button className="border-2 border-white/50 hover:border-white px-8 py-4 rounded-full font-semibold text-lg transition-all duration-300 hover:bg-white/10 backdrop-blur-sm">
+            <button 
+            onClick={() => scrollToSection('about')}
+            className="border-2 border-white/50 hover:border-white px-8 py-4 rounded-full font-semibold text-lg transition-all duration-300 hover:bg-white/10 backdrop-blur-sm">
               TOUR VIRTUAL
             </button>
           </div>
