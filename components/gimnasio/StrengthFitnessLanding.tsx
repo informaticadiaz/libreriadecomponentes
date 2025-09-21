@@ -226,17 +226,16 @@ const StrengthFitnessLanding: React.FC = () => {
                   </div>
                 ))}
               </div>
+            </div>
 
+            <div className="relative">
               <button
                 onClick={() => scrollToSection('plans')}
-                className="group bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700 px-8 py-4 rounded-full font-semibold text-lg transition-all duration-300 transform hover:scale-105 flex items-center space-x-2"
+                className="mb-8 mt-16 group bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700 px-8 py-4 rounded-full font-semibold text-lg transition-all duration-300 transform hover:scale-105 flex items-center space-x-2"
               >
                 <span>¡Entrena Con Nosotros!</span>
                 <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" />
               </button>
-            </div>
-
-            <div className="relative">
               <div className="relative aspect-square bg-gradient-to-br from-pink-500 to-purple-600 rounded-2xl border border-white/10 backdrop-blur-sm flex items-end justify-center overflow-hidden">
                 <img
                   src="/about.webp"
