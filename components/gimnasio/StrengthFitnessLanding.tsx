@@ -8,6 +8,7 @@ interface Plan {
   price: string;
   features: string[];
   highlighted?: boolean;
+  imageUrl?: string;
 }
 
 interface Achievement {
@@ -21,11 +22,11 @@ const StrengthFitnessLanding: React.FC = () => {
 
   useEffect(() => {
     setIsVisible(true);
-    
+
     const handleScroll = () => {
       const scrollPosition = window.scrollY;
       const sections = ['hero', 'about', 'plans'];
-      
+
       sections.forEach(section => {
         const element = document.getElementById(section);
         if (element) {
@@ -54,7 +55,8 @@ const StrengthFitnessLanding: React.FC = () => {
         'Clases grupales premium',
         'Seguimiento con entrenador',
         'Acceso a área VIP'
-      ]
+      ],
+      imageUrl: '/premium.webp'
     },
     {
       id: 'standard',
@@ -67,7 +69,8 @@ const StrengthFitnessLanding: React.FC = () => {
         'Asesoramiento inicial',
         'Uso de todas las máquinas',
         'Horario extendido'
-      ]
+      ],
+      imageUrl: '/estandar.jpg'
     }
   ];
 
@@ -101,21 +104,21 @@ const StrengthFitnessLanding: React.FC = () => {
                 <div className="text-lg font-bold text-white">STRENGTH FITNESS</div>
               </div>
             </div>
-            
+
             <div className="hidden md:flex space-x-8">
-              <button 
+              <button
                 onClick={() => scrollToSection('hero')}
                 className={`transition-colors duration-300 ${activeSection === 'hero' ? 'text-pink-500' : 'text-white hover:text-pink-400'}`}
               >
                 HOME
               </button>
-              <button 
+              <button
                 onClick={() => scrollToSection('about')}
                 className={`transition-colors duration-300 ${activeSection === 'about' ? 'text-pink-500' : 'text-white hover:text-pink-400'}`}
               >
                 SOBRE NOSOTROS
               </button>
-              <button 
+              <button
                 onClick={() => scrollToSection('plans')}
                 className={`transition-colors duration-300 ${activeSection === 'plans' ? 'text-pink-500' : 'text-white hover:text-pink-400'}`}
               >
@@ -136,8 +139,17 @@ const StrengthFitnessLanding: React.FC = () => {
 
       {/* Hero Section */}
       <section id="hero" className="relative min-h-screen flex items-center justify-center overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-pink-600/90 via-purple-600/90 to-black/90 z-10"></div>
-        
+        <div className="absolute inset-0 bg-gradient-to-br from-pink-600/60 via-purple-600/60 to-black/60 z-10"></div>
+        <img
+          src="/hero.webp"
+          alt="Gimnasio Strength Fitness"
+          className="absolute inset-0 w-full h-full object-cover hidden md:block"
+        />
+        <img
+          src="/hero-mobile.webp"
+          alt="Gimnasio Strength Fitness"
+          className="absolute inset-0 w-full h-full object-cover md:hidden"
+        />
         {/* Animated background pattern */}
         <div className="absolute inset-0 opacity-10">
           <div className="absolute top-20 left-20 w-32 h-32 border border-white rounded-full animate-pulse"></div>
@@ -145,9 +157,8 @@ const StrengthFitnessLanding: React.FC = () => {
           <div className="absolute bottom-32 left-40 w-16 h-16 border border-purple-400 rounded-full animate-ping delay-500"></div>
         </div>
 
-        <div className={`relative z-20 text-center max-w-4xl mx-auto px-4 transform transition-all duration-1000 ${
-          isVisible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'
-        }`}>
+        <div className={`relative z-20 text-center max-w-4xl mx-auto px-4 transform transition-all duration-1000 ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'
+          }`}>
           <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold mb-8 leading-tight">
             <span className="bg-gradient-to-r from-white via-pink-200 to-purple-200 bg-clip-text text-transparent animate-pulse">
               Es Tu Templo
@@ -157,20 +168,20 @@ const StrengthFitnessLanding: React.FC = () => {
               Es Tu Fuerza
             </span>
           </h1>
-          
+
           <p className="text-xl md:text-2xl mb-12 text-white/90 max-w-2xl mx-auto leading-relaxed">
             El gimnasio más completo con equipos de última generación y entrenadores certificados
           </p>
 
           <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
-            <button 
+            <button
               onClick={() => scrollToSection('plans')}
               className="group bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700 px-8 py-4 rounded-full font-semibold text-lg transition-all duration-300 transform hover:scale-105 hover:shadow-2xl flex items-center space-x-2"
             >
               <span>ÚNETE AHORA</span>
               <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" />
             </button>
-            
+
             <button className="border-2 border-white/50 hover:border-white px-8 py-4 rounded-full font-semibold text-lg transition-all duration-300 hover:bg-white/10 backdrop-blur-sm">
               TOUR VIRTUAL
             </button>
@@ -185,7 +196,7 @@ const StrengthFitnessLanding: React.FC = () => {
       {/* About Section */}
       <section id="about" className="py-20 bg-black relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-r from-purple-900/20 to-pink-900/20"></div>
-        
+
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div className="space-y-8">
@@ -202,11 +213,10 @@ const StrengthFitnessLanding: React.FC = () => {
 
               <div className="grid grid-cols-2 md:grid-cols-3 gap-6">
                 {achievements.map((achievement, index) => (
-                  <div 
+                  <div
                     key={achievement.title}
-                    className={`text-center p-4 rounded-lg bg-gradient-to-br from-white/5 to-white/10 backdrop-blur-sm border border-white/10 transform transition-all duration-500 hover:scale-105 ${
-                      isVisible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'
-                    }`}
+                    className={`text-center p-4 rounded-lg bg-gradient-to-br from-white/5 to-white/10 backdrop-blur-sm border border-white/10 transform transition-all duration-500 hover:scale-105 ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'
+                      }`}
                     style={{ transitionDelay: `${index * 100}ms` }}
                   >
                     <div className="text-2xl mb-2">{achievement.icon}</div>
@@ -217,7 +227,7 @@ const StrengthFitnessLanding: React.FC = () => {
                 ))}
               </div>
 
-              <button 
+              <button
                 onClick={() => scrollToSection('plans')}
                 className="group bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700 px-8 py-4 rounded-full font-semibold text-lg transition-all duration-300 transform hover:scale-105 flex items-center space-x-2"
               >
@@ -227,14 +237,27 @@ const StrengthFitnessLanding: React.FC = () => {
             </div>
 
             <div className="relative">
-              <div className="aspect-square bg-gradient-to-br from-pink-500/20 to-purple-600/20 rounded-2xl border border-white/10 backdrop-blur-sm flex items-center justify-center">
-                <div className="text-center space-y-4">
-                  <Dumbbell className="w-24 h-24 text-pink-400 mx-auto animate-pulse" />
-                  <div className="text-xl font-semibold text-white">
-                    +15 Años de Experiencia
-                  </div>
-                  <div className="text-white/70">
-                    Transformando vidas a través del fitness
+              <div className="relative aspect-square bg-gradient-to-br from-pink-500 to-purple-600 rounded-2xl border border-white/10 backdrop-blur-sm flex items-end justify-center overflow-hidden">
+                <img
+                  src="/about.webp"
+                  alt="Gimnasio Strength Fitness"
+                  className="absolute inset-0 w-full h-full object-cover"
+                />
+                {/* Overlay para mejor contraste */}
+                <div className="absolute inset-0 bg-gradient-to-br from-pink-500/50 to-purple-600/50"></div>
+
+                <div className="relative z-10 text-center space-y-4">
+
+                  <div className="text-xl font-semibold text-white flex items-center justify-center space-x-3 p-4 pb-8">
+                    <Dumbbell className="w-20 h-20 text-pink-400 mx-auto animate-pulse" />
+                    <div>
+                      <p>
+                        +15 Años de Experiencia
+                      </p>
+                      <p>
+                        Transformando vidas a través del fitness
+                      </p>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -262,15 +285,13 @@ const StrengthFitnessLanding: React.FC = () => {
 
           <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
             {plans.map((plan, index) => (
-              <div 
+              <div
                 key={plan.id}
-                className={`relative p-8 rounded-2xl border transition-all duration-500 transform hover:scale-105 hover:shadow-2xl ${
-                  plan.highlighted 
-                    ? 'bg-gradient-to-br from-pink-500/20 to-purple-600/20 border-pink-500/50 shadow-pink-500/25 shadow-xl' 
-                    : 'bg-gradient-to-br from-white/5 to-white/10 border-white/20'
-                } ${
-                  isVisible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'
-                }`}
+                className={`relative p-8 rounded-2xl border transition-all duration-500 transform hover:scale-105 hover:shadow-2xl ${plan.highlighted
+                  ? 'bg-gradient-to-br from-pink-500/20 to-purple-600/20 border-pink-500/50 shadow-pink-500/25 shadow-xl'
+                  : 'bg-gradient-to-br from-white/5 to-white/10 border-white/20'
+                  } ${isVisible ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'
+                  }`}
                 style={{ transitionDelay: `${index * 200}ms` }}
               >
                 {plan.highlighted && (
@@ -280,13 +301,23 @@ const StrengthFitnessLanding: React.FC = () => {
                     </div>
                   </div>
                 )}
+                <h3 className="text-xl font-bold text-white mb-2 drop-shadow-lg">{plan.name}</h3>
+                <div className="aspect-video bg-gradient-to-br from-black/50 to-black/80 rounded-lg mb-6 flex items-start justify-end border border-white/10 overflow-hidden relative pt-6 p-2">
+                  {/* Solo mostrar imagen si existe imageUrl */}
+                  {plan.imageUrl && (
+                    <img
+                      src={plan.imageUrl}
+                      alt={plan.name}
+                      className="absolute inset-0 w-full h-full object-cover"
+                    />
+                  )}
 
-                <div className="aspect-video bg-gradient-to-br from-black/50 to-black/80 rounded-lg mb-6 flex items-center justify-center border border-white/10">
-                  <div className="text-center">
-                    <h3 className="text-xl font-bold text-white mb-2">{plan.name}</h3>
-                    {plan.highlighted && (
-                      <div className="text-pink-400 text-sm">CON NUTRICIÓN</div>
-                    )}
+                  {/* Overlay para mejor contraste del texto */}
+                  {plan.imageUrl && (
+                    <div className="absolute inset-0 bg-gradient-to-br from-black/50 via-pink-500/20 to-purple-600/30"></div>
+                  )}
+
+                  <div className="relative z-10 text-center bg-black/40px-4 py-2 rounded-lg">
                   </div>
                 </div>
 
@@ -300,19 +331,17 @@ const StrengthFitnessLanding: React.FC = () => {
                 </ul>
 
                 <div className="text-center">
-                  <div className={`text-3xl font-bold mb-6 ${
-                    plan.highlighted 
-                      ? 'bg-gradient-to-r from-pink-400 to-purple-400 bg-clip-text text-transparent' 
-                      : 'text-white'
-                  }`}>
+                  <div className={`text-3xl font-bold mb-6 ${plan.highlighted
+                    ? 'bg-gradient-to-r from-pink-400 to-purple-400 bg-clip-text text-transparent'
+                    : 'text-white'
+                    }`}>
                     {plan.price}
                   </div>
-                  
-                  <button className={`w-full py-4 rounded-full font-semibold text-lg transition-all duration-300 ${
-                    plan.highlighted
-                      ? 'bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700 text-white transform hover:scale-105'
-                      : 'border-2 border-white/50 hover:border-white text-white hover:bg-white/10'
-                  }`}>
+
+                  <button className={`w-full py-4 rounded-full font-semibold text-lg transition-all duration-300 ${plan.highlighted
+                    ? 'bg-gradient-to-r from-pink-500 to-purple-600 hover:from-pink-600 hover:to-purple-700 text-white transform hover:scale-105'
+                    : 'border-2 border-white/50 hover:border-white text-white hover:bg-white/10'
+                    }`}>
                     ELEGIR PLAN
                   </button>
                 </div>
@@ -335,7 +364,7 @@ const StrengthFitnessLanding: React.FC = () => {
                 <div className="text-white/60 text-sm">Tu fuerza, nuestro compromiso</div>
               </div>
             </div>
-            
+
             <div className="flex justify-center space-x-8 text-white/60">
               <span>© 2025 Strength Fitness</span>
               <span>|</span>
