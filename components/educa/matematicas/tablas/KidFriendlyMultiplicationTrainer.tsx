@@ -910,7 +910,7 @@ const KidFriendlyMultiplicationTrainer = () => {
                   </p>
                   <Button
                     onClick={() => setCurrentView('quiz')}
-                    className="h-20 px-12 text-2xl font-black rounded-3xl bg-gradient-to-r from-orange-500 via-red-500 to-pink-500 text-white shadow-2xl border-4 border-white hover:scale-105 transition-all duration-200"
+                    className="h-20 px-6 md:px-12 text-lg md:text-2xl font-black rounded-3xl bg-gradient-to-r from-orange-500 via-red-500 to-pink-500 text-white shadow-2xl border-4 border-white hover:scale-105 transition-all duration-200"
                   >
                     🔥 ¡ACEPTO EL DESAFÍO! 🔥
                   </Button>
@@ -1111,7 +1111,6 @@ const KidFriendlyMultiplicationTrainer = () => {
                   className="h-20 px-12 text-2xl font-black rounded-3xl bg-gradient-to-r from-blue-500 to-purple-500 text-white shadow-xl border-4 border-white hover:scale-105 transition-all"
                 >
                   🚀 ¡SIGUIENTE! 🚀
-                  <div className="text-sm font-normal ml-2 opacity-75">(Enter)</div>
                 </Button>
               )}
 
