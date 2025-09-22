@@ -691,7 +691,7 @@ const KidFriendlyMultiplicationTrainer = () => {
 
           <div className="bg-white/20 backdrop-blur-md rounded-3xl p-6 shadow-2xl border-4 border-white/30 mb-8">
             <Tabs value={selectedMode} onValueChange={setSelectedMode}>
-              <TabsList className="grid w-full grid-cols-4 bg-white/40 rounded-2xl p-2 shadow-inner">
+              <TabsList className="grid w-full grid-cols-1 md:grid-cols-4 bg-white/40 rounded-2xl p-2 shadow-inner">
                 <TabsTrigger
                   value="explore"
                   className="rounded-xl font-bold text-lg data-[state=active]:bg-gradient-to-r data-[state=active]:from-blue-500 data-[state=active]:to-cyan-500 data-[state=active]:text-white data-[state=active]:shadow-lg transform transition-all hover:scale-105"
@@ -1044,9 +1044,6 @@ const KidFriendlyMultiplicationTrainer = () => {
                 <div className="text-8xl font-black text-transparent bg-gradient-to-r from-purple-600 via-pink-600 to-orange-500 bg-clip-text drop-shadow-2xl">
                   {currentQuestion.factor1} × {currentQuestion.factor2}
                 </div>
-                <div className="text-6xl font-black text-transparent bg-gradient-to-r from-blue-600 via-purple-600 to-pink-600 bg-clip-text">
-                  = ?
-                </div>
               </div>
 
               {isAnswered && (
@@ -1095,7 +1092,6 @@ const KidFriendlyMultiplicationTrainer = () => {
                       className="h-16 px-8 text-xl font-black rounded-3xl bg-gradient-to-r from-green-500 to-emerald-500 text-white shadow-xl border-4 border-white hover:scale-105 transition-all disabled:opacity-50"
                     >
                       ✨ ¡ENVIAR! ✨
-                      <div className="text-sm font-normal ml-2 opacity-75">(Enter)</div>
                     </Button>
 
                     {practiceSettings.showHints && (
