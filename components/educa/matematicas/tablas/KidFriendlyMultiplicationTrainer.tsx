@@ -8,12 +8,12 @@ import { Input } from '@/components/ui/input';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { 
-  ArrowLeft, 
-  Lightbulb, 
-  CheckCircle, 
-  XCircle, 
-  Sparkles, 
+import {
+  ArrowLeft,
+  Lightbulb,
+  CheckCircle,
+  XCircle,
+  Sparkles,
   Star,
   Rocket,
   Crown,
@@ -34,7 +34,7 @@ const cn = (...classes: (string | undefined | boolean)[]): string => {
 const getTableColor = (table: number): string => {
   const colors = [
     'from-pink-400 to-rose-400',
-    'from-purple-400 to-indigo-400', 
+    'from-purple-400 to-indigo-400',
     'from-blue-400 to-cyan-400',
     'from-green-400 to-emerald-400',
     'from-yellow-400 to-orange-400',
@@ -51,13 +51,13 @@ const getTableColor = (table: number): string => {
 
 // Componente para manejar el progreso de forma segura
 const ProgressContent = () => {
-  const [savedProgress, setSavedProgress] = useState<any>({});
+  const [savedProgress, setSavedProgress] = useState<SavedProgress>({});
   const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
       try {
-        const progress = JSON.parse(localStorage.getItem('multiplicationProgress') || '{}');
+        const progress = JSON.parse(localStorage.getItem('multiplicationProgress') || '{}') as SavedProgress;
         setSavedProgress(progress);
         setIsLoaded(true);
       } catch (error) {
@@ -81,19 +81,19 @@ const ProgressContent = () => {
       <div className="grid md:grid-cols-3 gap-6">
         <div className="bg-gradient-to-br from-yellow-400 to-orange-400 rounded-3xl p-6 text-center shadow-xl border-4 border-white">
           <div className="text-5xl mb-2">⭐</div>
-          <div className="text-3xl font-black text-white">{savedProgress.totalStars || 0}</div>
+          <div className="text-3xl font-black text-white">{savedProgress.totalStars ?? 0}</div>
           <div className="text-lg font-bold text-white">Estrellas ganadas</div>
         </div>
-        
+
         <div className="bg-gradient-to-br from-green-400 to-emerald-400 rounded-3xl p-6 text-center shadow-xl border-4 border-white">
           <div className="text-5xl mb-2">🔥</div>
-          <div className="text-3xl font-black text-white">{savedProgress.bestStreak || 0}</div>
+          <div className="text-3xl font-black text-white">{savedProgress.bestStreak ?? 0}</div>
           <div className="text-lg font-bold text-white">Mejor racha</div>
         </div>
-        
+
         <div className="bg-gradient-to-br from-purple-400 to-pink-400 rounded-3xl p-6 text-center shadow-xl border-4 border-white">
           <div className="text-5xl mb-2">🏆</div>
-          <div className="text-3xl font-black text-white">{savedProgress.totalCorrect || 0}</div>
+          <div className="text-3xl font-black text-white">{savedProgress.totalCorrect ?? 0}</div>
           <div className="text-lg font-bold text-white">Preguntas correctas</div>
         </div>
       </div>
@@ -119,8 +119,8 @@ const ProgressContent = () => {
             <div className="flex justify-between items-center bg-white/70 rounded-2xl p-3">
               <span className="font-bold text-purple-700">Precisión general</span>
               <div className="bg-orange-500 text-white font-bold text-lg px-3 py-1 rounded-xl">
-                {savedProgress.totalQuestions > 0 
-                  ? Math.round((savedProgress.totalCorrect / savedProgress.totalQuestions) * 100)
+                {savedProgress?.totalQuestions && savedProgress.totalQuestions > 0
+                  ? Math.round((savedProgress.totalCorrect ?? 0) / savedProgress.totalQuestions * 100)
                   : 0}%
               </div>
             </div>
@@ -135,7 +135,7 @@ const ProgressContent = () => {
             {Array.from({ length: 12 }, (_, i) => i + 1).map(table => {
               const tableProgress = savedProgress.tableProgress?.[table];
               const accuracy = tableProgress?.accuracy || 0;
-              
+
               return (
                 <div key={table} className="text-center">
                   <div className={cn(
@@ -147,9 +147,9 @@ const ProgressContent = () => {
                   <div className={cn(
                     "mt-1 text-xs font-bold px-2 py-1 rounded-full",
                     accuracy >= 80 ? "text-green-700 bg-green-200" :
-                    accuracy >= 60 ? "text-yellow-700 bg-yellow-200" :
-                    accuracy > 0 ? "text-orange-700 bg-orange-200" :
-                    "text-gray-500 bg-gray-200"
+                      accuracy >= 60 ? "text-yellow-700 bg-yellow-200" :
+                        accuracy > 0 ? "text-orange-700 bg-orange-200" :
+                          "text-gray-500 bg-gray-200"
                   )}>
                     {accuracy > 0 ? `${accuracy}%` : 'Sin practicar'}
                   </div>
@@ -166,7 +166,7 @@ const ProgressContent = () => {
             📅 Últimas sesiones
           </h3>
           <div className="space-y-2 max-h-48 overflow-y-auto">
-            {savedProgress.sessions.slice(-5).reverse().map((session: SessionResults, index: number) => (
+            {savedProgress.sessions?.slice(-5).reverse().map((session: SessionResults, index: number) => (
               <div key={index} className="bg-white/70 rounded-2xl p-3 flex justify-between items-center">
                 <div className="flex items-center gap-3">
                   <div className="text-2xl">
@@ -219,6 +219,22 @@ interface SessionResults {
   tablesUsed: number[];
   accuracy: number;
   date: string;
+}
+
+interface TableProgress {
+  correct: number;
+  total: number;
+  accuracy: number;
+}
+
+interface SavedProgress {
+  totalSessions?: number;
+  totalQuestions?: number;
+  totalCorrect?: number;
+  bestStreak?: number;
+  totalStars?: number;
+  tableProgress?: Record<number, TableProgress>;
+  sessions?: SessionResults[];
 }
 
 // Componente principal con diseño amigable para niños
@@ -283,12 +299,12 @@ const KidFriendlyMultiplicationTrainer = () => {
         if (currentView === 'practice' && isAnswered) {
           // Si estamos en práctica y ya respondimos, ir a siguiente pregunta
           const nextIndex = questionIndex + 1;
-          
+
           // Verificar si ya terminó la sesión
           if (nextIndex >= practiceSettings.questionCount) {
             const endTime = Date.now();
             const sessionDuration = sessionStartTime ? (endTime - sessionStartTime) / 1000 : 0;
-            
+
             const results: SessionResults = {
               totalQuestions: practiceSettings.questionCount,
               correctAnswers: score,
@@ -298,47 +314,47 @@ const KidFriendlyMultiplicationTrainer = () => {
               accuracy: Math.round((score / practiceSettings.questionCount) * 100),
               date: new Date().toISOString()
             };
-            
+
             setSessionResults(results);
             saveProgressToLocalStorage(results);
             setCurrentView('results');
             return;
           }
-          
+
           // Continuar con siguiente pregunta
           setIsAnswered(false);
           setInputValue('');
           setShowHint(false);
           setQuestionIndex(nextIndex);
-          
+
           // Generar nueva pregunta
           const tables = practiceSettings.selectedTables;
           const randomTable = tables[Math.floor(Math.random() * tables.length)];
           const randomMultiplier = Math.floor(Math.random() * 12) + 1;
-          
+
           setCurrentQuestion({
             factor1: randomTable,
             factor2: randomMultiplier,
             answer: randomTable * randomMultiplier,
             id: Math.random()
           });
-          
+
           if (inputRef.current) {
             inputRef.current.focus();
           }
-          
+
         } else if (currentView === 'practice' && !isAnswered && inputValue.trim()) {
           // Si estamos en práctica y no hemos respondido pero hay un valor, enviar respuesta
           const answer = parseInt(inputValue, 10);
           const correct = answer === currentQuestion.answer;
           setIsCorrect(correct);
           setIsAnswered(true);
-          
+
           if (correct) {
             setScore(score + 1);
             setStreak(streak + 1);
             setCelebration(true);
-            
+
             // Feedback táctil si está disponible
             if ('vibrate' in navigator) {
               navigator.vibrate(100);
@@ -357,10 +373,9 @@ const KidFriendlyMultiplicationTrainer = () => {
 
   // ✅ Cargar progreso al iniciar - Solo en el cliente
   useEffect(() => {
-    // Verificar que estamos en el cliente
     if (typeof window !== 'undefined') {
       try {
-        const savedProgress = JSON.parse(localStorage.getItem('multiplicationProgress') || '{}');
+        const savedProgress = JSON.parse(localStorage.getItem('multiplicationProgress') || '{}') as SavedProgress;
         if (savedProgress.totalStars) {
           setStars(savedProgress.totalStars);
         }
@@ -388,7 +403,7 @@ const KidFriendlyMultiplicationTrainer = () => {
     const tables = practiceSettings.selectedTables;
     const randomTable = tables[Math.floor(Math.random() * tables.length)];
     const randomMultiplier = Math.floor(Math.random() * 12) + 1;
-    
+
     setCurrentQuestion({
       factor1: randomTable,
       factor2: randomMultiplier,
@@ -401,37 +416,39 @@ const KidFriendlyMultiplicationTrainer = () => {
   const saveProgressToLocalStorage = (results: SessionResults) => {
     // Verificar que estamos en el cliente
     if (typeof window === 'undefined') return;
-    
+
     try {
-      const existingProgress = JSON.parse(localStorage.getItem('multiplicationProgress') || '{}');
-      
+      const existingProgress = JSON.parse(localStorage.getItem('multiplicationProgress') || '{}') as SavedProgress;
+
       // Actualizar estadísticas globales
       existingProgress.totalSessions = (existingProgress.totalSessions || 0) + 1;
       existingProgress.totalQuestions = (existingProgress.totalQuestions || 0) + results.totalQuestions;
       existingProgress.totalCorrect = (existingProgress.totalCorrect || 0) + results.correctAnswers;
       existingProgress.bestStreak = Math.max(existingProgress.bestStreak || 0, results.finalStreak);
       existingProgress.totalStars = (existingProgress.totalStars || 0) + results.correctAnswers;
-      
+
       // Guardar historial de sesiones
       if (!existingProgress.sessions) existingProgress.sessions = [];
       existingProgress.sessions.push(results);
-      
+
       // Actualizar progreso por tabla
       if (!existingProgress.tableProgress) existingProgress.tableProgress = {};
+      const tableProgress = existingProgress.tableProgress;
+
       results.tablesUsed.forEach(table => {
-        if (!existingProgress.tableProgress[table]) {
-          existingProgress.tableProgress[table] = { correct: 0, total: 0, accuracy: 0 };
+        if (!tableProgress[table]) {
+          tableProgress[table] = { correct: 0, total: 0, accuracy: 0 };
         }
-        existingProgress.tableProgress[table].correct += Math.floor(results.correctAnswers / results.tablesUsed.length);
-        existingProgress.tableProgress[table].total += Math.floor(results.totalQuestions / results.tablesUsed.length);
-        existingProgress.tableProgress[table].accuracy = Math.round(
-          (existingProgress.tableProgress[table].correct / existingProgress.tableProgress[table].total) * 100
+        tableProgress[table].correct += Math.floor(results.correctAnswers / results.tablesUsed.length);
+        tableProgress[table].total += Math.floor(results.totalQuestions / results.tablesUsed.length);
+        tableProgress[table].accuracy = Math.round(
+          (tableProgress[table].correct / tableProgress[table].total) * 100
         );
       });
-      
+
       localStorage.setItem('multiplicationProgress', JSON.stringify(existingProgress));
-      setStars(existingProgress.totalStars);
-      
+      setStars(existingProgress.totalStars ?? 0);
+
     } catch (error) {
       console.warn('No se pudo guardar el progreso:', error);
     }
@@ -454,7 +471,7 @@ const KidFriendlyMultiplicationTrainer = () => {
   const finalizePracticeSession = () => {
     const endTime = Date.now();
     const sessionDuration = sessionStartTime ? (endTime - sessionStartTime) / 1000 : 0;
-    
+
     const results: SessionResults = {
       totalQuestions: practiceSettings.questionCount,
       correctAnswers: score,
@@ -464,7 +481,7 @@ const KidFriendlyMultiplicationTrainer = () => {
       accuracy: Math.round((score / practiceSettings.questionCount) * 100),
       date: new Date().toISOString()
     };
-    
+
     setSessionResults(results);
     saveProgressToLocalStorage(results);
     setCurrentView('results');
@@ -475,12 +492,12 @@ const KidFriendlyMultiplicationTrainer = () => {
     const correct = answer === currentQuestion.answer;
     setIsCorrect(correct);
     setIsAnswered(true);
-    
+
     if (correct) {
       setScore(score + 1);
       setStreak(streak + 1);
       setCelebration(true);
-      
+
       // Feedback táctil si está disponible
       if ('vibrate' in navigator) {
         navigator.vibrate(100);
@@ -494,21 +511,21 @@ const KidFriendlyMultiplicationTrainer = () => {
   // ✅ Función mejorada para siguiente pregunta con detección de final
   const handleNextQuestion = () => {
     const nextIndex = questionIndex + 1;
-    
+
     // Verificar si ya terminó la sesión
     if (nextIndex >= practiceSettings.questionCount) {
       finalizePracticeSession();
       return;
     }
-    
+
     // Continuar con siguiente pregunta
     setIsAnswered(false);
     setInputValue('');
     setShowHint(false);
     setQuestionIndex(nextIndex);
-    
+
     generateNewQuestion();
-    
+
     if (inputRef.current) {
       inputRef.current.focus();
     }
@@ -519,7 +536,7 @@ const KidFriendlyMultiplicationTrainer = () => {
     className?: string;
     delay?: number;
   }) => (
-    <div 
+    <div
       className={cn("absolute animate-bounce", className)}
       style={{ animationDelay: `${delay}s`, animationDuration: '2s' }}
     >
@@ -574,7 +591,7 @@ const KidFriendlyMultiplicationTrainer = () => {
                     <div className="text-2xl font-black text-orange-600">{sessionResults.finalStreak}</div>
                   </div>
                 </div>
-                
+
                 <div className="bg-white/50 rounded-2xl p-4 flex items-center gap-4">
                   <div className="text-3xl">⏱️</div>
                   <div>
@@ -584,7 +601,7 @@ const KidFriendlyMultiplicationTrainer = () => {
                     </div>
                   </div>
                 </div>
-                
+
                 <div className="bg-white/50 rounded-2xl p-4 flex items-center gap-4">
                   <div className="text-3xl">📚</div>
                   <div>
@@ -601,9 +618,9 @@ const KidFriendlyMultiplicationTrainer = () => {
           <div className="bg-gradient-to-r from-yellow-400 to-orange-400 rounded-3xl p-6 mb-6 text-center shadow-xl border-4 border-white">
             <div className="text-2xl font-black text-white mb-2">
               {sessionResults.accuracy >= 90 ? '¡PERFECTO! Eres un genio matemático 🧠✨' :
-               sessionResults.accuracy >= 80 ? '¡EXCELENTE! Sigue así campeón 🚀' :
-               sessionResults.accuracy >= 60 ? '¡BUEN TRABAJO! Cada día mejor 💪' :
-               '¡GRAN ESFUERZO! La práctica hace al maestro 🌟'}
+                sessionResults.accuracy >= 80 ? '¡EXCELENTE! Sigue así campeón 🚀' :
+                  sessionResults.accuracy >= 60 ? '¡BUEN TRABAJO! Cada día mejor 💪' :
+                    '¡GRAN ESFUERZO! La práctica hace al maestro 🌟'}
             </div>
           </div>
 
@@ -620,7 +637,7 @@ const KidFriendlyMultiplicationTrainer = () => {
             >
               🔄 ¡OTRA SESIÓN!
             </Button>
-            
+
             <Button
               onClick={() => {
                 console.log("Navegando a progreso..."); // Debug
@@ -631,7 +648,7 @@ const KidFriendlyMultiplicationTrainer = () => {
             >
               📊 VER PROGRESO
             </Button>
-            
+
             <Button
               onClick={() => setCurrentView('menu')}
               className="h-16 px-8 text-xl font-black rounded-3xl bg-gradient-to-r from-purple-500 to-pink-500 text-white shadow-xl border-4 border-white hover:scale-105 transition-all"
@@ -675,26 +692,26 @@ const KidFriendlyMultiplicationTrainer = () => {
           <div className="bg-white/20 backdrop-blur-md rounded-3xl p-6 shadow-2xl border-4 border-white/30 mb-8">
             <Tabs value={selectedMode} onValueChange={setSelectedMode}>
               <TabsList className="grid w-full grid-cols-4 bg-white/40 rounded-2xl p-2 shadow-inner">
-                <TabsTrigger 
-                  value="explore" 
+                <TabsTrigger
+                  value="explore"
                   className="rounded-xl font-bold text-lg data-[state=active]:bg-gradient-to-r data-[state=active]:from-blue-500 data-[state=active]:to-cyan-500 data-[state=active]:text-white data-[state=active]:shadow-lg transform transition-all hover:scale-105"
                 >
                   🔍 Explorar
                 </TabsTrigger>
-                <TabsTrigger 
-                  value="practice" 
+                <TabsTrigger
+                  value="practice"
                   className="rounded-xl font-bold text-lg data-[state=active]:bg-gradient-to-r data-[state=active]:from-green-500 data-[state=active]:to-emerald-500 data-[state=active]:text-white data-[state=active]:shadow-lg transform transition-all hover:scale-105"
                 >
                   💪 Practicar
                 </TabsTrigger>
-                <TabsTrigger 
-                  value="quiz" 
+                <TabsTrigger
+                  value="quiz"
                   className="rounded-xl font-bold text-lg data-[state=active]:bg-gradient-to-r data-[state=active]:from-orange-500 data-[state=active]:to-red-500 data-[state=active]:text-white data-[state=active]:shadow-lg transform transition-all hover:scale-105"
                 >
                   🏆 Desafío
                 </TabsTrigger>
-                <TabsTrigger 
-                  value="progress" 
+                <TabsTrigger
+                  value="progress"
                   className="rounded-xl font-bold text-lg data-[state=active]:bg-gradient-to-r data-[state=active]:from-purple-500 data-[state=active]:to-pink-500 data-[state=active]:text-white data-[state=active]:shadow-lg transform transition-all hover:scale-105"
                 >
                   📊 Progreso
@@ -708,7 +725,7 @@ const KidFriendlyMultiplicationTrainer = () => {
                       🎯 ¡Elige tu tabla favorita!
                     </h2>
                   </div>
-                  
+
                   <div className="grid grid-cols-4 md:grid-cols-6 gap-4">
                     {Array.from({ length: 12 }, (_, i) => i + 1).map(num => (
                       <Button
@@ -716,8 +733,8 @@ const KidFriendlyMultiplicationTrainer = () => {
                         onClick={() => setSelectedTable(num)}
                         className={cn(
                           "h-20 w-full rounded-3xl text-2xl font-black shadow-xl transform transition-all duration-200 hover:scale-110 hover:-rotate-3 border-4",
-                          selectedTable === num 
-                            ? `bg-gradient-to-br ${getTableColor(num)} text-white border-yellow-400 ring-4 ring-yellow-300 shadow-2xl scale-110` 
+                          selectedTable === num
+                            ? `bg-gradient-to-br ${getTableColor(num)} text-white border-yellow-400 ring-4 ring-yellow-300 shadow-2xl scale-110`
                             : `bg-gradient-to-br ${getTableColor(num)} text-white border-white/50 hover:border-yellow-400`
                         )}
                       >
@@ -762,7 +779,7 @@ const KidFriendlyMultiplicationTrainer = () => {
                   <h2 className="text-3xl font-black text-center mb-6 text-green-800">
                     💪 ¡Configura tu entrenamiento!
                   </h2>
-                  
+
                   <div className="space-y-6">
                     <div>
                       <Label className="text-xl font-bold text-green-700 mb-4 block">
@@ -812,7 +829,7 @@ const KidFriendlyMultiplicationTrainer = () => {
                       </Label>
                       <Select
                         value={practiceSettings.questionCount.toString()}
-                        onValueChange={(value) => 
+                        onValueChange={(value) =>
                           setPracticeSettings(prev => ({ ...prev, questionCount: parseInt(value) }))
                         }
                       >
@@ -832,13 +849,13 @@ const KidFriendlyMultiplicationTrainer = () => {
                     <div className="grid md:grid-cols-2 gap-4">
                       <label className={cn(
                         "flex items-center gap-4 p-4 rounded-2xl cursor-pointer transition-all duration-200 hover:scale-105 border-3",
-                        practiceSettings.randomOrder 
+                        practiceSettings.randomOrder
                           ? "bg-gradient-to-r from-purple-400 to-pink-400 text-white border-yellow-400 shadow-lg"
                           : "bg-white/70 border-gray-300"
                       )}>
                         <Checkbox
                           checked={practiceSettings.randomOrder}
-                          onCheckedChange={(checked) => 
+                          onCheckedChange={(checked) =>
                             setPracticeSettings(prev => ({ ...prev, randomOrder: checked as boolean }))
                           }
                           className="sr-only"
@@ -852,13 +869,13 @@ const KidFriendlyMultiplicationTrainer = () => {
 
                       <label className={cn(
                         "flex items-center gap-4 p-4 rounded-2xl cursor-pointer transition-all duration-200 hover:scale-105 border-3",
-                        practiceSettings.showHints 
+                        practiceSettings.showHints
                           ? "bg-gradient-to-r from-yellow-400 to-orange-400 text-white border-yellow-600 shadow-lg"
                           : "bg-white/70 border-gray-300"
                       )}>
                         <Checkbox
                           checked={practiceSettings.showHints}
-                          onCheckedChange={(checked) => 
+                          onCheckedChange={(checked) =>
                             setPracticeSettings(prev => ({ ...prev, showHints: checked as boolean }))
                           }
                           className="sr-only"
@@ -905,7 +922,7 @@ const KidFriendlyMultiplicationTrainer = () => {
                   <h2 className="text-3xl font-black text-center mb-6 text-purple-800">
                     📊 ¡Tu aventura matemática!
                   </h2>
-                  
+
                   <ProgressContent />
                 </div>
               </TabsContent>
@@ -986,7 +1003,7 @@ const KidFriendlyMultiplicationTrainer = () => {
                   <span className="text-xl font-bold text-purple-800">{stars}</span>
                 </div>
               </div>
-              
+
               <div className="bg-white/30 backdrop-blur-md rounded-3xl px-6 py-3 border-3 border-white/50">
                 <div className="flex items-center gap-2">
                   <Zap className="h-6 w-6 text-orange-400" />
@@ -1007,8 +1024,8 @@ const KidFriendlyMultiplicationTrainer = () => {
                 ))}
               </div>
             </div>
-            <Progress 
-              value={((questionIndex + 1) / practiceSettings.questionCount) * 100} 
+            <Progress
+              value={((questionIndex + 1) / practiceSettings.questionCount) * 100}
               className="h-6 bg-white/50 rounded-full overflow-hidden"
             />
           </div>
@@ -1035,7 +1052,7 @@ const KidFriendlyMultiplicationTrainer = () => {
               {isAnswered && (
                 <div className={cn(
                   "flex items-center justify-center gap-4 text-3xl font-black p-6 rounded-3xl shadow-xl border-4",
-                  isCorrect 
+                  isCorrect
                     ? "bg-gradient-to-r from-green-400 to-emerald-400 text-white border-green-300"
                     : "bg-gradient-to-r from-red-400 to-pink-400 text-white border-red-300"
                 )}>
@@ -1109,8 +1126,8 @@ const KidFriendlyMultiplicationTrainer = () => {
                     <div>
                       <div className="text-2xl font-black mb-2">¡Pista súper útil!</div>
                       <div>
-                        Puedes contar de {currentQuestion.factor1} en {currentQuestion.factor1}: 
-                        {Array.from({length: currentQuestion.factor2}, (_, i) => (i + 1) * currentQuestion.factor1).join(', ')}
+                        Puedes contar de {currentQuestion.factor1} en {currentQuestion.factor1}:
+                        {Array.from({ length: currentQuestion.factor2 }, (_, i) => (i + 1) * currentQuestion.factor1).join(', ')}
                       </div>
                     </div>
                   </div>
