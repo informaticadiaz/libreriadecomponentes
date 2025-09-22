@@ -120,18 +120,27 @@ const KidFriendlyMultiplicationTrainer = () => {
   };
 
   const handleNextQuestion = () => {
+    // Verificar si ya se completaron todas las preguntas
+    if (questionIndex + 1 >= practiceSettings.questionCount) {
+      // Finalizar la sesión
+      setCurrentView('results'); // Nueva vista de resultados
+      return;
+    }
+  
+    // Continuar con la siguiente pregunta
     setIsAnswered(false);
     setInputValue('');
     setShowHint(false);
     setQuestionIndex(questionIndex + 1);
     
-    // Generar nueva pregunta
     generateNewQuestion();
     
     if (inputRef.current) {
       inputRef.current.focus();
     }
   };
+
+  const progressPercentage = ((questionIndex + 1) / practiceSettings.questionCount) * 100;
 
   const FloatingIcon = ({ icon: Icon, className = "", delay = 0 }: {
     icon: React.ElementType;
@@ -551,8 +560,8 @@ const KidFriendlyMultiplicationTrainer = () => {
           <div className="bg-white/30 backdrop-blur-md rounded-3xl p-6 mb-6 shadow-xl border-4 border-white/50">
             <div className="flex items-center justify-between mb-4">
               <span className="text-xl font-bold text-purple-800">
-                Pregunta {questionIndex + 1} de {totalQuestions} 🎯
-              </span>
+  Pregunta {questionIndex + 1} de {practiceSettings.questionCount} 🎯
+</span>
               <div className="flex items-center gap-2">
                 {[...Array(Math.min(streak, 5))].map((_, i) => (
                   <Zap key={i} className="h-6 w-6 text-yellow-400 animate-pulse" />
@@ -560,9 +569,9 @@ const KidFriendlyMultiplicationTrainer = () => {
               </div>
             </div>
             <Progress 
-              value={(questionIndex / totalQuestions) * 100} 
-              className="h-6 bg-white/50 rounded-full overflow-hidden"
-            />
+  value={progressPercentage} 
+  className="h-6 bg-white/50 rounded-full overflow-hidden"
+/>
           </div>
 
           {/* Tarjeta de pregunta súper atractiva */}
