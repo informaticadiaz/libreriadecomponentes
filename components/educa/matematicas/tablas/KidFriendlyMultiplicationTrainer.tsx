@@ -131,7 +131,7 @@ const ProgressContent = () => {
           <h3 className="text-2xl font-black text-purple-800 mb-4 text-center">
             🎯 Progreso por tabla
           </h3>
-          <div className="grid grid-cols-2 gap-3 max-h-64 overflow-y-auto">
+          <div className="grid grid-cols-2 gap-3 overflow-y-auto">
             {Array.from({ length: 12 }, (_, i) => i + 1).map(table => {
               const tableProgress = savedProgress.tableProgress?.[table];
               const accuracy = tableProgress?.accuracy || 0;
