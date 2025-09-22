@@ -127,7 +127,7 @@ const GymProApp: React.FC = () => {
   return (
     <div className="relative">
       {/* Main Content */}
-      <div className="pb-20">
+      <div>
         <ActiveComponent />
       </div>
 

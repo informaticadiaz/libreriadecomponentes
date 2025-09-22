@@ -200,7 +200,7 @@ const QuickChat: React.FC<QuickChatProps> = ({
   return (
     <div className="flex flex-col h-full bg-gray-950 text-white">
       
-      {/* Minimal Header */}
+      {/* Header */}
       <div className="flex items-center justify-between px-4 py-3 bg-gray-900/50 backdrop-blur-sm border-b border-gray-800/50">
         <div className="flex items-center space-x-2">
           <div className={`h-2 w-2 rounded-full ${isTrainerOnline ? 'bg-green-500' : 'bg-gray-500'}`} />
@@ -333,45 +333,23 @@ const QuickChat: React.FC<QuickChatProps> = ({
   );
 };
 
-// Demo Component
-const QuickChatDemo = () => {
-  const [isOpen, setIsOpen] = useState(true);
-
+// Uso directo del componente (sin wrapper de ventana)
+const App = () => {
   const handleSendMessage = (content: string, type: 'text' | 'image') => {
-    console.log('Sending message:', { content, type });
-    // Here you would integrate with your backend/Supabase
+    console.log('Enviando mensaje:', { content, type });
+    // Aquí integrarías con tu backend/Supabase
   };
 
-  if (!isOpen) {
-    return (
-      <div className="min-h-screen bg-gray-950 flex items-center justify-center p-4">
-        <div className="text-center space-y-4">
-          <h2 className="text-2xl font-bold text-white">Chat con tu trainer</h2>
-          <p className="text-gray-400 mb-6">Comunicación directa y rápida</p>
-          <button 
-            onClick={() => setIsOpen(true)}
-            className="bg-gradient-to-r from-fuchsia-600 to-violet-600 text-white px-8 py-3 rounded-full font-semibold hover:shadow-lg hover:shadow-fuchsia-500/25 transition-all"
-          >
-            Abrir Chat
-          </button>
-        </div>
-      </div>
-    );
-  }
-
   return (
-    <div className="h-screen bg-gray-950 flex items-center justify-center p-4">
-      <div className="w-full max-w-sm h-full max-h-[600px] border border-gray-800 rounded-2xl overflow-hidden shadow-2xl">
-        <QuickChat
-          trainerName="Carlos Fitness"
-          trainerAvatar="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop&crop=face"
-          isTrainerOnline={true}
-          onSendMessage={handleSendMessage}
-          onClose={() => setIsOpen(false)}
-        />
-      </div>
+    <div className="h-screen w-full">
+      <QuickChat
+        trainerName="Carlos Fitness"
+        trainerAvatar="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop&crop=face"
+        isTrainerOnline={true}
+        onSendMessage={handleSendMessage}
+      />
     </div>
   );
 };
 
-export default QuickChatDemo;
+export default App;
