@@ -21,8 +21,8 @@ import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContai
 // Definir tipos específicos
 type MetricType = 'weight' | 'adherence' | 'bodyFat';
 type StatusType = 'on-track' | 'needs-attention' | 'excellent';
-type TimeframeType = '7d' | '30d' | '90d' | '1y';
-type ViewModeType = 'overview' | 'individual';
+// type TimeframeType = '7d' | '30d' | '90d' | '1y';
+// type ViewModeType = 'overview' | 'individual';
 
 interface ClientProgress {
   id: string;

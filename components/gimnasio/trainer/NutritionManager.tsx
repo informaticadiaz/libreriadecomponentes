@@ -12,7 +12,8 @@ import {
   CheckCircle,
   AlertCircle,
   Book,
-  Upload
+  Upload,
+  X
 } from 'lucide-react';
 
 // Tipos para las tabs y filtros
@@ -99,46 +100,6 @@ const NutritionManager = () => {
   const [searchQuery, setSearchQuery] = useState<string>('');
   const [selectedFilter, setSelectedFilter] = useState<FilterType>('all');
   const [selectedPlan, setSelectedPlan] = useState<string | null>(null);
-
-  selectedPlan
-
-  {/*
-    // Mock data
-    const foodLibrary: Food[] = [
-      {
-        id: '1',
-        name: 'Pechuga de Pollo',
-        category: 'protein',
-        calories: 165,
-        protein: 31,
-        carbs: 0,
-        fat: 3.6,
-        verified: true
-      },
-      {
-        id: '2',
-        name: 'Arroz Integral',
-        category: 'carbs',
-      calories: 123,
-      protein: 2.6,
-      carbs: 25,
-      fat: 1,
-      fiber: 3,
-      verified: true
-    },
-    {
-      id: '3',
-      name: 'Palta',
-      category: 'fats',
-      calories: 160,
-      protein: 2,
-      carbs: 9,
-      fat: 15,
-      fiber: 7,
-      verified: true
-    }
-  ];
-  */}
 
   const nutritionPlans: NutritionPlan[] = [
     {
@@ -249,6 +210,12 @@ const NutritionManager = () => {
     const matchesFilter = selectedFilter === 'all' || plan.status === selectedFilter;
     return matchesSearch && matchesFilter;
   });
+
+  // Encontrar el plan seleccionado
+  const selectedPlanData = selectedPlan ? nutritionPlans.find(plan => plan.id === selectedPlan) : null;
+
+  // Función para cerrar la vista del plan
+  const closePlanView = () => setSelectedPlan(null);
 
   const getGoalColor = (goal: GoalType): string => {
     switch (goal) {
@@ -594,6 +561,147 @@ const NutritionManager = () => {
     </div>
   );
 
+  // Modal/Vista del Plan Seleccionado
+  const PlanDetailModal = () => {
+    if (!selectedPlanData) return null;
+
+    return (
+      <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
+        <div className="bg-gray-900 rounded-xl p-6 max-w-4xl w-full max-h-[90vh] overflow-y-auto border border-gray-800">
+          {/* Header */}
+          <div className="flex items-center justify-between mb-6">
+            <div className="flex items-center space-x-4">
+              <img 
+                src={selectedPlanData.clientAvatar}
+                alt={selectedPlanData.clientName}
+                className="h-16 w-16 rounded-full"
+              />
+              <div>
+                <h2 className="text-2xl font-bold text-white">{selectedPlanData.name}</h2>
+                <p className="text-gray-400">{selectedPlanData.clientName}</p>
+                <div className="flex items-center space-x-2 mt-2">
+                  <span className={`px-2 py-1 rounded-full text-xs ${getStatusColor(selectedPlanData.status)}`}>
+                    {getStatusText(selectedPlanData.status)}
+                  </span>
+                  <span className={`px-2 py-1 rounded-full text-xs ${getGoalColor(selectedPlanData.goal)}`}>
+                    {getGoalText(selectedPlanData.goal)}
+                  </span>
+                </div>
+              </div>
+            </div>
+            
+            <button 
+              onClick={closePlanView}
+              className="text-gray-400 hover:text-white p-2 hover:bg-gray-800 rounded-lg transition-colors"
+            >
+              <X className="h-6 w-6" />
+            </button>
+          </div>
+
+          {/* Description */}
+          <div className="mb-6">
+            <h3 className="text-lg font-semibold text-white mb-2">Descripción</h3>
+            <p className="text-gray-300">{selectedPlanData.description}</p>
+          </div>
+
+          {/* Macro Targets */}
+          <div className="mb-6">
+            <h3 className="text-lg font-semibold text-white mb-4">Objetivos Diarios</h3>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+              <div className="bg-gray-800 p-4 rounded-lg text-center">
+                <p className="text-3xl font-bold text-white">{selectedPlanData.dailyTargets.calories}</p>
+                <p className="text-sm text-gray-400 mt-1">Calorías</p>
+              </div>
+              <div className="bg-gray-800 p-4 rounded-lg text-center">
+                <p className="text-3xl font-bold text-blue-400">{selectedPlanData.dailyTargets.protein}g</p>
+                <p className="text-sm text-gray-400 mt-1">Proteína</p>
+              </div>
+              <div className="bg-gray-800 p-4 rounded-lg text-center">
+                <p className="text-3xl font-bold text-green-400">{selectedPlanData.dailyTargets.carbs}g</p>
+                <p className="text-sm text-gray-400 mt-1">Carbohidratos</p>
+              </div>
+              <div className="bg-gray-800 p-4 rounded-lg text-center">
+                <p className="text-3xl font-bold text-yellow-400">{selectedPlanData.dailyTargets.fat}g</p>
+                <p className="text-sm text-gray-400 mt-1">Grasas</p>
+              </div>
+            </div>
+          </div>
+
+          {/* Adherence */}
+          {selectedPlanData.adherence && (
+            <div className="mb-6">
+              <h3 className="text-lg font-semibold text-white mb-4">Adherencia</h3>
+              <div className="bg-gray-800 p-4 rounded-lg">
+                <div className="flex justify-between text-sm mb-2">
+                  <span className="text-gray-400">Progreso actual</span>
+                  <span className="text-white font-medium">{selectedPlanData.adherence}%</span>
+                </div>
+                <div className="w-full bg-gray-700 rounded-full h-4">
+                  <div 
+                    className="bg-gradient-to-r from-fuchsia-500 to-violet-500 h-4 rounded-full transition-all"
+                    style={{ width: `${selectedPlanData.adherence}%` }}
+                  />
+                </div>
+                <div className="flex justify-between text-xs text-gray-400 mt-2">
+                  <span>0%</span>
+                  <span>50%</span>
+                  <span>100%</span>
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* Plan Duration */}
+          <div className="mb-6">
+            <h3 className="text-lg font-semibold text-white mb-4">Duración del Plan</h3>
+            <div className="bg-gray-800 p-4 rounded-lg">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <p className="text-sm text-gray-400">Fecha de inicio</p>
+                  <p className="text-white font-medium">{new Date(selectedPlanData.startDate).toLocaleDateString('es-ES', { 
+                    weekday: 'long', 
+                    year: 'numeric', 
+                    month: 'long', 
+                    day: 'numeric' 
+                  })}</p>
+                </div>
+                {selectedPlanData.endDate && (
+                  <div>
+                    <p className="text-sm text-gray-400">Fecha de fin</p>
+                    <p className="text-white font-medium">{new Date(selectedPlanData.endDate).toLocaleDateString('es-ES', { 
+                      weekday: 'long', 
+                      year: 'numeric', 
+                      month: 'long', 
+                      day: 'numeric' 
+                    })}</p>
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+
+          {/* Actions */}
+          <div className="flex space-x-4 pt-6 border-t border-gray-800">
+            <button className="flex-1 bg-gradient-to-r from-fuchsia-600 to-violet-600 text-white py-3 px-6 rounded-lg font-medium hover:shadow-lg hover:shadow-fuchsia-500/25 transition-all flex items-center justify-center space-x-2">
+              <Edit3 className="h-5 w-5" />
+              <span>Editar Plan</span>
+            </button>
+            <button className="bg-gray-800 text-gray-400 hover:text-white py-3 px-6 rounded-lg font-medium transition-colors flex items-center justify-center space-x-2">
+              <Copy className="h-5 w-5" />
+              <span>Duplicar</span>
+            </button>
+            <button 
+              onClick={closePlanView}
+              className="bg-gray-800 text-gray-400 hover:text-white py-3 px-6 rounded-lg font-medium transition-colors"
+            >
+              Cerrar
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  };
+
   // Configuración de tabs con tipos seguros
   const tabs: TabConfig[] = [
     { id: 'plans', label: 'Mis Planes', icon: ChefHat },
@@ -731,6 +839,9 @@ const NutritionManager = () => {
             </button>
           </div>
         )}
+
+        {/* Modal del Plan Seleccionado */}
+        <PlanDetailModal />
       </div>
     </div>
   );
