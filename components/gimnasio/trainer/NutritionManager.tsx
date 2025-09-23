@@ -100,22 +100,25 @@ const NutritionManager = () => {
   const [selectedFilter, setSelectedFilter] = useState<FilterType>('all');
   const [selectedPlan, setSelectedPlan] = useState<string | null>(null);
 
-  // Mock data
-  const foodLibrary: Food[] = [
-    {
-      id: '1',
-      name: 'Pechuga de Pollo',
-      category: 'protein',
-      calories: 165,
-      protein: 31,
-      carbs: 0,
-      fat: 3.6,
-      verified: true
-    },
-    {
-      id: '2',
-      name: 'Arroz Integral',
-      category: 'carbs',
+  selectedPlan
+
+  {/*
+    // Mock data
+    const foodLibrary: Food[] = [
+      {
+        id: '1',
+        name: 'Pechuga de Pollo',
+        category: 'protein',
+        calories: 165,
+        protein: 31,
+        carbs: 0,
+        fat: 3.6,
+        verified: true
+      },
+      {
+        id: '2',
+        name: 'Arroz Integral',
+        category: 'carbs',
       calories: 123,
       protein: 2.6,
       carbs: 25,
@@ -135,6 +138,7 @@ const NutritionManager = () => {
       verified: true
     }
   ];
+  */}
 
   const nutritionPlans: NutritionPlan[] = [
     {

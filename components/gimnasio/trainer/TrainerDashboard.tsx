@@ -41,7 +41,7 @@ interface DashboardStats {
 }
 
 const TrainerDashboard = () => {
-  const [selectedPeriod, setSelectedPeriod] = useState<'day' | 'week' | 'month'>('day');
+  // const [selectedPeriod, setSelectedPeriod] = useState<'day' | 'week' | 'month'>('day');
 
   // Mock data
   const stats: DashboardStats = {

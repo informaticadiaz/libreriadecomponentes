@@ -186,15 +186,17 @@ const AnalyticsDashboard = () => {
     }
   };
 
-  const getMetricLabel = (metric: MetricType): string => {
-    switch (metric) {
-      case 'revenue': return 'Ingresos ($)';
-      case 'clients': return 'Clientes';
-      case 'sessions': return 'Sesiones';
-      case 'adherence': return 'Adherencia (%)';
-      default: return metric;
-    }
-  };
+  {/*
+    const getMetricLabel = (metric: MetricType): string => {
+      switch (metric) {
+        case 'revenue': return 'Ingresos ($)';
+        case 'clients': return 'Clientes';
+        case 'sessions': return 'Sesiones';
+        case 'adherence': return 'Adherencia (%)';
+        default: return metric;
+      }
+    };
+  */}
 
   const MetricCard = ({ metric }: { metric: MetricCard }) => {
     const Icon = metric.icon;

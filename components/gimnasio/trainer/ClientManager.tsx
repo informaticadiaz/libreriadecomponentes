@@ -45,8 +45,8 @@ interface Client {
 const ClientManager = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedFilter, setSelectedFilter] = useState<FilterType>('all');
-  const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
-  const [selectedClient, setSelectedClient] = useState<string | null>(null);
+  //const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
+  //const [selectedClient, setSelectedClient] = useState<string | null>(null);
 
   // Definir los filtros con const assertion para obtener tipos literales
   const filterOptions = ['all', 'active', 'inactive', 'trial'] as const;

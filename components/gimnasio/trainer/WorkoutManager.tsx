@@ -14,6 +14,7 @@ import {
   Calendar,
   Share
 } from 'lucide-react';
+import { set } from 'date-fns';
 
 // Tipos específicos para eliminar 'any'
 type ExerciseCategory = 'chest' | 'back' | 'legs' | 'shoulders' | 'arms' | 'core' | 'cardio';
@@ -73,6 +74,8 @@ const WorkoutManager = () => {
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const [showCreateModal, setShowCreateModal] = useState(false);
   const [editingWorkout, setEditingWorkout] = useState<WorkoutTemplate | null>(null);
+
+  editingWorkout
 
   // Mock exercises library
   const exercisesLibrary: Exercise[] = [
@@ -159,6 +162,9 @@ const WorkoutManager = () => {
 
   const [workouts, setWorkouts] = useState<WorkoutTemplate[]>(workoutTemplates);
 
+
+  setWorkouts
+  
   const filteredWorkouts = workouts.filter(workout => {
     const matchesSearch = workout.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
                          workout.description.toLowerCase().includes(searchQuery.toLowerCase());

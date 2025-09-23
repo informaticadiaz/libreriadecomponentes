@@ -16,7 +16,7 @@ import {
   MoreVertical,
   Camera
 } from 'lucide-react';
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, AreaChart, Area, BarChart, Bar } from 'recharts';
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, AreaChart, Area } from 'recharts';
 
 // Definir tipos específicos
 type MetricType = 'weight' | 'adherence' | 'bodyFat';
@@ -56,8 +56,8 @@ interface OverviewStats {
 
 const ClientProgressOverview = () => {
   const [selectedClient, setSelectedClient] = useState<string | null>(null);
-  const [timeframe, setTimeframe] = useState<TimeframeType>('30d');
-  const [viewMode, setViewMode] = useState<ViewModeType>('overview');
+  //const [timeframe, setTimeframe] = useState<TimeframeType>('30d');
+  //const [viewMode, setViewMode] = useState<ViewModeType>('overview');
   const [selectedMetric, setSelectedMetric] = useState<MetricType>('weight');
 
   // Definir las métricas disponibles con tipo específico
@@ -173,8 +173,8 @@ const ClientProgressOverview = () => {
   };
 
   const ClientCard = ({ client }: { client: ClientProgress }) => {
-    const weightProgress = ((client.progress.weight.start - client.progress.weight.current) / 
-                           (client.progress.weight.start - client.progress.weight.target)) * 100;
+    //const weightProgress = ((client.progress.weight.start - client.progress.weight.current) / 
+    //                       (client.progress.weight.start - client.progress.weight.target)) * 100;
     const isWeightGoalLoss = client.progress.weight.target < client.progress.weight.start;
     
     return (
