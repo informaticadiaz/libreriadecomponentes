@@ -22,8 +22,6 @@ import TrainerNotifications from '@/components/gimnasio/trainer/TrainerNotificat
 import NutritionManager from '@/components/gimnasio/trainer/NutritionManager'
 import AnalyticsDashboard from '@/components/gimnasio/trainer/AnalyticsDashboard'
 
-
-
 // ProfileView permanece igual
 const ProfileView = () => (
   <div className="space-y-6">
