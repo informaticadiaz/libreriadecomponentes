@@ -1,8 +1,8 @@
 "use client";
-import React, { useState } from 'react';
-import { 
-  Plus, 
-  Search, 
+import React, { useMemo, useState } from "react";
+import {
+  Plus,
+  Search,
   Copy,
   Edit3,
   Users,
@@ -12,14 +12,21 @@ import {
   MoreVertical,
   X,
   Calendar,
-  Share
-} from 'lucide-react';
+  Share,
+  Trash2,
+} from "lucide-react";
 
-// Tipos específicos para eliminar 'any'
-type ExerciseCategory = 'chest' | 'back' | 'legs' | 'shoulders' | 'arms' | 'core' | 'cardio';
-type WorkoutCategory = 'strength' | 'cardio' | 'flexibility' | 'mixed';
+type ExerciseCategory =
+  | "chest"
+  | "back"
+  | "legs"
+  | "shoulders"
+  | "arms"
+  | "core"
+  | "cardio";
+type WorkoutCategory = "strength" | "cardio" | "flexibility" | "mixed";
 type DifficultyLevel = 1 | 2 | 3 | 4 | 5;
-type TabType = 'templates' | 'create' | 'library';
+type TabType = "templates" | "create" | "library";
 
 interface Exercise {
   id: string;
@@ -58,8 +65,8 @@ interface WorkoutTemplate {
   lastUsed?: string;
 }
 
-// Tipo para el formulario de creación
-interface NewWorkoutForm {
+// Tipo para el formulario de creación/edición
+interface WorkoutFormValues {
   name: string;
   description: string;
   category: WorkoutCategory;
@@ -68,152 +75,226 @@ interface NewWorkoutForm {
 }
 
 const WorkoutManager = () => {
-  const [activeTab, setActiveTab] = useState<TabType>('templates');
-  const [searchQuery, setSearchQuery] = useState('');
-  const [selectedCategory, setSelectedCategory] = useState<string>('all');
+  const [activeTab, setActiveTab] = useState<TabType>("templates");
+  const [searchQuery, setSearchQuery] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState<string>("all");
   const [showCreateModal, setShowCreateModal] = useState(false);
-  const [editingWorkout, setEditingWorkout] = useState<WorkoutTemplate | null>(null);
-
+  const [editingWorkout, setEditingWorkout] =
+    useState<WorkoutTemplate | null>(null);
 
   // Mock exercises library
   const exercisesLibrary: Exercise[] = [
     {
-      id: '1',
-      name: 'Press de Banca',
-      category: 'chest',
-      equipment: ['barbell', 'bench'],
-      primaryMuscles: ['pectorales', 'triceps'],
+      id: "1",
+      name: "Press de Banca",
+      category: "chest",
+      equipment: ["barbell", "bench"],
+      primaryMuscles: ["pectorales", "triceps"],
       difficulty: 3,
-      instructions: 'Acuéstate en el banco con los pies firmes en el suelo...'
+      instructions: "Acuéstate en el banco con los pies firmes en el suelo...",
     },
     {
-      id: '2',
-      name: 'Sentadilla',
-      category: 'legs',
-      equipment: ['barbell'],
-      primaryMuscles: ['cuádriceps', 'glúteos'],
+      id: "2",
+      name: "Sentadilla",
+      category: "legs",
+      equipment: ["barbell"],
+      primaryMuscles: ["cuádriceps", "glúteos"],
       difficulty: 3,
-      instructions: 'Posición de pie con pies separados al ancho de hombros...'
+      instructions: "Posición de pie con pies separados al ancho de hombros...",
     },
     {
-      id: '3',
-      name: 'Peso Muerto',
-      category: 'back',
-      equipment: ['barbell'],
-      primaryMuscles: ['isquiotibiales', 'espalda baja'],
+      id: "3",
+      name: "Peso Muerto",
+      category: "back",
+      equipment: ["barbell"],
+      primaryMuscles: ["isquiotibiales", "espalda baja"],
       difficulty: 4,
-      instructions: 'De pie frente a la barra con pies separados...'
-    }
+      instructions: "De pie frente a la barra con pies separados...",
+    },
   ];
 
   // Mock workout templates
   const workoutTemplates: WorkoutTemplate[] = [
     {
-      id: '1',
-      name: 'Push Day Intenso',
-      description: 'Entrenamiento enfocado en empuje: pecho, hombros y tríceps',
-      category: 'strength',
+      id: "1",
+      name: "Push Day Intenso",
+      description: "Entrenamiento enfocado en empuje: pecho, hombros y tríceps",
+      category: "strength",
       difficulty: 4,
       estimatedDuration: 60,
       exercises: [
         {
-          id: '1',
-          exerciseId: '1',
+          id: "1",
+          exerciseId: "1",
           exercise: exercisesLibrary[0],
           sets: 4,
           reps: 8,
           weight: 80,
           restSeconds: 120,
-          orderIndex: 1
-        }
+          orderIndex: 1,
+        },
       ],
       isPublic: false,
       assignedClients: 12,
-      createdAt: '2024-01-15',
-      lastUsed: '2024-02-10'
+      createdAt: "2024-01-15",
+      lastUsed: "2024-02-10",
     },
     {
-      id: '2',
-      name: 'Leg Day Completo',
-      description: 'Entrenamiento completo de piernas y glúteos',
-      category: 'strength',
+      id: "2",
+      name: "Leg Day Completo",
+      description: "Entrenamiento completo de piernas y glúteos",
+      category: "strength",
       difficulty: 5,
       estimatedDuration: 75,
       exercises: [
         {
-          id: '2',
-          exerciseId: '2',
+          id: "2",
+          exerciseId: "2",
           exercise: exercisesLibrary[1],
           sets: 4,
           reps: 10,
           weight: 100,
           restSeconds: 180,
-          orderIndex: 1
-        }
+          orderIndex: 1,
+        },
       ],
       isPublic: true,
       assignedClients: 8,
-      createdAt: '2024-01-20',
-      lastUsed: '2024-02-12'
-    }
+      createdAt: "2024-01-20",
+      lastUsed: "2024-02-12",
+    },
   ];
 
   const [workouts, setWorkouts] = useState<WorkoutTemplate[]>(workoutTemplates);
 
-
-  const filteredWorkouts = workouts.filter(workout => {
-    const matchesSearch = workout.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                         workout.description.toLowerCase().includes(searchQuery.toLowerCase());
-    const matchesCategory = selectedCategory === 'all' || workout.category === selectedCategory;
-    return matchesSearch && matchesCategory;
-  });
+  const filteredWorkouts = useMemo(() => {
+    const q = searchQuery.toLowerCase();
+    return workouts.filter((workout) => {
+      const matchesSearch =
+        workout.name.toLowerCase().includes(q) ||
+        workout.description.toLowerCase().includes(q);
+      const matchesCategory =
+        selectedCategory === "all" || workout.category === selectedCategory;
+      return matchesSearch && matchesCategory;
+    });
+  }, [workouts, searchQuery, selectedCategory]);
 
   const getDifficultyColor = (level: DifficultyLevel): string => {
     switch (level) {
-      case 1: return 'text-green-400';
-      case 2: return 'text-green-400';
-      case 3: return 'text-yellow-400';
-      case 4: return 'text-orange-400';
-      case 5: return 'text-red-400';
+      case 1:
+      case 2:
+        return "text-green-400";
+      case 3:
+        return "text-yellow-400";
+      case 4:
+        return "text-orange-400";
+      case 5:
+        return "text-red-400";
     }
   };
 
   const getDifficultyText = (level: DifficultyLevel): string => {
     switch (level) {
-      case 1: return 'Muy Fácil';
-      case 2: return 'Fácil';
-      case 3: return 'Intermedio';
-      case 4: return 'Difícil';
-      case 5: return 'Muy Difícil';
+      case 1:
+        return "Muy Fácil";
+      case 2:
+        return "Fácil";
+      case 3:
+        return "Intermedio";
+      case 4:
+        return "Difícil";
+      case 5:
+        return "Muy Difícil";
     }
   };
 
   const getCategoryColor = (category: WorkoutCategory): string => {
     switch (category) {
-      case 'strength': return 'bg-red-500/20 text-red-400';
-      case 'cardio': return 'bg-blue-500/20 text-blue-400';
-      case 'flexibility': return 'bg-green-500/20 text-green-400';
-      case 'mixed': return 'bg-purple-500/20 text-purple-400';
+      case "strength":
+        return "bg-red-500/20 text-red-400";
+      case "cardio":
+        return "bg-blue-500/20 text-blue-400";
+      case "flexibility":
+        return "bg-green-500/20 text-green-400";
+      case "mixed":
+        return "bg-purple-500/20 text-purple-400";
     }
   };
 
   const getCategoryText = (category: WorkoutCategory): string => {
     switch (category) {
-      case 'strength': return 'Fuerza';
-      case 'cardio': return 'Cardio';
-      case 'flexibility': return 'Flexibilidad';
-      case 'mixed': return 'Mixto';
+      case "strength":
+        return "Fuerza";
+      case "cardio":
+        return "Cardio";
+      case "flexibility":
+        return "Flexibilidad";
+      case "mixed":
+        return "Mixto";
     }
   };
 
   // Helper function para verificar si un string es una categoría válida
   const isValidWorkoutCategory = (value: string): value is WorkoutCategory => {
-    return ['strength', 'cardio', 'flexibility', 'mixed'].includes(value);
+    return ["strength", "cardio", "flexibility", "mixed"].includes(value);
   };
 
   // Helper function para verificar si un número es un nivel de dificultad válido
   const isValidDifficultyLevel = (value: number): value is DifficultyLevel => {
     return [1, 2, 3, 4, 5].includes(value);
+  };
+
+  // Handlers CRUD
+  const handleCreate = (data: WorkoutFormValues) => {
+    const now = new Date();
+    const newTemplate: WorkoutTemplate = {
+      id: String(now.getTime()),
+      name: data.name.trim() || "Nuevo Entrenamiento",
+      description: data.description.trim(),
+      category: data.category,
+      difficulty: data.difficulty,
+      estimatedDuration: data.estimatedDuration || 0,
+      exercises: [],
+      isPublic: false,
+      assignedClients: 0,
+      createdAt: now.toISOString().slice(0, 10),
+    };
+    setWorkouts((prev) => [newTemplate, ...prev]);
+    setShowCreateModal(false);
+    setActiveTab("templates");
+  };
+
+  const handleUpdate = (values: WorkoutFormValues) => {
+    if (!editingWorkout) return;
+    const updated: WorkoutTemplate = {
+      ...editingWorkout,
+      name: values.name,
+      description: values.description,
+      category: values.category,
+      difficulty: values.difficulty,
+      estimatedDuration: values.estimatedDuration,
+    };
+    setWorkouts((prev) => prev.map((w) => (w.id === updated.id ? updated : w)));
+    setEditingWorkout(null);
+  };
+
+  const handleDuplicate = (tpl: WorkoutTemplate) => {
+    const now = Date.now();
+    const clone: WorkoutTemplate = {
+      ...tpl,
+      id: String(now),
+      name: `${tpl.name} (copia)`,
+      createdAt: new Date(now).toISOString().slice(0, 10),
+      assignedClients: 0,
+      lastUsed: undefined,
+    };
+    setWorkouts((prev) => [clone, ...prev]);
+  };
+
+  const handleDelete = (id: string) => {
+    if (confirm("¿Eliminar este entrenamiento?")) {
+      setWorkouts((prev) => prev.filter((w) => w.id !== id));
+    }
   };
 
   const WorkoutCard = ({ workout }: { workout: WorkoutTemplate }) => (
@@ -230,9 +311,11 @@ const WorkoutManager = () => {
             )}
           </div>
           <p className="text-gray-400 text-sm mb-3">{workout.description}</p>
-          
+
           <div className="flex items-center space-x-4 text-sm">
-            <span className={`px-2 py-1 rounded-full ${getCategoryColor(workout.category)}`}>
+            <span
+              className={`px-2 py-1 rounded-full ${getCategoryColor(workout.category)}`}
+            >
               {getCategoryText(workout.category)}
             </span>
             <span className={getDifficultyColor(workout.difficulty)}>
@@ -240,7 +323,7 @@ const WorkoutManager = () => {
             </span>
           </div>
         </div>
-        
+
         <div className="flex items-center space-x-1">
           <button className="p-2 text-gray-400 hover:text-white hover:bg-gray-800 rounded-lg transition-colors">
             <MoreVertical className="h-4 w-4" />
@@ -257,7 +340,7 @@ const WorkoutManager = () => {
           <p className="text-lg font-bold text-white">{workout.estimatedDuration}</p>
           <p className="text-xs text-gray-400">minutos</p>
         </div>
-        
+
         <div className="text-center">
           <div className="flex items-center justify-center space-x-1 text-gray-400 mb-1">
             <Dumbbell className="h-4 w-4" />
@@ -265,7 +348,7 @@ const WorkoutManager = () => {
           <p className="text-lg font-bold text-white">{workout.exercises.length}</p>
           <p className="text-xs text-gray-400">ejercicios</p>
         </div>
-        
+
         <div className="text-center">
           <div className="flex items-center justify-center space-x-1 text-gray-400 mb-1">
             <Users className="h-4 w-4" />
@@ -278,66 +361,94 @@ const WorkoutManager = () => {
       {/* Last Used */}
       {workout.lastUsed && (
         <div className="text-xs text-gray-400 mb-4">
-          Última vez usado: {new Date(workout.lastUsed).toLocaleDateString('es-ES')}
+          Última vez usado: {new Date(workout.lastUsed).toLocaleDateString("es-ES")}
         </div>
       )}
 
       {/* Actions */}
-      <div className="flex space-x-2">
+      <div className="flex gap-2 flex-wrap">
         <button className="flex-1 bg-gradient-to-r from-fuchsia-600 to-violet-600 text-white py-2 px-3 rounded-lg text-sm font-medium hover:shadow-lg hover:shadow-fuchsia-500/25 transition-all flex items-center justify-center space-x-1">
           <Calendar className="h-4 w-4" />
           <span>Asignar</span>
         </button>
-        
-        <button 
+
+        <button
           onClick={() => setEditingWorkout(workout)}
-          className="bg-gray-800 text-gray-400 hover:text-white py-2 px-3 rounded-lg text-sm transition-colors"
+          className="bg-gray-800 text-gray-300 hover:text-white py-2 px-3 rounded-lg text-sm transition-colors"
         >
           <Edit3 className="h-4 w-4" />
         </button>
-        
-        <button className="bg-gray-800 text-gray-400 hover:text-white py-2 px-3 rounded-lg text-sm transition-colors">
+
+        <button
+          onClick={() => handleDuplicate(workout)}
+          className="bg-gray-800 text-gray-300 hover:text-white py-2 px-3 rounded-lg text-sm transition-colors"
+        >
           <Copy className="h-4 w-4" />
         </button>
-        
-        <button className="bg-gray-800 text-gray-400 hover:text-white py-2 px-3 rounded-lg text-sm transition-colors">
+
+        <button className="bg-gray-800 text-gray-300 hover:text-white py-2 px-3 rounded-lg text-sm transition-colors">
           <Share className="h-4 w-4" />
+        </button>
+
+        <button
+          onClick={() => handleDelete(workout.id)}
+          className="bg-gray-800 text-red-400 hover:text-red-300 py-2 px-3 rounded-lg text-sm transition-colors"
+          title="Eliminar"
+        >
+          <Trash2 className="h-4 w-4" />
         </button>
       </div>
     </div>
   );
 
-  const CreateWorkoutForm = () => {
-    const [newWorkout, setNewWorkout] = useState<NewWorkoutForm>({
-      name: '',
-      description: '',
-      category: 'strength',
-      difficulty: 3,
-      estimatedDuration: 60
-    });
+  type FormMode = "create" | "edit";
+
+  const WorkoutForm: React.FC<{
+    mode: FormMode;
+    initial?: WorkoutFormValues;
+    onCancel: () => void;
+    onSubmit: (values: WorkoutFormValues) => void;
+  }> = ({ mode, initial, onCancel, onSubmit }) => {
+    const [values, setValues] = useState<WorkoutFormValues>(
+      initial ?? {
+        name: "",
+        description: "",
+        category: "strength",
+        difficulty: 3,
+        estimatedDuration: 60,
+      }
+    );
 
     const handleCategoryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
       const value = e.target.value;
       if (isValidWorkoutCategory(value)) {
-        setNewWorkout({...newWorkout, category: value});
+        setValues({ ...values, category: value });
       }
     };
 
     const handleDifficultyChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
       const value = parseInt(e.target.value);
       if (isValidDifficultyLevel(value)) {
-        setNewWorkout({...newWorkout, difficulty: value});
+        setValues({ ...values, difficulty: value });
       }
+    };
+
+    const submit = () => {
+      // Validación mínima
+      if (!values.name.trim()) {
+        alert("Ingresá un nombre para el entrenamiento");
+        return;
+      }
+      onSubmit(values);
     };
 
     return (
       <div className="bg-gray-900 rounded-xl p-6 border border-gray-800">
         <div className="flex items-center justify-between mb-6">
-          <h2 className="text-2xl font-bold text-white">Crear Nuevo Entrenamiento</h2>
-          <button 
-            onClick={() => setShowCreateModal(false)}
-            className="p-2 text-gray-400 hover:text-white transition-colors"
-          >
+          <h2 className="text-2xl font-bold text-white">
+            {mode === "create" ? "Crear Nuevo Entrenamiento" : "Editar Entrenamiento"}
+          </h2>
+          <button onClick={onCancel} className="p-2 text-gray-400 hover:text-white transition-colors">
             <X className="h-5 w-5" />
           </button>
         </div>
@@ -351,8 +462,8 @@ const WorkoutManager = () => {
               </label>
               <input
                 type="text"
-                value={newWorkout.name}
-                onChange={(e) => setNewWorkout({...newWorkout, name: e.target.value})}
+                value={values.name}
+                onChange={(e) => setValues({ ...values, name: e.target.value })}
                 className="w-full bg-gray-800 border border-gray-700 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-fuchsia-500"
                 placeholder="Ej: Push Day Intenso"
               />
@@ -364,8 +475,13 @@ const WorkoutManager = () => {
               </label>
               <input
                 type="number"
-                value={newWorkout.estimatedDuration}
-                onChange={(e) => setNewWorkout({...newWorkout, estimatedDuration: parseInt(e.target.value) || 0})}
+                value={values.estimatedDuration}
+                onChange={(e) =>
+                  setValues({
+                    ...values,
+                    estimatedDuration: parseInt(e.target.value) || 0,
+                  })
+                }
                 className="w-full bg-gray-800 border border-gray-700 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-fuchsia-500"
               />
             </div>
@@ -376,8 +492,8 @@ const WorkoutManager = () => {
               Descripción
             </label>
             <textarea
-              value={newWorkout.description}
-              onChange={(e) => setNewWorkout({...newWorkout, description: e.target.value})}
+              value={values.description}
+              onChange={(e) => setValues({ ...values, description: e.target.value })}
               rows={3}
               className="w-full bg-gray-800 border border-gray-700 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-fuchsia-500"
               placeholder="Describe el objetivo y características del entrenamiento..."
@@ -390,7 +506,7 @@ const WorkoutManager = () => {
                 Categoría
               </label>
               <select
-                value={newWorkout.category}
+                value={values.category}
                 onChange={handleCategoryChange}
                 className="w-full bg-gray-800 border border-gray-700 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-fuchsia-500"
               >
@@ -406,7 +522,7 @@ const WorkoutManager = () => {
                 Dificultad
               </label>
               <select
-                value={newWorkout.difficulty}
+                value={values.difficulty}
                 onChange={handleDifficultyChange}
                 className="w-full bg-gray-800 border border-gray-700 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-fuchsia-500"
               >
@@ -419,24 +535,25 @@ const WorkoutManager = () => {
             </div>
           </div>
 
-          {/* Exercise Builder Area */}
+          {/* Exercise Builder (placeholder) */}
           <div className="border-t border-gray-800 pt-6">
             <h3 className="text-lg font-semibold text-white mb-4">Ejercicios</h3>
-            
-            {/* Add Exercise Button */}
             <button className="w-full border-2 border-dashed border-gray-700 rounded-lg py-8 text-gray-400 hover:border-fuchsia-500 hover:text-fuchsia-400 transition-all flex flex-col items-center space-y-2">
               <Plus className="h-8 w-8" />
-              <span>Agregar Ejercicio</span>
+              <span>Agregar Ejercicio (próximamente)</span>
             </button>
           </div>
 
           {/* Action Buttons */}
           <div className="flex space-x-4 pt-6 border-t border-gray-800">
-            <button className="flex-1 bg-gradient-to-r from-fuchsia-600 to-violet-600 text-white py-3 px-6 rounded-lg font-medium hover:shadow-lg hover:shadow-fuchsia-500/25 transition-all">
-              Crear Entrenamiento
+            <button
+              onClick={submit}
+              className="flex-1 bg-gradient-to-r from-fuchsia-600 to-violet-600 text-white py-3 px-6 rounded-lg font-medium hover:shadow-lg hover:shadow-fuchsia-500/25 transition-all"
+            >
+              {mode === "create" ? "Crear Entrenamiento" : "Guardar Cambios"}
             </button>
-            <button 
-              onClick={() => setShowCreateModal(false)}
+            <button
+              onClick={onCancel}
               className="bg-gray-800 text-gray-400 hover:text-white py-3 px-6 rounded-lg font-medium transition-colors"
             >
               Cancelar
@@ -450,15 +567,14 @@ const WorkoutManager = () => {
   return (
     <div className="min-h-screen bg-gray-950 text-white p-4">
       <div className="mx-auto max-w-7xl space-y-6">
-        
         {/* Header */}
         <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div>
             <h1 className="text-3xl font-bold text-white">Entrenamientos</h1>
             <p className="text-gray-400">Crea y gestiona rutinas para tus clientes</p>
           </div>
-          
-          <button 
+
+          <button
             onClick={() => setShowCreateModal(true)}
             className="flex items-center space-x-2 bg-gradient-to-r from-fuchsia-600 to-violet-600 px-4 py-3 rounded-xl hover:shadow-lg hover:shadow-fuchsia-500/25 transition-all"
           >
@@ -470,10 +586,10 @@ const WorkoutManager = () => {
         {/* Tabs */}
         <div className="flex space-x-1 bg-gray-900 p-1 rounded-lg">
           {[
-            { id: 'templates' as const, label: 'Mis Plantillas', icon: Dumbbell },
-            { id: 'create' as const, label: 'Crear Nuevo', icon: Plus },
-            { id: 'library' as const, label: 'Biblioteca', icon: Target }
-          ].map(tab => {
+            { id: "templates" as const, label: "Mis Plantillas", icon: Dumbbell },
+            { id: "create" as const, label: "Crear Nuevo", icon: Plus },
+            { id: "library" as const, label: "Biblioteca", icon: Target },
+          ].map((tab) => {
             const Icon = tab.icon;
             return (
               <button
@@ -481,8 +597,8 @@ const WorkoutManager = () => {
                 onClick={() => setActiveTab(tab.id)}
                 className={`flex-1 flex items-center justify-center space-x-2 py-3 px-4 rounded-lg font-medium text-sm transition-all ${
                   activeTab === tab.id
-                    ? 'bg-gradient-to-r from-fuchsia-600 to-violet-600 text-white'
-                    : 'text-gray-400 hover:text-white'
+                    ? "bg-gradient-to-r from-fuchsia-600 to-violet-600 text-white"
+                    : "text-gray-400 hover:text-white"
                 }`}
               >
                 <Icon className="h-4 w-4" />
@@ -493,7 +609,7 @@ const WorkoutManager = () => {
         </div>
 
         {/* Content */}
-        {activeTab === 'templates' && (
+        {activeTab === "templates" && (
           <>
             {/* Search and Filters */}
             <div className="flex flex-col sm:flex-row gap-4">
@@ -507,21 +623,25 @@ const WorkoutManager = () => {
                   className="w-full bg-gray-900 border border-gray-800 rounded-lg pl-10 pr-4 py-3 text-white placeholder-gray-400 focus:outline-none focus:border-fuchsia-500 transition-colors"
                 />
               </div>
-              
+
               <div className="flex space-x-2">
-                {(['all', 'strength', 'cardio', 'flexibility', 'mixed'] as const).map((category) => (
-                  <button
-                    key={category}
-                    onClick={() => setSelectedCategory(category)}
-                    className={`px-4 py-3 rounded-lg font-medium text-sm transition-colors ${
-                      selectedCategory === category
-                        ? 'bg-fuchsia-600 text-white'
-                        : 'bg-gray-900 text-gray-400 hover:text-white border border-gray-800'
-                    }`}
-                  >
-                    {category === 'all' ? 'Todos' : getCategoryText(category as WorkoutCategory)}
-                  </button>
-                ))}
+                {(["all", "strength", "cardio", "flexibility", "mixed"] as const).map(
+                  (category) => (
+                    <button
+                      key={category}
+                      onClick={() => setSelectedCategory(category)}
+                      className={`px-4 py-3 rounded-lg font-medium text-sm transition-colors ${
+                        selectedCategory === category
+                          ? "bg-fuchsia-600 text-white"
+                          : "bg-gray-900 text-gray-400 hover:text-white border border-gray-800"
+                      }`}
+                    >
+                      {category === "all"
+                        ? "Todos"
+                        : getCategoryText(category as WorkoutCategory)}
+                    </button>
+                  )
+                )}
               </div>
             </div>
 
@@ -536,14 +656,15 @@ const WorkoutManager = () => {
             {filteredWorkouts.length === 0 && (
               <div className="text-center py-12">
                 <Dumbbell className="h-16 w-16 text-gray-600 mx-auto mb-4" />
-                <h3 className="text-xl font-semibold text-white mb-2">No se encontraron entrenamientos</h3>
+                <h3 className="text-xl font-semibold text-white mb-2">
+                  No se encontraron entrenamientos
+                </h3>
                 <p className="text-gray-400 mb-6">
-                  {searchQuery 
-                    ? 'Intenta con otros términos de búsqueda'
-                    : 'Crea tu primer entrenamiento para comenzar'
-                  }
+                  {searchQuery
+                    ? "Intenta con otros términos de búsqueda"
+                    : "Crea tu primer entrenamiento para comenzar"}
                 </p>
-                <button 
+                <button
                   onClick={() => setShowCreateModal(true)}
                   className="bg-gradient-to-r from-fuchsia-600 to-violet-600 text-white px-6 py-3 rounded-lg font-medium hover:shadow-lg hover:shadow-fuchsia-500/25 transition-all"
                 >
@@ -554,12 +675,20 @@ const WorkoutManager = () => {
           </>
         )}
 
-        {activeTab === 'create' && <CreateWorkoutForm />}
+        {activeTab === "create" && (
+          <WorkoutForm
+            mode="create"
+            onCancel={() => setActiveTab("templates")}
+            onSubmit={handleCreate}
+          />
+        )}
 
-        {activeTab === 'library' && (
+        {activeTab === "library" && (
           <div className="text-center py-12">
             <Target className="h-16 w-16 text-gray-600 mx-auto mb-4" />
-            <h3 className="text-xl font-semibold text-white mb-2">Biblioteca de Ejercicios</h3>
+            <h3 className="text-xl font-semibold text-white mb-2">
+              Biblioteca de Ejercicios
+            </h3>
             <p className="text-gray-400">Próximamente: biblioteca completa de ejercicios</p>
           </div>
         )}
@@ -568,7 +697,31 @@ const WorkoutManager = () => {
         {showCreateModal && (
           <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
             <div className="bg-gray-950 rounded-xl p-6 max-w-4xl w-full max-h-[90vh] overflow-y-auto">
-              <CreateWorkoutForm />
+              <WorkoutForm
+                mode="create"
+                onCancel={() => setShowCreateModal(false)}
+                onSubmit={handleCreate}
+              />
+            </div>
+          </div>
+        )}
+
+        {/* Edit Modal */}
+        {editingWorkout && (
+          <div className="fixed inset-0 bg-black/50 flex items-center justify-center p-4 z-50">
+            <div className="bg-gray-950 rounded-xl p-6 max-w-4xl w-full max-h-[90vh] overflow-y-auto">
+              <WorkoutForm
+                mode="edit"
+                initial={{
+                  name: editingWorkout.name,
+                  description: editingWorkout.description,
+                  category: editingWorkout.category,
+                  difficulty: editingWorkout.difficulty,
+                  estimatedDuration: editingWorkout.estimatedDuration,
+                }}
+                onCancel={() => setEditingWorkout(null)}
+                onSubmit={handleUpdate}
+              />
             </div>
           </div>
         )}

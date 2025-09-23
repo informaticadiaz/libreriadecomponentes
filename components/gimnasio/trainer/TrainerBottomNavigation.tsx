@@ -269,14 +269,7 @@ const TrainerBottomNavigation = () => {
           })}
         </div>
         
-        {/* Indicador de funciones adicionales disponibles */}
-        <div className="text-center mt-2">
-          <div className="inline-flex items-center space-x-1 text-xs text-gray-500">
-            <span>•</span>
-            <span>Progreso, Analytics, Notificaciones disponibles en el header</span>
-            <span>•</span>
-          </div>
-        </div>
+   
       </div>
     </div>
   );
