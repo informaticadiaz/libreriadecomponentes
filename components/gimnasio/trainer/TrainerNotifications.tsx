@@ -6,33 +6,30 @@ import {
   Calendar, 
   DollarSign,
   AlertTriangle,
-  CheckCircle,
-  User,
-  Dumbbell,
   Target,
   TrendingUp,
   Clock,
   Settings,
-  Filter,
   MoreHorizontal,
   X,
   Check,
   Star,
-  Archive,
-  Trash2,
   Eye,
-  Phone,
-  Mail
 } from 'lucide-react';
+
+// Definir tipos específicos para mayor seguridad
+type NotificationType = 'message' | 'payment' | 'schedule' | 'client_progress' | 'client_inactive' | 'goal_achieved' | 'system' | 'renewal';
+type Priority = 'low' | 'medium' | 'high' | 'urgent';
+type FilterType = 'all' | 'unread' | 'messages' | 'payments' | 'clients';
 
 interface TrainerNotification {
   id: string;
-  type: 'message' | 'payment' | 'schedule' | 'client_progress' | 'client_inactive' | 'goal_achieved' | 'system' | 'renewal';
+  type: NotificationType;
   title: string;
   message: string;
   timestamp: string;
   isRead: boolean;
-  priority: 'low' | 'medium' | 'high' | 'urgent';
+  priority: Priority;
   clientId?: string;
   clientName?: string;
   clientAvatar?: string;
@@ -53,8 +50,15 @@ interface NotificationStats {
   todayCount: number;
 }
 
+// Definir el tipo para los filtros
+interface FilterOption {
+  id: FilterType;
+  label: string;
+  count: number;
+}
+
 const TrainerNotifications = () => {
-  const [selectedFilter, setSelectedFilter] = useState<'all' | 'unread' | 'messages' | 'payments' | 'clients'>('all');
+  const [selectedFilter, setSelectedFilter] = useState<FilterType>('all');
   const [showActions, setShowActions] = useState<string | null>(null);
 
   // Mock data
@@ -173,7 +177,7 @@ const TrainerNotifications = () => {
     }
   ];
 
-  const filteredNotifications = notifications.filter(notification => {
+  const filteredNotifications = notifications.filter((notification): notification is TrainerNotification => {
     switch (selectedFilter) {
       case 'unread':
         return !notification.isRead;
@@ -183,6 +187,7 @@ const TrainerNotifications = () => {
         return notification.type === 'payment' || notification.type === 'renewal';
       case 'clients':
         return ['client_progress', 'client_inactive', 'goal_achieved'].includes(notification.type);
+      case 'all':
       default:
         return true;
     }
@@ -190,21 +195,32 @@ const TrainerNotifications = () => {
 
   const unreadCount = notifications.filter(n => !n.isRead).length;
 
-  const getNotificationIcon = (type: string) => {
+   const getNotificationIcon = (type: NotificationType) => {
+    const iconProps = { className: "h-5 w-5" };
+    
     switch (type) {
-      case 'message': return <MessageCircle className="h-5 w-5 text-blue-400" />;
-      case 'payment': return <DollarSign className="h-5 w-5 text-green-400" />;
-      case 'schedule': return <Calendar className="h-5 w-5 text-purple-400" />;
-      case 'client_progress': return <TrendingUp className="h-5 w-5 text-green-400" />;
-      case 'client_inactive': return <AlertTriangle className="h-5 w-5 text-red-400" />;
-      case 'goal_achieved': return <Target className="h-5 w-5 text-yellow-400" />;
-      case 'renewal': return <Clock className="h-5 w-5 text-orange-400" />;
-      case 'system': return <Settings className="h-5 w-5 text-gray-400" />;
-      default: return <Bell className="h-5 w-5 text-gray-400" />;
+      case 'message': 
+        return <MessageCircle {...iconProps} className="h-5 w-5 text-blue-400" />;
+      case 'payment': 
+        return <DollarSign {...iconProps} className="h-5 w-5 text-green-400" />;
+      case 'schedule': 
+        return <Calendar {...iconProps} className="h-5 w-5 text-purple-400" />;
+      case 'client_progress': 
+        return <TrendingUp {...iconProps} className="h-5 w-5 text-green-400" />;
+      case 'client_inactive': 
+        return <AlertTriangle {...iconProps} className="h-5 w-5 text-red-400" />;
+      case 'goal_achieved': 
+        return <Target {...iconProps} className="h-5 w-5 text-yellow-400" />;
+      case 'renewal': 
+        return <Clock {...iconProps} className="h-5 w-5 text-orange-400" />;
+      case 'system': 
+        return <Settings {...iconProps} className="h-5 w-5 text-gray-400" />;
+      default: 
+        return <Bell {...iconProps} className="h-5 w-5 text-gray-400" />;
     }
   };
 
-  const getPriorityColor = (priority: string) => {
+  const getPriorityColor = (priority: Priority): string => {
     switch (priority) {
       case 'urgent': return 'border-l-red-500 bg-red-500/5';
       case 'high': return 'border-l-orange-500 bg-orange-500/5';
@@ -214,7 +230,7 @@ const TrainerNotifications = () => {
     }
   };
 
-  const formatTimestamp = (timestamp: string) => {
+  const formatTimestamp = (timestamp: string): string => {
     const date = new Date(timestamp);
     const now = new Date();
     const diff = now.getTime() - date.getTime();
@@ -231,20 +247,51 @@ const TrainerNotifications = () => {
     }
   };
 
-  const markAsRead = (notificationId: string) => {
+  const markAsRead = (notificationId: string): void => {
     // Aquí implementarías la lógica para marcar como leída
     console.log('Marking as read:', notificationId);
   };
 
-  const dismissNotification = (notificationId: string) => {
+  const dismissNotification = (notificationId: string): void => {
     // Aquí implementarías la lógica para descartar
     console.log('Dismissing:', notificationId);
   };
 
-  const handleAction = (notification: TrainerNotification) => {
+  const handleAction = (notification: TrainerNotification): void => {
     // Aquí implementarías la lógica para las acciones específicas
     console.log('Action for:', notification.actionLabel, notification);
   };
+
+  // Función helper para crear filtros de manera tipada
+  const createFilterOptions = (): FilterOption[] => [
+    { 
+      id: 'all', 
+      label: 'Todas', 
+      count: notifications.length 
+    },
+    { 
+      id: 'unread', 
+      label: 'Sin leer', 
+      count: notifications.filter(n => !n.isRead).length 
+    },
+    { 
+      id: 'messages', 
+      label: 'Mensajes', 
+      count: notifications.filter(n => n.type === 'message').length 
+    },
+    { 
+      id: 'payments', 
+      label: 'Pagos', 
+      count: notifications.filter(n => ['payment', 'renewal'].includes(n.type)).length 
+    },
+    { 
+      id: 'clients', 
+      label: 'Clientes', 
+      count: notifications.filter(n => ['client_progress', 'client_inactive', 'goal_achieved'].includes(n.type)).length 
+    }
+  ];
+
+  const filterOptions = createFilterOptions();
 
   return (
     <div className="min-h-screen bg-gray-950 text-white">
@@ -321,16 +368,10 @@ const TrainerNotifications = () => {
       {/* Filters */}
       <div className="px-6 mb-6">
         <div className="flex space-x-2">
-          {[
-            { id: 'all', label: 'Todas', count: notifications.length },
-            { id: 'unread', label: 'Sin leer', count: notifications.filter(n => !n.isRead).length },
-            { id: 'messages', label: 'Mensajes', count: notifications.filter(n => n.type === 'message').length },
-            { id: 'payments', label: 'Pagos', count: notifications.filter(n => ['payment', 'renewal'].includes(n.type)).length },
-            { id: 'clients', label: 'Clientes', count: notifications.filter(n => ['client_progress', 'client_inactive', 'goal_achieved'].includes(n.type)).length }
-          ].map((filter) => (
+          {filterOptions.map((filter) => (
             <button
               key={filter.id}
-              onClick={() => setSelectedFilter(filter.id as any)}
+              onClick={() => setSelectedFilter(filter.id)} // ¡Ya no hay 'as any'!
               className={`px-4 py-2 rounded-lg font-medium text-sm transition-colors flex items-center space-x-2 ${
                 selectedFilter === filter.id
                   ? 'bg-fuchsia-600 text-white'

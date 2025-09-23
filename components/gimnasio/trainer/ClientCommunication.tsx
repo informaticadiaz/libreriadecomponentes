@@ -11,19 +11,11 @@ import {
   Smile,
   Camera,
   Mic,
-  Image,
-  FileText,
-  Clock,
   Check,
   CheckCheck,
-  Star,
   Pin,
-  Archive,
-  Trash2,
   Plus,
-  Filter,
   Users,
-  Bell,
   Zap,
   Calendar
 } from 'lucide-react';
@@ -63,12 +55,21 @@ interface QuickReply {
   category: 'motivation' | 'scheduling' | 'nutrition' | 'workout';
 }
 
+// Definir el tipo para los filtros
+type FilterType = 'all' | 'unread' | 'pinned' | 'archived';
+
+// Tipar correctamente el array de filtros
+interface FilterOption {
+  id: FilterType;
+  label: string;
+}
+
 const ClientCommunication = () => {
   const [selectedConversation, setSelectedConversation] = useState<string | null>('1');
   const [messageInput, setMessageInput] = useState('');
   const [searchQuery, setSearchQuery] = useState('');
   const [showQuickReplies, setShowQuickReplies] = useState(false);
-  const [selectedFilter, setSelectedFilter] = useState<'all' | 'unread' | 'pinned' | 'archived'>('all');
+  const [selectedFilter, setSelectedFilter] = useState<FilterType>('all');
 
   // Mock data
   const quickReplies: QuickReply[] = [
@@ -246,16 +247,16 @@ const ClientCommunication = () => {
           />
         </div>
 
-        {/* Filters */}
+        {/* Filters - Ahora con tipado correcto */}
         <div className="flex space-x-1">
-          {[
+          {([
             { id: 'all', label: 'Todos' },
             { id: 'unread', label: 'No leídos' },
             { id: 'pinned', label: 'Fijados' }
-          ].map(filter => (
+          ] as FilterOption[]).map(filter => (
             <button
               key={filter.id}
-              onClick={() => setSelectedFilter(filter.id as any)}
+              onClick={() => setSelectedFilter(filter.id)} 
               className={`px-3 py-1 rounded text-sm transition-colors ${
                 selectedFilter === filter.id
                   ? 'bg-fuchsia-600 text-white'

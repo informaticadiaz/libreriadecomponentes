@@ -12,7 +12,6 @@ import {
   Clock,
   Target,
   ChevronRight,
-  User,
   Dumbbell,
   AlertTriangle
 } from 'lucide-react';

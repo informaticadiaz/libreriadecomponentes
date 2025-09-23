@@ -8,11 +8,8 @@ import {
   MessageCircle, 
   Bell, 
   Settings,
-  Calendar,
   BarChart3,
   User,
-  Plus,
-  Search,
   TrendingUp
 } from 'lucide-react';
 

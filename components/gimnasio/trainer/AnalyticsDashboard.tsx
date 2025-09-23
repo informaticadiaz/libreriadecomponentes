@@ -1,12 +1,9 @@
 "use client";
 import React, { useState } from 'react';
 import { 
-  BarChart3, 
   TrendingUp, 
-  TrendingDown,
   Users, 
   DollarSign,
-  Calendar,
   Target,
   Activity,
   Clock,
@@ -14,7 +11,6 @@ import {
   Award,
   AlertTriangle,
   Download,
-  Filter,
   RefreshCw,
   Eye,
   ArrowUpRight,
@@ -22,8 +18,6 @@ import {
   ChevronDown
 } from 'lucide-react';
 import { 
-  LineChart, 
-  Line, 
   XAxis, 
   YAxis, 
   CartesianGrid, 
@@ -37,6 +31,14 @@ import {
   Pie,
   Cell
 } from 'recharts';
+
+type TimeframeType = '7d' | '30d' | '90d' | '1y';
+type MetricType = 'revenue' | 'clients' | 'sessions' | 'adherence';
+
+interface TimeframePeriod {
+  id: TimeframeType;
+  label: string;
+}
 
 interface MetricCard {
   title: string;
@@ -57,8 +59,8 @@ interface ChartData {
 }
 
 const AnalyticsDashboard = () => {
-  const [timeframe, setTimeframe] = useState<'7d' | '30d' | '90d' | '1y'>('30d');
-  const [selectedMetric, setSelectedMetric] = useState<'revenue' | 'clients' | 'sessions' | 'adherence'>('revenue');
+  const [timeframe, setTimeframe] = useState<TimeframeType>('30d');
+  const [selectedMetric, setSelectedMetric] = useState<MetricType>('revenue');
 
   // Mock data
   const metrics: MetricCard[] = [
@@ -153,7 +155,28 @@ const AnalyticsDashboard = () => {
     { name: 'Laura Torres', revenue: 240, sessions: 6, adherence: 82 }
   ];
 
-  const getMetricColor = (metric: string) => {
+  // Array tipado para los períodos de tiempo
+  const timeframePeriods: TimeframePeriod[] = [
+    { id: '7d', label: '7 días' },
+    { id: '30d', label: '30 días' },
+    { id: '90d', label: '3 meses' },
+    { id: '1y', label: '1 año' }
+  ];
+
+  // Función para verificar si un string es un MetricType válido
+  const isValidMetricType = (value: string): value is MetricType => {
+    return ['revenue', 'clients', 'sessions', 'adherence'].includes(value);
+  };
+
+  // Handler para el cambio de métrica con validación de tipo
+  const handleMetricChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    const value = event.target.value;
+    if (isValidMetricType(value)) {
+      setSelectedMetric(value);
+    }
+  };
+
+  const getMetricColor = (metric: MetricType): string => {
     switch (metric) {
       case 'revenue': return '#10b981';
       case 'clients': return '#3b82f6';
@@ -163,7 +186,7 @@ const AnalyticsDashboard = () => {
     }
   };
 
-  const getMetricLabel = (metric: string) => {
+  const getMetricLabel = (metric: MetricType): string => {
     switch (metric) {
       case 'revenue': return 'Ingresos ($)';
       case 'clients': return 'Clientes';
@@ -213,15 +236,10 @@ const AnalyticsDashboard = () => {
           
           <div className="flex items-center space-x-3">
             <div className="flex items-center space-x-2 bg-gray-900 rounded-lg p-1">
-              {[
-                { id: '7d', label: '7 días' },
-                { id: '30d', label: '30 días' },
-                { id: '90d', label: '3 meses' },
-                { id: '1y', label: '1 año' }
-              ].map((period) => (
+              {timeframePeriods.map((period) => (
                 <button
                   key={period.id}
-                  onClick={() => setTimeframe(period.id as any)}
+                  onClick={() => setTimeframe(period.id)}
                   className={`px-3 py-2 rounded text-sm font-medium transition-colors ${
                     timeframe === period.id
                       ? 'bg-fuchsia-600 text-white'
@@ -255,7 +273,7 @@ const AnalyticsDashboard = () => {
               <div className="relative">
                 <select 
                   value={selectedMetric}
-                  onChange={(e) => setSelectedMetric(e.target.value as any)}
+                  onChange={handleMetricChange}
                   className="bg-gray-800 text-white rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-fuchsia-500 appearance-none pr-8"
                 >
                   <option value="revenue">Ingresos</option>

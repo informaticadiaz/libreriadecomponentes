@@ -1,25 +1,23 @@
 "use client";
 import React, { useState } from 'react';
 import { 
-  Search, 
-  Filter, 
+  Search,
   Plus, 
   MoreVertical,
   MessageCircle,
   Calendar,
   TrendingUp,
   User,
-  Phone,
-  Mail,
   Target,
-  Activity,
   CheckCircle,
   AlertCircle,
   Clock,
-  ChevronRight,
   Edit3,
   Eye
 } from 'lucide-react';
+
+// Definir el tipo de filtro como type union
+type FilterType = 'all' | 'active' | 'inactive' | 'trial';
 
 interface Client {
   id: string;
@@ -46,9 +44,12 @@ interface Client {
 
 const ClientManager = () => {
   const [searchQuery, setSearchQuery] = useState('');
-  const [selectedFilter, setSelectedFilter] = useState<'all' | 'active' | 'inactive' | 'trial'>('all');
+  const [selectedFilter, setSelectedFilter] = useState<FilterType>('all');
   const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
   const [selectedClient, setSelectedClient] = useState<string | null>(null);
+
+  // Definir los filtros con const assertion para obtener tipos literales
+  const filterOptions = ['all', 'active', 'inactive', 'trial'] as const;
 
   // Mock data
   const clients: Client[] = [
@@ -57,7 +58,7 @@ const ClientManager = () => {
       name: 'María González',
       email: 'maria@email.com',
       phone: '+54 11 1234-5678',
-      avatar: 'https://images.unsplash.com/photo-1494790108755-2616b25213b9?w=80&h=80&fit=crop&crop=face',
+      avatar: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=80&h=80&fit=crop&crop=face',
       joinDate: '2024-01-15',
       status: 'active',
       goal: 'Pérdida de peso',
@@ -164,6 +165,16 @@ const ClientManager = () => {
       case 'inactive': return 'Inactivo';
       case 'trial': return 'Prueba';
       default: return status;
+    }
+  };
+
+  // Helper function para obtener el texto del filtro
+  const getFilterText = (filter: FilterType): string => {
+    switch (filter) {
+      case 'all': return 'Todos';
+      case 'active': return 'Activos';
+      case 'inactive': return 'Inactivos';
+      case 'trial': return 'Prueba';
     }
   };
 
@@ -298,19 +309,17 @@ const ClientManager = () => {
           </div>
           
           <div className="flex space-x-2">
-            {['all', 'active', 'inactive', 'trial'].map((filter) => (
+            {filterOptions.map((filter) => (
               <button
                 key={filter}
-                onClick={() => setSelectedFilter(filter as any)}
+                onClick={() => setSelectedFilter(filter)}
                 className={`px-4 py-3 rounded-lg font-medium text-sm transition-colors ${
                   selectedFilter === filter
                     ? 'bg-fuchsia-600 text-white'
                     : 'bg-gray-900 text-gray-400 hover:text-white border border-gray-800'
                 }`}
               >
-                {filter === 'all' ? 'Todos' : 
-                 filter === 'active' ? 'Activos' :
-                 filter === 'inactive' ? 'Inactivos' : 'Prueba'}
+                {getFilterText(filter)}
               </button>
             ))}
           </div>

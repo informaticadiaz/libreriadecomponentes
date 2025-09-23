@@ -1,31 +1,27 @@
 "use client";
 import React, { useState } from 'react';
 import { 
-  Apple, 
   Plus, 
   Search, 
-  Filter,
   Users,
-  Target,
-  TrendingUp,
   Calendar,
-  Clock,
   Edit3,
   Copy,
-  Trash2,
   Eye,
-  Share,
   ChefHat,
-  Utensils,
-  Calculator,
-  BarChart3,
   CheckCircle,
   AlertCircle,
-  Camera,
   Book,
-  Download,
   Upload
 } from 'lucide-react';
+
+// Tipos para las tabs y filtros
+type ActiveTab = 'plans' | 'clients' | 'library' | 'create';
+type FilterType = 'all' | 'active' | 'draft';
+type GoalType = 'weight_loss' | 'weight_gain' | 'maintenance' | 'muscle_gain';
+type StatusType = 'active' | 'draft' | 'completed';
+type MealType = 'breakfast' | 'lunch' | 'dinner' | 'snack';
+type FoodCategory = 'protein' | 'carbs' | 'vegetables' | 'fruits' | 'fats' | 'dairy' | 'grains';
 
 interface MacroTarget {
   calories: number;
@@ -38,7 +34,7 @@ interface MacroTarget {
 interface Food {
   id: string;
   name: string;
-  category: 'protein' | 'carbs' | 'vegetables' | 'fruits' | 'fats' | 'dairy' | 'grains';
+  category: FoodCategory;
   calories: number; // per 100g
   protein: number;
   carbs: number;
@@ -50,7 +46,7 @@ interface Food {
 interface Meal {
   id: string;
   name: string;
-  type: 'breakfast' | 'lunch' | 'dinner' | 'snack';
+  type: MealType;
   foods: Array<{
     foodId: string;
     food: Food;
@@ -66,8 +62,8 @@ interface NutritionPlan {
   clientId: string;
   clientName: string;
   clientAvatar: string;
-  status: 'active' | 'draft' | 'completed';
-  goal: 'weight_loss' | 'weight_gain' | 'maintenance' | 'muscle_gain';
+  status: StatusType;
+  goal: GoalType;
   startDate: string;
   endDate?: string;
   dailyTargets: MacroTarget;
@@ -91,10 +87,17 @@ interface ClientNutritionOverview {
   }>;
 }
 
+// Definir la estructura de las tabs
+interface TabConfig {
+  id: ActiveTab;
+  label: string;
+  icon: React.ComponentType<{ className?: string }>;
+}
+
 const NutritionManager = () => {
-  const [activeTab, setActiveTab] = useState<'plans' | 'clients' | 'library' | 'create'>('plans');
-  const [searchQuery, setSearchQuery] = useState('');
-  const [selectedFilter, setSelectedFilter] = useState<'all' | 'active' | 'draft'>('all');
+  const [activeTab, setActiveTab] = useState<ActiveTab>('plans');
+  const [searchQuery, setSearchQuery] = useState<string>('');
+  const [selectedFilter, setSelectedFilter] = useState<FilterType>('all');
   const [selectedPlan, setSelectedPlan] = useState<string | null>(null);
 
   // Mock data
@@ -243,41 +246,45 @@ const NutritionManager = () => {
     return matchesSearch && matchesFilter;
   });
 
-  const getGoalColor = (goal: string) => {
+  const getGoalColor = (goal: GoalType): string => {
     switch (goal) {
       case 'weight_loss': return 'bg-red-500/20 text-red-400';
       case 'weight_gain': return 'bg-green-500/20 text-green-400';
       case 'muscle_gain': return 'bg-blue-500/20 text-blue-400';
       case 'maintenance': return 'bg-gray-500/20 text-gray-400';
-      default: return 'bg-gray-500/20 text-gray-400';
     }
   };
 
-  const getGoalText = (goal: string) => {
+  const getGoalText = (goal: GoalType): string => {
     switch (goal) {
       case 'weight_loss': return 'Pérdida de Peso';
       case 'weight_gain': return 'Ganancia de Peso';
       case 'muscle_gain': return 'Ganancia Muscular';
       case 'maintenance': return 'Mantenimiento';
-      default: return goal;
     }
   };
 
-  const getStatusColor = (status: string) => {
+  const getStatusColor = (status: StatusType): string => {
     switch (status) {
       case 'active': return 'bg-green-500/20 text-green-400';
       case 'draft': return 'bg-yellow-500/20 text-yellow-400';
       case 'completed': return 'bg-blue-500/20 text-blue-400';
-      default: return 'bg-gray-500/20 text-gray-400';
     }
   };
 
-  const getStatusText = (status: string) => {
+  const getStatusText = (status: StatusType): string => {
     switch (status) {
       case 'active': return 'Activo';
       case 'draft': return 'Borrador';
       case 'completed': return 'Completado';
-      default: return status;
+    }
+  };
+
+  const getFilterText = (filter: FilterType): string => {
+    switch (filter) {
+      case 'all': return 'Todos';
+      case 'active': return 'Activos';
+      case 'draft': return 'Borradores';
     }
   };
 
@@ -583,6 +590,17 @@ const NutritionManager = () => {
     </div>
   );
 
+  // Configuración de tabs con tipos seguros
+  const tabs: TabConfig[] = [
+    { id: 'plans', label: 'Mis Planes', icon: ChefHat },
+    { id: 'clients', label: 'Clientes', icon: Users },
+    { id: 'library', label: 'Biblioteca', icon: Book },
+    { id: 'create', label: 'Crear Nuevo', icon: Plus }
+  ];
+
+  // Filtros disponibles
+  const filters: FilterType[] = ['all', 'active', 'draft'];
+
   return (
     <div className="min-h-screen bg-gray-950 text-white p-4">
       <div className="mx-auto max-w-7xl space-y-6">
@@ -611,17 +629,12 @@ const NutritionManager = () => {
 
         {/* Tabs */}
         <div className="flex space-x-1 bg-gray-900 p-1 rounded-lg">
-          {[
-            { id: 'plans', label: 'Mis Planes', icon: ChefHat },
-            { id: 'clients', label: 'Clientes', icon: Users },
-            { id: 'library', label: 'Biblioteca', icon: Book },
-            { id: 'create', label: 'Crear Nuevo', icon: Plus }
-          ].map(tab => {
+          {tabs.map(tab => {
             const Icon = tab.icon;
             return (
               <button
                 key={tab.id}
-                onClick={() => setActiveTab(tab.id as any)}
+                onClick={() => setActiveTab(tab.id)}
                 className={`flex-1 flex items-center justify-center space-x-2 py-3 px-4 rounded-lg font-medium text-sm transition-all ${
                   activeTab === tab.id
                     ? 'bg-gradient-to-r from-fuchsia-600 to-violet-600 text-white'
@@ -652,18 +665,17 @@ const NutritionManager = () => {
               </div>
               
               <div className="flex space-x-2">
-                {['all', 'active', 'draft'].map((filter) => (
+                {filters.map((filter) => (
                   <button
                     key={filter}
-                    onClick={() => setSelectedFilter(filter as any)}
+                    onClick={() => setSelectedFilter(filter)}
                     className={`px-4 py-3 rounded-lg font-medium text-sm transition-colors ${
                       selectedFilter === filter
                         ? 'bg-fuchsia-600 text-white'
                         : 'bg-gray-900 text-gray-400 hover:text-white border border-gray-800'
                     }`}
                   >
-                    {filter === 'all' ? 'Todos' : 
-                     filter === 'active' ? 'Activos' : 'Borradores'}
+                    {getFilterText(filter)}
                   </button>
                 ))}
               </div>

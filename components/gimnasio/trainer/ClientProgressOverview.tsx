@@ -1,11 +1,9 @@
 "use client";
 import React, { useState } from 'react';
 import { 
-  TrendingUp, 
-  TrendingDown, 
+  TrendingUp,  
   Users, 
   Target, 
-  Calendar,
   Filter,
   Download,
   Eye,
@@ -19,6 +17,12 @@ import {
   Camera
 } from 'lucide-react';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, AreaChart, Area, BarChart, Bar } from 'recharts';
+
+// Definir tipos específicos
+type MetricType = 'weight' | 'adherence' | 'bodyFat';
+type StatusType = 'on-track' | 'needs-attention' | 'excellent';
+type TimeframeType = '7d' | '30d' | '90d' | '1y';
+type ViewModeType = 'overview' | 'individual';
 
 interface ClientProgress {
   id: string;
@@ -39,7 +43,7 @@ interface ClientProgress {
     bodyFat?: number;
     adherence: number;
   }>;
-  status: 'on-track' | 'needs-attention' | 'excellent';
+  status: StatusType;
   lastUpdate: string;
 }
 
@@ -52,9 +56,12 @@ interface OverviewStats {
 
 const ClientProgressOverview = () => {
   const [selectedClient, setSelectedClient] = useState<string | null>(null);
-  const [timeframe, setTimeframe] = useState<'7d' | '30d' | '90d' | '1y'>('30d');
-  const [viewMode, setViewMode] = useState<'overview' | 'individual'>('overview');
-  const [selectedMetric, setSelectedMetric] = useState<'weight' | 'adherence' | 'bodyFat'>('weight');
+  const [timeframe, setTimeframe] = useState<TimeframeType>('30d');
+  const [viewMode, setViewMode] = useState<ViewModeType>('overview');
+  const [selectedMetric, setSelectedMetric] = useState<MetricType>('weight');
+
+  // Definir las métricas disponibles con tipo específico
+  const availableMetrics: MetricType[] = ['weight', 'adherence', 'bodyFat'];
 
   // Mock data
   const overviewStats: OverviewStats = {
@@ -129,7 +136,7 @@ const ClientProgressOverview = () => {
     }
   ];
 
-  const getStatusColor = (status: string) => {
+  const getStatusColor = (status: StatusType): string => {
     switch (status) {
       case 'excellent': return 'bg-green-500/20 text-green-400 border-green-500/20';
       case 'on-track': return 'bg-blue-500/20 text-blue-400 border-blue-500/20';
@@ -138,7 +145,7 @@ const ClientProgressOverview = () => {
     }
   };
 
-  const getStatusText = (status: string) => {
+  const getStatusText = (status: StatusType): string => {
     switch (status) {
       case 'excellent': return 'Excelente';
       case 'on-track': return 'En progreso';
@@ -147,12 +154,21 @@ const ClientProgressOverview = () => {
     }
   };
 
-  const getStatusIcon = (status: string) => {
+  const getStatusIcon = (status: StatusType): React.ReactElement => {
     switch (status) {
       case 'excellent': return <Award className="h-4 w-4" />;
       case 'on-track': return <TrendingUp className="h-4 w-4" />;
       case 'needs-attention': return <AlertTriangle className="h-4 w-4" />;
       default: return <Activity className="h-4 w-4" />;
+    }
+  };
+
+  const getMetricLabel = (metric: MetricType): string => {
+    switch (metric) {
+      case 'weight': return 'Peso';
+      case 'adherence': return 'Adherencia';
+      case 'bodyFat': return 'Grasa';
+      default: return metric;
     }
   };
 
@@ -346,18 +362,17 @@ const ClientProgressOverview = () => {
         <div className="flex items-center justify-between mb-6">
           <h3 className="text-lg font-semibold text-white">Progreso en el Tiempo</h3>
           <div className="flex space-x-2">
-            {['weight', 'adherence', 'bodyFat'].map((metric) => (
+            {availableMetrics.map((metric) => (
               <button
                 key={metric}
-                onClick={() => setSelectedMetric(metric as any)}
+                onClick={() => setSelectedMetric(metric)}
                 className={`px-3 py-1 rounded text-sm transition-colors ${
                   selectedMetric === metric
                     ? 'bg-fuchsia-600 text-white'
                     : 'text-gray-400 hover:text-white'
                 }`}
               >
-                {metric === 'weight' ? 'Peso' : 
-                 metric === 'adherence' ? 'Adherencia' : 'Grasa'}
+                {getMetricLabel(metric)}
               </button>
             ))}
           </div>

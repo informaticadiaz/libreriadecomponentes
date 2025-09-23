@@ -15,13 +15,19 @@ import {
   Share
 } from 'lucide-react';
 
+// Tipos específicos para eliminar 'any'
+type ExerciseCategory = 'chest' | 'back' | 'legs' | 'shoulders' | 'arms' | 'core' | 'cardio';
+type WorkoutCategory = 'strength' | 'cardio' | 'flexibility' | 'mixed';
+type DifficultyLevel = 1 | 2 | 3 | 4 | 5;
+type TabType = 'templates' | 'create' | 'library';
+
 interface Exercise {
   id: string;
   name: string;
-  category: 'chest' | 'back' | 'legs' | 'shoulders' | 'arms' | 'core' | 'cardio';
+  category: ExerciseCategory;
   equipment: string[];
   primaryMuscles: string[];
-  difficulty: 1 | 2 | 3 | 4 | 5;
+  difficulty: DifficultyLevel;
   instructions: string;
   videoUrl?: string;
 }
@@ -42,8 +48,8 @@ interface WorkoutTemplate {
   id: string;
   name: string;
   description: string;
-  category: 'strength' | 'cardio' | 'flexibility' | 'mixed';
-  difficulty: 1 | 2 | 3 | 4 | 5;
+  category: WorkoutCategory;
+  difficulty: DifficultyLevel;
   estimatedDuration: number; // minutes
   exercises: WorkoutExercise[];
   isPublic: boolean;
@@ -52,8 +58,17 @@ interface WorkoutTemplate {
   lastUsed?: string;
 }
 
+// Tipo para el formulario de creación
+interface NewWorkoutForm {
+  name: string;
+  description: string;
+  category: WorkoutCategory;
+  difficulty: DifficultyLevel;
+  estimatedDuration: number;
+}
+
 const WorkoutManager = () => {
-  const [activeTab, setActiveTab] = useState<'templates' | 'create' | 'library'>('templates');
+  const [activeTab, setActiveTab] = useState<TabType>('templates');
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const [showCreateModal, setShowCreateModal] = useState(false);
@@ -151,46 +166,52 @@ const WorkoutManager = () => {
     return matchesSearch && matchesCategory;
   });
 
-  const getDifficultyColor = (level: number) => {
+  const getDifficultyColor = (level: DifficultyLevel): string => {
     switch (level) {
       case 1: return 'text-green-400';
       case 2: return 'text-green-400';
       case 3: return 'text-yellow-400';
       case 4: return 'text-orange-400';
       case 5: return 'text-red-400';
-      default: return 'text-gray-400';
     }
   };
 
-  const getDifficultyText = (level: number) => {
+  const getDifficultyText = (level: DifficultyLevel): string => {
     switch (level) {
       case 1: return 'Muy Fácil';
       case 2: return 'Fácil';
       case 3: return 'Intermedio';
       case 4: return 'Difícil';
       case 5: return 'Muy Difícil';
-      default: return 'Sin definir';
     }
   };
 
-  const getCategoryColor = (category: string) => {
+  const getCategoryColor = (category: WorkoutCategory): string => {
     switch (category) {
       case 'strength': return 'bg-red-500/20 text-red-400';
       case 'cardio': return 'bg-blue-500/20 text-blue-400';
       case 'flexibility': return 'bg-green-500/20 text-green-400';
       case 'mixed': return 'bg-purple-500/20 text-purple-400';
-      default: return 'bg-gray-500/20 text-gray-400';
     }
   };
 
-  const getCategoryText = (category: string) => {
+  const getCategoryText = (category: WorkoutCategory): string => {
     switch (category) {
       case 'strength': return 'Fuerza';
       case 'cardio': return 'Cardio';
       case 'flexibility': return 'Flexibilidad';
       case 'mixed': return 'Mixto';
-      default: return category;
     }
+  };
+
+  // Helper function para verificar si un string es una categoría válida
+  const isValidWorkoutCategory = (value: string): value is WorkoutCategory => {
+    return ['strength', 'cardio', 'flexibility', 'mixed'].includes(value);
+  };
+
+  // Helper function para verificar si un número es un nivel de dificultad válido
+  const isValidDifficultyLevel = (value: number): value is DifficultyLevel => {
+    return [1, 2, 3, 4, 5].includes(value);
   };
 
   const WorkoutCard = ({ workout }: { workout: WorkoutTemplate }) => (
@@ -285,13 +306,27 @@ const WorkoutManager = () => {
   );
 
   const CreateWorkoutForm = () => {
-    const [newWorkout, setNewWorkout] = useState({
+    const [newWorkout, setNewWorkout] = useState<NewWorkoutForm>({
       name: '',
       description: '',
       category: 'strength',
       difficulty: 3,
       estimatedDuration: 60
     });
+
+    const handleCategoryChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+      const value = e.target.value;
+      if (isValidWorkoutCategory(value)) {
+        setNewWorkout({...newWorkout, category: value});
+      }
+    };
+
+    const handleDifficultyChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+      const value = parseInt(e.target.value);
+      if (isValidDifficultyLevel(value)) {
+        setNewWorkout({...newWorkout, difficulty: value});
+      }
+    };
 
     return (
       <div className="bg-gray-900 rounded-xl p-6 border border-gray-800">
@@ -328,7 +363,7 @@ const WorkoutManager = () => {
               <input
                 type="number"
                 value={newWorkout.estimatedDuration}
-                onChange={(e) => setNewWorkout({...newWorkout, estimatedDuration: parseInt(e.target.value)})}
+                onChange={(e) => setNewWorkout({...newWorkout, estimatedDuration: parseInt(e.target.value) || 0})}
                 className="w-full bg-gray-800 border border-gray-700 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-fuchsia-500"
               />
             </div>
@@ -354,7 +389,7 @@ const WorkoutManager = () => {
               </label>
               <select
                 value={newWorkout.category}
-                onChange={(e) => setNewWorkout({...newWorkout, category: e.target.value as any})}
+                onChange={handleCategoryChange}
                 className="w-full bg-gray-800 border border-gray-700 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-fuchsia-500"
               >
                 <option value="strength">Fuerza</option>
@@ -370,7 +405,7 @@ const WorkoutManager = () => {
               </label>
               <select
                 value={newWorkout.difficulty}
-                onChange={(e) => setNewWorkout({...newWorkout, difficulty: parseInt(e.target.value) as any})}
+                onChange={handleDifficultyChange}
                 className="w-full bg-gray-800 border border-gray-700 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-fuchsia-500"
               >
                 <option value={1}>Muy Fácil</option>
@@ -433,15 +468,15 @@ const WorkoutManager = () => {
         {/* Tabs */}
         <div className="flex space-x-1 bg-gray-900 p-1 rounded-lg">
           {[
-            { id: 'templates', label: 'Mis Plantillas', icon: Dumbbell },
-            { id: 'create', label: 'Crear Nuevo', icon: Plus },
-            { id: 'library', label: 'Biblioteca', icon: Target }
+            { id: 'templates' as const, label: 'Mis Plantillas', icon: Dumbbell },
+            { id: 'create' as const, label: 'Crear Nuevo', icon: Plus },
+            { id: 'library' as const, label: 'Biblioteca', icon: Target }
           ].map(tab => {
             const Icon = tab.icon;
             return (
               <button
                 key={tab.id}
-                onClick={() => setActiveTab(tab.id as any)}
+                onClick={() => setActiveTab(tab.id)}
                 className={`flex-1 flex items-center justify-center space-x-2 py-3 px-4 rounded-lg font-medium text-sm transition-all ${
                   activeTab === tab.id
                     ? 'bg-gradient-to-r from-fuchsia-600 to-violet-600 text-white'
@@ -472,7 +507,7 @@ const WorkoutManager = () => {
               </div>
               
               <div className="flex space-x-2">
-                {['all', 'strength', 'cardio', 'flexibility', 'mixed'].map((category) => (
+                {(['all', 'strength', 'cardio', 'flexibility', 'mixed'] as const).map((category) => (
                   <button
                     key={category}
                     onClick={() => setSelectedCategory(category)}
@@ -482,7 +517,7 @@ const WorkoutManager = () => {
                         : 'bg-gray-900 text-gray-400 hover:text-white border border-gray-800'
                     }`}
                   >
-                    {category === 'all' ? 'Todos' : getCategoryText(category)}
+                    {category === 'all' ? 'Todos' : getCategoryText(category as WorkoutCategory)}
                   </button>
                 ))}
               </div>
